@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import '../styles/css/Login.css' ;
 export default function Login() {
 
     return (
