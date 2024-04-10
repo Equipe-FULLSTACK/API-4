@@ -38,9 +38,13 @@ export default function Login() {
                     placeholder = "Senha" />
 
                 <div className = "login-form-recuperar">
-                <a   className = "login-form-recuperar" href = "/recuperar_senha">Esqueceu sua senha?</a>
+                <a   className = "login-form-recuperar" href = "/recuperar_senha">Recupera senha</a>
                 </div>
-                <button type = "button" >Entrar</button>
+                <button type = "button" >Login</button>
+                <div className = "buttonG">
+           
+                </div>
+              
 
             </form>
 
