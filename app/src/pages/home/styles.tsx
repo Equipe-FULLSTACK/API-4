@@ -3,12 +3,11 @@ import{ ItemWrapper as NavItemWrapper} from "../../helpers/ItemWrapper"
 
 
 export const Container = styled.div`
-    display: block;
-    flex-direction: block   ;
+
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-left: -18vw;
     width: 100vw;
     height: 100%;
     
@@ -18,8 +17,8 @@ export const Divider = styled.div`
 `
 
 export const Wrapper = styled(NavItemWrapper)`
-    display: ${(props)=>props.display ? props.display  : "flex"};
-    flex-direction: ${(props)=>props.flexDirection ? props.flexDirection  : "column"};
+
+    flex-direction: ${(props)=>props.flexDirection ? props.flexDirection  : "row"};
     align-items:  ${(props)=>props.alignItems ? props.alignItems  : "flex-start"};
     align-content: ${(props)=>props.alignContent ? props.alignContent  : "center"};
     justify-content: ${(props)=>props.justifyContent ? props.justifyContent  : "center"};
@@ -28,7 +27,7 @@ export const Wrapper = styled(NavItemWrapper)`
     min-width: ${(props)=>props.minWidth ? props.minWidth  : "none"};
     margin: ${(props)=>props.margin ? props.margin  : "0"};
     padding: ${(props)=>props.padding ? props.padding  : "0"};
-    width: 100%;
+    width: 90vw;
     height:100%;
     }
 ` 

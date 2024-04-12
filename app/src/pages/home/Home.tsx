@@ -15,21 +15,24 @@ export default function Home() {
 
   return (
     <Container>
+      <Wrapper>
       <NavBar userName={"leo"} pageName={'NavBar'} />
-      <Divider />
         <Wrapper
             display='flex'
             flexDirection='collum'
             justifyContent='flex-start'
             flexWrap='nowrap'
         >
-          <SideBar pageName={'SideBar'} /> 
+          
 
           <Wrapper>
             <Menu pageName={'Menu'} />
           </Wrapper>
+          
+          <SideBar pageName={'SideBar'} /> 
 
         </Wrapper>
+      </Wrapper>
       </Container>
   );
 }

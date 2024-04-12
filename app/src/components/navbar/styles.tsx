@@ -5,29 +5,28 @@ import { ItemWrapper as NavItemWrapper } from "../../helpers/ItemWrapper"
 import avatar from '../../assets/icons/user_icon.webp'
 
 export const Wrapper = styled(NavItemWrapper)`
-    display: block;
+    display: flex;
     flex-direction: row;
     align-items:  center;
     justify-content: center;
-    padding: 2rem;
     }
 ` 
 
 export const Container = styled.div`
     display: flex;
+    position: absolute;
     justify-content: space-between;
     align-items: center;
-    padding: 0rem 1rem;
-    border-bottom: 1px solid ${props => props.theme.colors.bgSecondarycolor};
-    margin-top: -155px;
+    border-bottom: 1px solid ${props => props.theme.colors.bgTertiarycolor};
+    width: 100vw;
+    height: 10vh;
     `
 export const Logo = styled.img`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 6px;
-    background-size: cover;
     cursor:pointer;
+    margin-left: 10px;
 `
 export const UserName = styled.span`
     color: ${props => props.theme.colors.fontSecondarycolor};

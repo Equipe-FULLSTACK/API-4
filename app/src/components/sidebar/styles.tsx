@@ -5,26 +5,29 @@ import avatar from '../../assets/icons/user_icon.webp'
 
 
 export const Container = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: column;
+    position: absolute;
+    flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: left;
     justify-content: center;
-    width: 200px;
-    margin-left: auto;
-
-    /* width: 200px; */
+    width: 10vw;
+    max-width: 100px;
+    min-width: 200px;
+    margin-top: 10vh;
+    height: 90vh;
 `
 
 export const Wrapper = styled(NavItemWrapper)`
     display: ${(props)=>props.display ? props.display  : "flex"};
-    flex-direction: ${(props)=>props.flexDirection ? props.flexDirection  : "column"};
+    flex-direction: ${(props)=>props.flexDirection ? props.flexDirection  : "row"};
     align-items:  ${(props)=>props.alignItems ? props.alignItems  : "flex-start"};
     align-content: ${(props)=>props.alignContent ? props.alignContent  : "center"};
     justify-content: ${(props)=>props.justifyContent ? props.justifyContent  : "center"};
     flex-wrap: ${(props)=>props.flexWrap ? props.flexWrap : "wrap"};
-    max-width: ${(props)=>props.maxWidth ? props.maxWidth  : "none"};
-    min-width: ${(props)=>props.minWidth ? props.minWidth  : "none"};
+    max-width: ${(props)=>props.maxWidth ? props.maxWidth  : "100px"};
+    width: ${(props)=>props.width ? props.width : "10vw"};
+    min-width: ${(props)=>props.minWidth ? props.minWidth  : "10vw"};
     margin: ${(props)=>props.margin ? props.margin  : "0"};
     padding: ${(props)=>props.padding ? props.padding  : "0"};
 `
@@ -38,7 +41,9 @@ export const Link = styled.a`
     justify-content: left;
     text-decoration: none;
     text-align: center;
-    padding: 0.5rem;
+    padding: 0.8rem;
+    min-width: 10vw;
+    max-width: 100px;
     color: ${props => props.theme.colors.fontSecondarycolor};
 
     &>img{
@@ -52,6 +57,7 @@ export const Menu = styled.a`
     flex-direction: row;
     justify-content: center;
     padding: 0.5rem;
+    max-width: 100px;
     color: ${props => props.theme.colors.fontSecondarycolor};
 `
 

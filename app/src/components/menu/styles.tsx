@@ -4,15 +4,16 @@ import{ ItemWrapper as NavItemWrapper} from "../../helpers/ItemWrapper"
 
 export const Container = styled.div`
     display: flex;
+    position: absolute;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     background-color: white;
-    height: 45rem;
-    width: 106.7rem;
-    margin-bottom: -1rem;
-
+    height: 90vh;
+    width: 88vw;
+    margin-top: 10vh;
+    margin-left: 12vw;
 `
 
 export const Wrapper = styled(NavItemWrapper)`
