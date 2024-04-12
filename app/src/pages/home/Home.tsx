@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <Container>
       <Wrapper>
-      <NavBar userName={"leo"} pageName={'NavBar'} />
+      <NavBar userName={"user"} pageName={'NavBar'} />
         <Wrapper
             display='flex'
             flexDirection='collum'

@@ -36,7 +36,6 @@ export const UserName = styled.span`
         color: var(--font-secondary-color);
         width: auto;
         height: auto;
-        content: '';
         margin-left: 1rem;
         padding: 0.5rem 2rem;
         align-items: center;

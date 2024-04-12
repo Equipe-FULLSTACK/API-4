@@ -11,9 +11,9 @@ export const Container = styled.div`
     justify-content: center;
     background-color: white;
     height: 90vh;
-    width: 88vw;
+    width: 90vw;
     margin-top: 10vh;
-    margin-left: 12vw;
+    margin-left: 10vw;
 `
 
 export const Wrapper = styled(NavItemWrapper)`
@@ -26,7 +26,7 @@ export const Wrapper = styled(NavItemWrapper)`
     max-width: ${(props)=>props.maxWidth ? props.maxWidth  : "none"};
     min-width: ${(props)=>props.minWidth ? props.minWidth  : "none"};
     margin: ${(props)=>props.margin ? props.margin  : "0"};
-    padding: ${(props)=>props.padding ? props.padding  : "0"};
+    padding: ${(props)=>props.padding ? props.padding  : ""};
 `
 
 export const Link = styled.a`

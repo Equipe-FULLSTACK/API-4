@@ -11,6 +11,7 @@ export const Container = styled.div`
     width: 100vw;
     height: 100%;
     
+    
 `
 export const Divider = styled.div`
     border-bottom: 2px solid ${props => props.theme.colors.bgTertiarycolor};
@@ -29,6 +30,7 @@ export const Wrapper = styled(NavItemWrapper)`
     padding: ${(props)=>props.padding ? props.padding  : "0"};
     width: 90vw;
     height:100%;
+    
     }
 ` 
 

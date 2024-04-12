@@ -1,22 +1,27 @@
 import styled from "styled-components"
 import{ ItemWrapper as NavItemWrapper} from "../../helpers/ItemWrapper"
+import img_fundo from '../../assets/imgs/fundo_sidebar.jpg'
 
-import avatar from '../../assets/icons/user_icon.webp'
+/* import img_fundo from '../../assets/imgs/fundo_sidebar.jpg 
+
+    background-image: url(${avatar});
+*/
 
 
 export const Container = styled.div`
-    display: column;
     position: absolute;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: left;
+    align-items: center;
     justify-content: center;
-    width: 10vw;
-    max-width: 100px;
-    min-width: 200px;
+    width: 200px;
+    max-width: 200px;
+    min-width: 100px;
     margin-top: 10vh;
     height: 90vh;
-`
+    background-image: url(${img_fundo});
+
+    `
 
 export const Wrapper = styled(NavItemWrapper)`
     display: ${(props)=>props.display ? props.display  : "flex"};
@@ -25,11 +30,13 @@ export const Wrapper = styled(NavItemWrapper)`
     align-content: ${(props)=>props.alignContent ? props.alignContent  : "center"};
     justify-content: ${(props)=>props.justifyContent ? props.justifyContent  : "center"};
     flex-wrap: ${(props)=>props.flexWrap ? props.flexWrap : "wrap"};
-    max-width: ${(props)=>props.maxWidth ? props.maxWidth  : "100px"};
-    width: ${(props)=>props.width ? props.width : "10vw"};
-    min-width: ${(props)=>props.minWidth ? props.minWidth  : "10vw"};
-    margin: ${(props)=>props.margin ? props.margin  : "0"};
+    max-width: ${(props)=>props.maxWidth ? props.maxWidth  : "200px"};
+    width: ${(props)=>props.width ? props.width : "100px"};
+    min-width: ${(props)=>props.minWidth ? props.minWidth  : "100px"};
+    margin-left: ${(props)=>props.margin ? props.margin  : "0"};
     padding: ${(props)=>props.padding ? props.padding  : "0"};
+    background-color: rgba(255, 255, 255, 0);
+
 `
 
 export const Link = styled.a`
@@ -41,40 +48,19 @@ export const Link = styled.a`
     justify-content: left;
     text-decoration: none;
     text-align: center;
-    padding: 0.8rem;
-    min-width: 10vw;
-    max-width: 100px;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    padding-left: 0.8rem;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
     color: ${props => props.theme.colors.fontSecondarycolor};
 
     &>img{
-        margin-right: 0.5rem
+        margin-right: 0.5rem;
+        background-color: rgba(255, 255, 255, 0);
     }
-`
-export const Menu = styled.a`
-    
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0.5rem;
-    max-width: 100px;
-    color: ${props => props.theme.colors.fontSecondarycolor};
-`
+    background-color: rgba(255, 255, 255, 0);
 
-export const UserName = styled.span`
-    color: ${props => props.theme.colors.fontSecondarycolor};
     
-    &:after{
-        color: var(--font-secondary-color);
-        width: auto;
-        height: auto;
-        content: '';
-        margin-left: 1rem;
-        padding: 0.5rem 2rem;
-        align-items: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-image: url(${avatar});
-        cursor:pointer;
-    }
 `
