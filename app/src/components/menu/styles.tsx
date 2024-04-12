@@ -9,8 +9,9 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: white;
-    height: 80vh;
-
+    height: 45rem;
+    width: 106.7rem;
+    margin-bottom: -1rem;
 
 `
 

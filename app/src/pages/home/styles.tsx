@@ -3,12 +3,14 @@ import{ ItemWrapper as NavItemWrapper} from "../../helpers/ItemWrapper"
 
 
 export const Container = styled.div`
-    display: flex;
+    display: block;
     flex-direction: block   ;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    /* width: 200px; */
+    margin-left: -18vw;
+    width: 100vw;
+    height: 100%;
     
 `
 export const Divider = styled.div`
@@ -27,6 +29,7 @@ export const Wrapper = styled(NavItemWrapper)`
     margin: ${(props)=>props.margin ? props.margin  : "0"};
     padding: ${(props)=>props.padding ? props.padding  : "0"};
     width: 100%;
+    height:100%;
     }
 ` 
 

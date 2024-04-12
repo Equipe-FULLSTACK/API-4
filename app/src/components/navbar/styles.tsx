@@ -5,11 +5,11 @@ import { ItemWrapper as NavItemWrapper } from "../../helpers/ItemWrapper"
 import avatar from '../../assets/icons/user_icon.webp'
 
 export const Wrapper = styled(NavItemWrapper)`
-    display: flex;
+    display: block;
     flex-direction: row;
     align-items:  center;
     justify-content: center;
-    padding: 1rem;
+    padding: 2rem;
     }
 ` 
 
@@ -18,9 +18,9 @@ export const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0rem 1rem;
-    border-bottom: 4px solid ${props => props.theme.colors.bgSecondarycolor};
-
-`
+    border-bottom: 1px solid ${props => props.theme.colors.bgSecondarycolor};
+    margin-top: -155px;
+    `
 export const Logo = styled.img`
     display: flex;
     align-items: center;

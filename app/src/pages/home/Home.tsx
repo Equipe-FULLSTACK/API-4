@@ -30,7 +30,6 @@ export default function Home() {
           </Wrapper>
 
         </Wrapper>
-      <Footer pageName={'Footer'} />
       </Container>
   );
 }
