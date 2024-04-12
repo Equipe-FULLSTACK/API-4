@@ -41,13 +41,13 @@ export default function Login() {
                 <a   className = "login-form-recuperar" href = "/recuperar_senha">Recupera senha</a>
                 </div>
                 <button type = "button" >Login</button>
-                <div className = "buttonG">
-           
+                
+                <div className='button-google'>
+                <p className='text-or'>_____________Or_____________</p>
+                    <button type = "button" >Login with Google</button>
                 </div>
-              
-
             </form>
-
+            
         </div>
 
         

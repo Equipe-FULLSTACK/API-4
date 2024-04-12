@@ -84,7 +84,7 @@
     
 }
 
-.login-form buttonG {
+.button-google button {
     text-align      : center;
     color           : #e9e9e9;
     width           : 100%;
@@ -95,6 +95,12 @@
 
 }
 
+.text-or {
+    text-align      : center;
+    color           : #ff0000;
+    
+
+}
 
 
 
