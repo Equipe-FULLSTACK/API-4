@@ -9,6 +9,7 @@ export const Wrapper = styled(NavItemWrapper)`
     flex-direction: row;
     align-items:  center;
     justify-content: center;
+    padding: 0;
     }
 ` 
 
@@ -26,7 +27,6 @@ export const Logo = styled.img`
     align-items: center;
     justify-content: space-between;
     cursor:pointer;
-    margin-left: 10px;
 `
 export const UserName = styled.span`
     color: ${props => props.theme.colors.fontSecondarycolor};
@@ -36,6 +36,7 @@ export const UserName = styled.span`
         color: var(--font-secondary-color);
         width: auto;
         height: auto;
+        content: '';
         margin-left: 1rem;
         padding: 0.5rem 2rem;
         align-items: center;
