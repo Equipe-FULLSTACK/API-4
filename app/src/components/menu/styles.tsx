@@ -8,14 +8,16 @@ export const Container = styled.div`
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    background-color: white;
+    height: 80vh;
 
-    /* width: 200px; */
+
 `
 
 export const Wrapper = styled(NavItemWrapper)`
     display: ${(props)=>props.display ? props.display  : "flex"};
     flex-direction: ${(props)=>props.flexDirection ? props.flexDirection  : "column"};
-    align-items:  ${(props)=>props.alignItems ? props.alignItems  : "flex-start"};
+    align-items:  ${(props)=>props.alignItems ? props.alignItems  : "center"};
     align-content: ${(props)=>props.alignContent ? props.alignContent  : "center"};
     justify-content: ${(props)=>props.justifyContent ? props.justifyContent  : "center"};
     flex-wrap: ${(props)=>props.flexWrap ? props.flexWrap : "wrap"};
@@ -39,32 +41,5 @@ export const Link = styled.a`
 
     &>img{
         margin-right: 0.5rem
-    }
-`
-export const Menu = styled.a`
-    
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0.5rem;
-    color: ${props => props.theme.colors.fontSecondarycolor};
-`
-
-export const UserName = styled.span`
-    color: ${props => props.theme.colors.fontSecondarycolor};
-    
-    &:after{
-        color: var(--font-secondary-color);
-        width: auto;
-        height: auto;
-        content: '';
-        margin-left: 1rem;
-        padding: 0.5rem 2rem;
-        align-items: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        background-image: url(${avatar});
-        cursor:pointer;
     }
 `

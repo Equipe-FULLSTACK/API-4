@@ -4,7 +4,7 @@ import{ ItemWrapper as NavItemWrapper} from "../../helpers/ItemWrapper"
 
 export const Container = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: block   ;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;

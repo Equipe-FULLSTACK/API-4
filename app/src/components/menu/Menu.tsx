@@ -10,15 +10,17 @@ interface dataMenu {
     pageName: string;
   }
 
-const Menu: React.FC<dataMenu> = ({pageName}) => {
+const Menu: React.FC<dataMenu> = ({dataMenu}) => {
     
       return (
-          <Container>
-            <Wrapper flexDirection='row' justifyContent='flex-start' padding='1rem'>
-              
-            </Wrapper>  
-          </Container>
-    
+        <>
+        <Container>
+          <Wrapper>
+            hello world
+          </Wrapper>
+        </Container>
+          
+        </>
       )
     }
     export default Menu;

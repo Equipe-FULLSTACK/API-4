@@ -8,12 +8,13 @@ import Menu from '../../components/menu/Menu';
 import {
   Wrapper,
   Divider,
+  Container,
 } from "./styles"
 
 export default function Home() {
 
   return (
-    <>
+    <Container>
       <NavBar userName={"leo"} pageName={'NavBar'} />
       <Divider />
         <Wrapper
@@ -23,9 +24,13 @@ export default function Home() {
             flexWrap='nowrap'
         >
           <SideBar pageName={'SideBar'} /> 
-          <Menu pageName={'Menu'} />
+
+          <Wrapper>
+            <Menu pageName={'Menu'} />
+          </Wrapper>
+
         </Wrapper>
       <Footer pageName={'Footer'} />
-    </>
+      </Container>
   );
 }
