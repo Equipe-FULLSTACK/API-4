@@ -1,7 +1,7 @@
 
 .login-container{
     
-    margin: auto;
+    margin         : auto;
     position: relative;
     text-align: center;
     top: 10%;
@@ -43,13 +43,13 @@
 }
 
 .login-form-container p {
-    color           : #9AF0E8;
+    color           : #ffffff;
     font-size       : 14px;
     background-color: #292A2D;
 }
 
 .login-form-recuperar {
-    color           : #d0ff00;
+    color           : #f3e84a;
     margin          : auto;
     margin-top      : 6%;
     text-align      : left;
@@ -67,9 +67,9 @@
 }
 
 .login-form input::placeholder {
-    color       : #ffffff;
-    padding-left: 10px;
-    font-size   : 12px;
+    color           : #ffffff;
+    padding-left    : 10px;
+    font-size       : 12px;
     
 }
 
@@ -97,9 +97,6 @@
 
 .text-or {
     text-align      : center;
-    color           : #ff0000;
-    
-
 }
 
 

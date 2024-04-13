@@ -43,7 +43,7 @@ export default function Login() {
                 <button type = "button" >Login</button>
                 
                 <div className='button-google'>
-                <p className='text-or'>_____________Or_____________</p>
+                <p className='text-or'>Or</p>
                     <button type = "button" >Login with Google</button>
                 </div>
             </form>
