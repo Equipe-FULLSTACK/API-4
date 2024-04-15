@@ -135,16 +135,16 @@
   
 <div align="center">
 <h1> Burndown
-<br><br><br>
+<br><br>
     <img src="/readme/BurndownSprint1.png" width="640" height="360"><br>
 <h1> Backlog da Sprint </h1>
-<br><br><br>
+<br><br>
     <img src="/readme/TasksSprint1.png" width="640" height="360"><br>
 <h1> Diagrama Conceitual do Banco de Dados </h1>
-<br><br><br>
+<br><br>
     <img src="/readme/Conceitual02.png" width="640" height="360"><br>
 <h1> Diagrama Logico do Banco de Dados </h1>
-<br><br><br>
+<br><br>
     <img src="/readme/Logico02.png" width="640" height="360"><br>
 </div>
   
