@@ -6,7 +6,7 @@ import { ptBR } from 'date-fns/locale';
 interface DateInputProps {
     onDateChange: (date: string) => void;
     initialDate?: string;
-    formatDate: 'Dia' | 'Semana' | 'Mes';
+    formatDate: 'Dia' | 'Semana' | 'Mes' | 'Todos';
     disabled?: boolean;
     required?: boolean;
 }
@@ -50,7 +50,9 @@ const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, format
                 const startOfSelectedMonth = format(startOfMonth(date), 'dd/MM/yyyy', { locale: ptBR });
                 const endOfSelectedMonth = format(endOfMonth(date), 'dd/MM/yyyy', { locale: ptBR });
                 description = `Agenda do mês de ${startOfSelectedMonth} a ${endOfSelectedMonth}`;
-            }
+            } else
+                description = 'Lista de todas as reuniões cadastradas no sistema.'
+
 
             // Atualiza a descrição da data
             setDateDescription(description);
@@ -66,7 +68,7 @@ const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, format
             <Tooltip title="Selecione uma data">
                 <TextField
                     type="date"
-                    lang="en"
+                    lang="PT-BR"
                     label="Selecione uma data"
                     value={selectedDate}
                     onChange={handleDateChange}

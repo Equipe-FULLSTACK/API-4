@@ -21,6 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
+import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 
 const darkTheme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ const darkTheme = createTheme({
 // Função principal para a HomePageUser
 const HomePageUser: React.FC = () => {
   // Estado para armazenar o período selecionado (Dia, Semana ou Mes)
-  const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes'>('Mes');
+  const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos');
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +89,7 @@ const HomePageUser: React.FC = () => {
   const [tipoSelecionado, setTipoSelecionado] = useState('todos');
 
   // Função para lidar com a mudança de período
-  const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes') => {
+  const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
     handle
     console.log(`Período selecionado: ${newPeriodo}`);
@@ -101,11 +102,33 @@ const HomePageUser: React.FC = () => {
     console.log('Data selecionada:', date);
   };
 
-  // Função para lidar com a pesquisa
-  const handleSearch = (text: string) => {
-    console.log(`Texto pesquisado: ${text}`);
-    // Aqui, você pode adicionar lógica para lidar com a pesquisa
-  };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // Função para lidar com a pesquisa
+const handleSearch = (text: string) => {
+  console.log(`Texto pesquisado: ${text}`);
+
+  // Verifica se o campo de pesquisa está ativo
+  if (text.trim() === '') {
+      // Se o texto estiver vazio, restaure o array original de reuniões
+      setReunioes(reunioesIniciais);
+  } else {
+      // Filtrar reuniões com base no texto pesquisado
+      const reunioesFiltradas = reunioes.filter(reuniao => {
+          // Verifica se o texto pesquisado está presente em qualquer propriedade relevante da reunião
+          return (
+              reuniao.nome.toLowerCase().includes(text.toLowerCase()) ||
+              reuniao.tipoReuniao.toLowerCase().includes(text.toLowerCase()) ||
+              reuniao.data.toLowerCase().includes(text.toLowerCase()) ||
+              reuniao.inicio.toLowerCase().includes(text.toLowerCase()) ||
+              reuniao.termino.toLowerCase().includes(text.toLowerCase())
+          );
+      });
+
+      // Atualize o estado com as reuniões filtradas
+      setReunioes(reunioesFiltradas);
+  }
+};
+
 
   //////////////////////////////////FUNÇÕES SUPORTE PARA EDIÇÃO REUNIÃO E CRIAÇÃO//////////////////////////////
 
@@ -136,13 +159,26 @@ const HomePageUser: React.FC = () => {
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+// Função para lidar com a mudança de tipo selecionado
+const handleTipoChange = (novoTipo: string) => {
+  console.log(`Tipo selecionado: ${novoTipo}`);
 
-  // Função para lidar com a alteração do tipo selecionado
-  const handleTipoChange = (novoTipo: React.SetStateAction<string>) => {
-    setTipoSelecionado(novoTipo);
-    console.log(`Tipo Selecionado: ${novoTipo}`)
-  };
+  // Sempre começamos com o array original de reuniões
+  let reunioesParaFiltrar = reunioesIniciais;
 
+  // Verifica se o tipo selecionado é diferente de "todos"
+  if (novoTipo !== 'todos') {
+      // Filtrar reuniões com base no tipo selecionado
+      reunioesParaFiltrar = reunioesIniciais.filter(reuniao => reuniao.tipoReuniao === novoTipo);
+  }
+
+  // Atualiza o estado com as reuniões filtradas (ou o array original se o tipo for "todos")
+  setReunioes(reunioesParaFiltrar);
+
+  // Atualiza o estado do tipo selecionado
+  setTipoSelecionado(novoTipo);
+};
 
   //////////////////////////////////RENDERIZALÇAO CONDICIONAL ////////////////////////////////////////////////
 
@@ -156,6 +192,10 @@ const HomePageUser: React.FC = () => {
 
   const styleMonth = {
     display: periodo === 'Mes' ? 'block' : 'none',
+  };
+
+  const styleAll = {
+    display: periodo === 'Todos' ? 'block' : 'none',
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +233,6 @@ const HomePageUser: React.FC = () => {
 
 
             <Stack>{/* Renderiza visualizaçã condicional */}
-
               <div>
                 {/* Visualização diária */}
                 <div style={styleDay}>
@@ -227,6 +266,18 @@ const HomePageUser: React.FC = () => {
                     onRemoverClick={handleRemoverClick}
                   />
                 </div>
+                
+                {/* Visualização mensal */}
+                <div style={styleAll}>
+                  <VisualizacaoAll
+                    dataSelecionada={data}
+                    tipoSelecionado={tipoSelecionado}
+                    reunioes={reunioes}
+                    onEditarClick={handleEditarClick}
+                    onRemoverClick={handleRemoverClick}
+                  />
+                </div>
+
               </div>
 
 

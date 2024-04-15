@@ -22,43 +22,17 @@ const calcularDiasDaSemana = (dataSelecionada) => {
     return diasDaSemana;
 };
 
-// Função para filtrar reuniões por data e tipo selecionados
-const filtrarReunioesPorDataETipo = (data, tipo, reunioes) => {
-    return reunioes.filter(reuniao => {
-        const dataReuniao = reuniao.data;
-        const correspondeTipo = tipo === 'todos' || reuniao.tipoReuniao === tipo;
-        // Verifica se a data da reunião corresponde à data fornecida
-        return dataReuniao === data && correspondeTipo;
-    }).sort((a, b) => a.inicio.localeCompare(b.inicio));
-};
-
-// Função para agrupar reuniões por hora
-const agruparReunioesPorHora = (reunioes) => {
-    const agrupamento = {};
-    reunioes.forEach(reuniao => {
-        const hora = reuniao.inicio;
-        if (!agrupamento[hora]) {
-            agrupamento[hora] = [];
-        }
-        agrupamento[hora].push(reuniao);
-    });
-    return agrupamento;
-};
-
-const VisualizacaoSemanal = ({ dataSelecionada, tipoSelecionado, reunioes }) => {
+const VisualizacaoSemanal = ({ dataSelecionada, reunioes }) => {
     // Calcula os dias da semana com base na data selecionada
     const diasDaSemana = calcularDiasDaSemana(dataSelecionada);
     // Nomes dos dias da semana
     const nomesDiasDaSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
-    // Filtra as reuniões para cada dia da semana e tipo selecionado
+    // Agrupa reuniões por dia
     const reunioesPorDia = diasDaSemana.map(dia => {
         const dataFormatada = dia.toISOString().split('T')[0];
-        return filtrarReunioesPorDataETipo(dataFormatada, tipoSelecionado, reunioes);
+        return reunioes.filter(reuniao => reuniao.data === dataFormatada);
     });
-
-    // Agrupa reuniões por hora para cada dia da semana
-    const reunioesAgrupadasPorDia = reunioesPorDia.map(agruparReunioesPorHora);
 
     return (
         <div>
@@ -80,16 +54,17 @@ const VisualizacaoSemanal = ({ dataSelecionada, tipoSelecionado, reunioes }) => 
                         const hora = `${String(indexHora).padStart(2, '0')}:00`;
 
                         // Verifica se há reuniões nesta hora para qualquer dia da semana
-                        const temReunioesNestaHora = reunioesAgrupadasPorDia.some(reunioesPorHora => reunioesPorHora[hora]);
+                        const temReunioesNestaHora = reunioesPorDia.some(reunioesNesteDia => reunioesNesteDia.some(reuniao => reuniao.inicio === hora));
 
                         if (temReunioesNestaHora) {
                             return (
                                 <TableRow key={hora}>
                                     <TableCell>{hora}</TableCell>
                                     {/* Exibe as reuniões desta hora para cada dia da semana */}
-                                    {reunioesAgrupadasPorDia.map((reunioesPorHora, index) => (
+                                    {reunioesPorDia.map((reunioesNesteDia, index) => (
                                         <TableCell key={index}>
-                                            {reunioesPorHora[hora]?.map((reuniao, reuniaoIndex) => (
+                                            {/* Filtra as reuniões com a hora atual e mapeia */}
+                                            {reunioesNesteDia.filter(reuniao => reuniao.inicio === hora).map((reuniao, reuniaoIndex) => (
                                                 <CardMettingDay
                                                     key={reuniaoIndex}
                                                     nome={reuniao.nome}

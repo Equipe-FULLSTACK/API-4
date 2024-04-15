@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Input, Stack, Tooltip } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
@@ -13,7 +13,15 @@ const SearchButton: React.FC<SearchButtonProps> = ({ onSearch }) => {
 
   // Manipulador de clique do botão
   const handleButtonClick = () => {
-    setIsInputVisible((prevState) => !prevState); // Alterna a visibilidade do input
+    // Alterna a visibilidade do input
+    setIsInputVisible((prevState) => {
+      // Se o input está ficando invisível, resete o texto de pesquisa
+      if (prevState) {
+        setSearchText('');
+        onSearch('');
+      }
+      return !prevState;
+    });
   };
 
   // Manipulador de mudança de texto do input

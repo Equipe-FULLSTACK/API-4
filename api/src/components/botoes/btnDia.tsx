@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Button, ButtonGroup, Tooltip } from '@mui/material';
-import { CalendarToday, DateRange, Event } from '@mui/icons-material';
+import { CalendarToday, DateRange, Event, FilterList } from '@mui/icons-material';
 
-type Periodo = 'Dia' | 'Semana' | 'Mes'; // Defina um tipo de união para o período
+type Periodo = 'Dia' | 'Semana' | 'Mes' | 'Todos'; // Defina um tipo de união para o período
 
 interface SelecionarPeriodoProps {
   onPeriodoChange: (periodo: Periodo) => void;
 }
 
 const SelecionarPeriodo: React.FC<SelecionarPeriodoProps> = ({ onPeriodoChange }) => {
-  const [selectedPeriod, setSelectedPeriod] = useState<Periodo>('Mes');
+  const [selectedPeriod, setSelectedPeriod] = useState<Periodo>('Todos');
 
   const handleButtonClick = (period: Periodo) => {
     setSelectedPeriod(period);
@@ -21,7 +21,19 @@ const SelecionarPeriodo: React.FC<SelecionarPeriodoProps> = ({ onPeriodoChange }
   });
 
   return (
+    
     <ButtonGroup variant="contained" color="primary" aria-label="Selecione o período">
+       {/* Botão para o período "Dia" */}
+       <Tooltip title="Todos" placement="bottom">
+        <Button
+          onClick={() => handleButtonClick('Todos')}
+          sx={getButtonStyles('Todos')}
+          startIcon={<FilterList />}
+        >
+          Todos
+        </Button>
+      </Tooltip>
+
       {/* Botão para o período "Dia" */}
       <Tooltip title="Dia" placement="bottom">
         <Button

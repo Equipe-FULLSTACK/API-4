@@ -2,28 +2,20 @@ import React from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import CardMettingDay from './CardMettingDay';
 
-const VisualizacaoDiaria = ({ dataSelecionada, reunioes }) => {
-    // Função para filtrar reuniões por data selecionada
-    const filtrarReunioesPorDia = (data) => reunioes.filter(reuniao => {
-        return reuniao.data === data;
-    }).sort((a, b) => a.inicio.localeCompare(b.inicio));
-
-    // Filtra reuniões por data selecionada
-    const reunioesFiltradas = filtrarReunioesPorDia(dataSelecionada);
-
+const VisualizacaoAll = ({ reunioes }) => {
     return (
         <div>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell width={'100'}>Dia</TableCell>
-                        <TableCell width={'100'}>Hora Início</TableCell>
+                        <TableCell width={100}>Dia</TableCell>
+                        <TableCell width={100}>Hora Início</TableCell>
                         <TableCell>Reunião</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* Exibe as reuniões filtradas */}
-                    {reunioesFiltradas.map((reuniao, index) => (
+                    {/* Exibe todas as reuniões sem filtrar */}
+                    {reunioes.map((reuniao, index) => (
                         <TableRow key={index}>
                             <TableCell>{reuniao.data}</TableCell>
                             <TableCell>{reuniao.inicio}</TableCell>
@@ -44,4 +36,4 @@ const VisualizacaoDiaria = ({ dataSelecionada, reunioes }) => {
     );
 };
 
-export default VisualizacaoDiaria;
+export default VisualizacaoAll;
