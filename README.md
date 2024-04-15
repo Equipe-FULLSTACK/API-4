@@ -8,9 +8,10 @@
   <h1><div align="center"> Estado Atual do Projeto: </div></h1>
   <br>
   <div align="center">
-  <img src="/readme/api01.png" width="640" height="360"><br>
-  <img src="/readme/api02.png" width="640" height="360"><br>
-  <img src="/readme/api03.png" width="640" height="360"><br>
+  <img src="/readme/api01.jpg" width="640" height="360"><br>
+  <img src="/readme/api02.jpg" width="640" height="360"><br>
+  <img src="/readme/api03.jpg" width="640" height="360"><br>
+  <img src="/readme/api04.jpg" width="640" height="360"><br>
   </div>
  
 <h1><div align="center"> Escopo do Projeto </div></h1>
