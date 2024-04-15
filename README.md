@@ -1,17 +1,11 @@
-Equipe FULLSTACK - API 4º Semestre
-==================================
-**********************************
+<h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
+<h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
-###  <div align="center"> Projeto API 4º Semestre: </div>
-  ### <div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div>
-
-### <div align="center">Equipe-FULLSTACK </div>
- <div align="center"> <img src="/readme/fullstack.png" width="200" height="200"> </div>
+<h1><div align="center">Equipe-FULLSTACK </div></h1>
+<div align="center"> <img src="/readme/fullstack.png" width="200" height="200"> </div>
 
 
-   ### <div align="center"> Estado Atual do Projeto: </div>
-  <br>
-
+  <h1><div align="center"> Estado Atual do Projeto: </div></h1>
   <br>
   <div align="center">
   <img src="/readme/home.png" width="640" height="360"><br>
@@ -19,18 +13,11 @@ Equipe FULLSTACK - API 4º Semestre
   <img src="/readme/processos.png" width="640" height="360"><br>
   </div>
  
- 
- # <div align="center"> Escopo do Projeto </div>
+<h1><div align="center"> Escopo do Projeto </div></h1>
   
-  #### <p align="center">
-
-  #### <p align="center">
+<br>
   
-  <br>
-    
-  #
-  
-   # <p align="center">Requisitos do Projeto</p>
+<h1> <p align="center">Requisitos do Projeto</p> </h1>
   
   ## <p align="center">Requisitos Funcionais
  *Criação de reuniões*
@@ -52,8 +39,7 @@ Equipe FULLSTACK - API 4º Semestre
 *Integração de Dados*
 - RF15: A plataforma deve permitir a integração com sistemas externos através de APIs para facilitar a troca de informações.
     
-  #  
-
+  #
     
   ## <p align="center">Requisitos Não Funcionais
     *Desempenho*
@@ -65,7 +51,6 @@ Equipe FULLSTACK - API 4º Semestre
 *Usabilidade*
 - RNF7: A interface do usuário deve ser intuitiva, com uma curva de aprendizado mínima para que os usuários possam interagir sem dificuldades.
 - RNF8: O design responsivo deve garantir que a plataforma seja facilmente utilizável em dispositivos desktop e móveis.
-
 
 #
 
@@ -84,30 +69,12 @@ Equipe FULLSTACK - API 4º Semestre
 
   #
   
-  
-
-  
-  
-  # <p align="center">Product Backlog
-  
-  <div align="center">
-
-  <img src="/readme/backlog_produto.jfif" width="640" height="360"><br>
-
-  </div>
-  
   <br>
-  <br>
- 
- 
- 
- ### <div align="center">Nossa Equipe</div>
- 
- #
- 
-  
-  <div align="center">
-  <table style="align: center">
+
+<h1><div align="center">Nossa Equipe</div></h1>
+
+<div align="center">
+<table style="align: center">
       <thead>
         <th>Nome</th>
         <th>Foto</th>
@@ -162,16 +129,24 @@ Equipe FULLSTACK - API 4º Semestre
           </td>
          </tr>
     </tbody>
-  </table>
-  <br>
-  </div>
+</table>
+<br>
+</div>
   
-  <div align="center">
+<div align="center">
+<h1> Burndown
+<br><br><br>
     <img src="/readme/BurndownSprint1.png" width="640" height="360"><br>
+<h1> Backlog da Sprint </h1>
+<br><br><br>
     <img src="/readme/TasksSprint1.png" width="640" height="360"><br>
+<h1> Diagrama Conceitual do Banco de Dados </h1>
+<br><br><br>
     <img src="/readme/Conceitual02.png" width="640" height="360"><br>
+<h1> Diagrama Logico do Banco de Dados </h1>
+<br><br><br>
     <img src="/readme/Logico02.png" width="640" height="360"><br>
-  </div>
+</div>
   
   
  
@@ -179,15 +154,17 @@ Equipe FULLSTACK - API 4º Semestre
      
   
   
-  # <p align="center">SPRINTS
+# <p align="center">SPRINTS
 
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint1">Primeira Sprint</a>
-  ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint2">Segunda Sprint</a>
-  ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint3">Terceira Sprint</a>
-  ## <br>
-  ## <a href="">Quarta Sprint</a>
+<h1> <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint1">Primeira Sprint</a> </h1>
+<br>
+<h1> <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint2">Segunda Sprint</a> </h1>
+<br>
+<h1> <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint3">Terceira Sprint</a> </h1>
+<br>
+<h1> <a href="">Quarta Sprint</a> </h1>
+
+</p>
   
 
   
