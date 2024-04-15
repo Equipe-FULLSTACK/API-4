@@ -1,5 +1,8 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Button, TextField, Typography, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+
+import { URI } from '../../utilities/uris/uri';
 
 const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReuniao, removerReuniao }) => {
     // Estados locais para armazenar os dados da reunião
@@ -8,7 +11,7 @@ const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReunia
         nome: reuniao?.nome || '',
         data: reuniao?.data || '',
         inicio: reuniao?.inicio || '',
-        termino: reuniao?.termino || '',
+        termino: reuniao?.duracao || '',
         tipoReuniao: reuniao?.tipoReuniao || '',
     });
 
@@ -23,7 +26,7 @@ const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReunia
             nome: reuniao?.nome || '',
             data: reuniao?.data || currentDate,
             inicio: reuniao?.inicio || currentTime,
-            termino: reuniao?.termino || oneHourLater,
+            termino: reuniao?.duracao || 30,
             tipoReuniao: reuniao?.tipoReuniao || '',
         });
     }, [reuniao]);
@@ -38,12 +41,43 @@ const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReunia
     const isFormComplete = formData.nome && formData.data && formData.inicio && formData.termino && formData.tipoReuniao;
 
     // Manipuladores para salvar ou remover a reunião
-    const handleSave = () => {
-        if (formData.id) {
-            atualizarReuniao(formData.id, formData);
-        } else {
-            adicionarReuniao(formData);
+    const handleSave = async () => {
+        // Extract data from formData
+        const { nome, data, inicio, termino, tipoReuniao } = formData;
+    
+        // Format the date and time
+        const start_time = `${data}T${inicio}:00`;
+        const duration = parseInt(termino); // Assuming termino is in minutes
+    
+        try {
+            // Call your API endpoint with the formatted data
+            const response = await axios.post('http://localhost:3000/criar_reuniao', {
+                topic: nome,
+                start_time: start_time,
+                duration: duration,
+                agenda: tipoReuniao,
+            });
+            
+            console.log('API createProcess response:', response.data); // Log the entire response
+            
+            // Extract the meeting link (join_url) from the response
+            const meeting = response.data.meeting;
+            console.log('Meeting:', meeting); // Log meeting details to console
+    
+            if (meeting) {
+                const joinUrl = meeting.join_url;
+                console.log('Meeting join URL:', joinUrl);
+                // Display the meeting link to the user
+                adicionarReuniao(formData);
+                alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
+            } else {
+                throw new Error('No meeting found in response');
+            }
+        } catch (error) {
+            console.error('Error creating meeting:', error);
+            alert(`${error}`);
         }
+    
         onClose();
     };
 
@@ -108,9 +142,9 @@ const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReunia
 
                 {/* Campo de formulário para o horário de término */}
                 <TextField
-                    label="Término"
+                    label="Duração"
                     name="termino"
-                    type="time"
+                    type="text"
                     value={formData.termino}
                     onChange={handleChange}
                     fullWidth

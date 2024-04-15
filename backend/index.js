@@ -86,22 +86,6 @@ app.get('/token', async (req,res)=>{
 });
     
 
-async function getMeetings(){
-    try{
-        const response = await axios.get('https://api.zoom.us/v2/users/me/meetings', {
-            headers:{
-                'Authorization': `Bearer ${global.token}`
-            }
-        });
-        const data = response.data;
-        return data;
-    }catch(error){
-        console.log('Error',error)
-    }
-
-}
-
-
 async function createMeeting(topic, start_time, type, duration, timezone, agenda){
     try{
         const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
@@ -134,6 +118,79 @@ async function createMeeting(topic, start_time, type, duration, timezone, agenda
     }
 }
 
+
+app.post('/criar_reuniao', async (req, res) => {
+    console.log('Request body:', req.body); // Log the request body
+
+    const { topic, start_time, duration, agenda } = req.body;
+    const timezone = 'UTC';
+    const type = 2;
+
+    try {
+        const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
+            topic,
+            type,
+            start_time,
+            duration,
+            timezone,
+            agenda,
+            settings: {
+                host_video: true,
+                participant_video: true,
+                join_before_host: true,
+                mute_upon_entry: true,
+                watermark: false,
+                use_pmi: false,
+                approval_type: 0,
+                audio: 'both',
+                auto_recording: 'none'
+            }
+        }, {
+            headers: {
+                'Authorization': `Bearer ${global.token}`
+            }
+        });
+
+        const createdMeeting = response.data;
+        console.log('Meeting created:', createdMeeting);
+
+        // Send a success response to the frontend
+        res.status(200).json({ success: true, meeting: createdMeeting });
+    } catch (error) {
+        console.error('Error creating meeting:', error);
+
+        // Send an error response to the frontend
+        res.status(500).json({ success: false, error: 'Error creating meeting' });
+    }
+});
+
+// Define getMeetings function to fetch meetings from Zoom API
+async function getMeetings() {
+    try {
+        const response = await axios.get('https://api.zoom.us/v2/users/me/meetings', {
+            headers: {
+                'Authorization': `Bearer ${global.token}`
+            }
+        });
+        const data = response.data;
+        return data;
+    } catch (error) {
+        console.error('Error fetching meetings:', error);
+        throw error; // Rethrow the error to handle it in the route handler
+    }
+}
+
+// Define route to list meetings
+app.get('/listar_reuniao', async (req, res) => {
+    try {
+        const meetings = await getMeetings();
+        res.json({ success: true, meetings });
+    } catch (error) {
+        res.status(500).json({ success: false, error: 'Error fetching meetings' });
+    }
+});
+
+/*
 app.get('/criar_reuniao', async (req,res)=>{
 
     console.log(await getMeetings());
@@ -147,6 +204,7 @@ app.get('/criar_reuniao', async (req,res)=>{
 ));
     console.log(await getMeetings());
 });
+*/
 
 /* ----------------------------------------------------------------------------------------- */
 
