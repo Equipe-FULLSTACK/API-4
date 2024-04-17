@@ -20,7 +20,7 @@ const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReunia
         const currentDate = new Date().toISOString().split('T')[0];
         const currentTime = new Date().toTimeString().split(' ')[0].slice(0, 5);
         const oneHourLater = new Date(new Date().getTime() + 60 * 60 * 1000).toTimeString().split(' ')[0].slice(0, 5);
-        
+
         setFormData({
             id: reuniao?.id || null,
             nome: reuniao?.nome || '',
@@ -40,47 +40,57 @@ const MeetingCRUD = ({ open, onClose, reuniao, adicionarReuniao, atualizarReunia
     // Verifica se todos os campos foram preenchidos para habilitar o botão salvar
     const isFormComplete = formData.nome && formData.data && formData.inicio && formData.termino && formData.tipoReuniao;
 
-    // Manipuladores para salvar ou remover a reunião
     const handleSave = async () => {
-        // Extract data from formData
         const { nome, data, inicio, termino, tipoReuniao } = formData;
     
-        // Format the date and time
-        const start_time = `${data}T${inicio}:00`;
-        const duration = parseInt(termino); // Assuming termino is in minutes
+        // Verifica se a reunião não é presencial antes de prosseguir com a criação da reunião via API
+        if (tipoReuniao !== 'Presencial') {
+            // Format the date and time
+            const start_time = `${data}T${inicio}:00`;
+            const duration = parseInt(termino); // Assuming termino is in minutes
     
-        try {
-            // Call your API endpoint with the formatted data
-            const response = await axios.post('http://localhost:3000/criar_reuniao', {
-                topic: nome,
-                start_time: start_time,
-                duration: duration,
-                agenda: tipoReuniao,
-            });
-            
-            console.log('API createProcess response:', response.data); // Log the entire response
-            
-            // Extract the meeting link (join_url) from the response
-            const meeting = response.data.meeting;
-            console.log('Meeting:', meeting); // Log meeting details to console
+            try {
+                // Chama o endpoint de API com os dados formatados
+                const response = await axios.post('http://localhost:3000/criar_reuniao', {
+                    topic: nome,
+                    start_time: start_time,
+                    duration: duration,
+                    agenda: tipoReuniao,
+                });
     
-            if (meeting) {
-                const joinUrl = meeting.join_url;
-                console.log('Meeting join URL:', joinUrl);
-                // Display the meeting link to the user
-                adicionarReuniao(formData);
-                alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
-            } else {
-                throw new Error('No meeting found in response');
+                console.log('API createProcess response:', response.data);
+    
+                // Extrai o link de reunião (join_url) da resposta
+                const meeting = response.data.meeting;
+                console.log('Meeting:', meeting);
+    
+                if (meeting) {
+                    const joinUrl = meeting.join_url;
+                    console.log('Meeting join URL:', joinUrl);
+    
+                    // Exibe a reunião ao usuário
+                    adicionarReuniao(formData);
+                    alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
+    
+                    // Abre o joinUrl em uma nova aba
+                    window.open(joinUrl, '_blank');
+                } else {
+                    throw new Error('Nenhuma reunião encontrada na resposta');
+                }
+            } catch (error) {
+                console.error('Erro ao criar reunião:', error);
+                alert(`${error}`);
             }
-        } catch (error) {
-            console.error('Error creating meeting:', error);
-            alert(`${error}`);
+        } else {
+            // Se o tipo de reunião for "Presencial", não chame a API e apenas adicione a reunião
+            adicionarReuniao(formData);
+            alert(`Reunião presencial adicionada com sucesso!`);
         }
     
+        // Fecha o modal
         onClose();
     };
-
+    
     const handleRemove = () => {
         if (formData.id) {
             removerReuniao(formData.id);
