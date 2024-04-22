@@ -157,7 +157,7 @@
   
 # <p align="center">SPRINTS
 
-<h1> <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint1">Primeira Sprint</a> </h1>
+<h1> <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint-1">Primeira Sprint</a> </h1>
 <br>
 <h1> <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/Sprint2">Segunda Sprint</a> </h1>
 <br>
