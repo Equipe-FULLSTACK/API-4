@@ -1,17 +1,16 @@
-
 import React, { useState } from 'react';
-import SIATTLogo from '../../assets/icons/siatt_logo.png'
+import SIATTLogo from '../../assets/icons/siatt_logo.png';
 import {
   Box,
   Typography,
-  TextField,
-  Button,
   ThemeProvider,
   createTheme,
   Stack,
   Link,
 } from '@mui/material';
-
+import EmailInput from './EmailInput';
+import PasswordInput from './PasswordInput';
+import SubmitButton from './SubmitButton';
 
 interface LoginFormProps {
   onLogin: (email: string, password: string) => void;
@@ -19,12 +18,12 @@ interface LoginFormProps {
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark', // Set the theme mode to dark
+    mode: 'dark',
     primary: {
-      main: '#3f51b5', // Adjust primary color (optional)
+      main: '#3f51b5',
     },
     secondary: {
-      main: '#f50057', // Adjust secondary color (optional)
+      main: '#f50057',
     },
   },
 });
@@ -32,6 +31,9 @@ const darkTheme = createTheme({
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -41,7 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Box className="login-form">
-        <Stack width={200} padding={1} margin={'auto'} marginBottom={3} marginTop={3}>
+        <Stack width={200} padding={1} margin={'auto'} marginBottom={3} marginTop={3} sx={{ animation: 'spin 2s linear infinite' }}>
           <img src={SIATTLogo} alt="" />
         </Stack>
         <Stack marginBottom={3}>
@@ -51,45 +53,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
           </Typography>
         </Stack>
         <form onSubmit={handleSubmit}>
-          <TextField
-            id="email"
-            label="Email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            fullWidth
-            margin="normal"
-            type="email"
-          />
-          <TextField
-            id="password"
-            label="Senha"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            fullWidth
-            margin="normal"
-          />
+          <EmailInput value={email} onChange={setEmail} onValidChange={setIsEmailValid} />
+          <PasswordInput value={password} onChange={setPassword} onValidChange={setIsPasswordValid} />
 
           <Stack textAlign={'right'}>
-          <Link href="#" underline='hover'>
-            <Typography variant="body1" color="yellow">
+            <Link href="#" underline='hover'>
+              <Typography variant="body1" color="yellow">
                 Esqueceu Senha?
-            </Typography>
-          </Link>
+              </Typography>
+            </Link>
           </Stack>
-          <Stack padding={0} marginTop={5}>
-            <Button type="submit" variant="contained" color="primary" fullWidth size='large'>
-              Entrar
-            </Button>
-          </Stack>
+          <SubmitButton onClick={handleSubmit} disabled={!isEmailValid || !isPasswordValid} />
 
           <Stack marginTop={5}>
             <Typography variant="button" textAlign={'center'} alignItems={'center'}>
-              Não possui acesso?  
+              Não possui acesso?
             </Typography>
 
             <Typography variant="body1" textAlign={'center'} alignItems={'center'} color={'yellow'}>
-              Solicite ao adminsitrador do sistema.
+              Solicite ao administrador do sistema.
             </Typography>
           </Stack>
         </form>
