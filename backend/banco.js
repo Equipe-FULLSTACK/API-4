@@ -14,7 +14,8 @@ var sql = `create table  usuarios (
     senha_usuario varchar(256) not null,
     diretoria_usuario boolean default 0,
     permissao_usuario varchar(256) not null,
-    admin_usuario boolean default 0
+    admin_usuario boolean default 0,
+    userPhoto varchar(256)
     );`;
 con.query(sql, function (err, result) {
 	if (err) throw err;
