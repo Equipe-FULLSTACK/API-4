@@ -38,6 +38,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     onLogin(email, password);
+    /* console.log('LoginForm - Email' + email + 'Senha -' + password ) */
   };
 
   return (
