@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
     /* console.log('Dados recebidos do formulário:', email, password); */
   
     try {
-      const loggedInUser = await authenticateUser({ email, password });
+      const loggedInUser = await authentinpcateUser({ email, password });
   
       if (loggedInUser) {
         setIsLoggedIn(true); 
