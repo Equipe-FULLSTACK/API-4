@@ -14,9 +14,9 @@ import {
 } from '@mui/icons-material';
 
 interface ProfileActionsProps {
-  onEditProfile: () => void;
-  onSettings: () => void;
-  onNotifications: () => void;
+  onEditProfile?: () => void;
+  onSettings?: () => void;
+  onNotifications?: () => void;
   profileImage: string;
 }
 
