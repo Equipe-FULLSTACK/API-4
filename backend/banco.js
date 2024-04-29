@@ -42,8 +42,6 @@ var sql = `create table agendamentos (
 	id_agendamento int primary key auto_increment,
     id_usuario int not null,
     # foreign key (id_usuario) references usuarios (id_usuario),
-    id_reuniao int not null,
-    # foreign key (id_reuniao) references reunioes (id_reuniao),
     id_sala int not null,
     # foreign key (id_sala) references salas (id_sala), 
     datetime_inicio datetime not null,
