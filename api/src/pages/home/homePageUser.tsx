@@ -1,3 +1,5 @@
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import {
   ThemeProvider,
@@ -35,11 +37,34 @@ const darkTheme = createTheme({
   },
 });
 
+interface dataHomePageUser {
+  name: string;
+}
+
 // Função principal para a HomePageUser
-const HomePageUser: React.FC = () => {
+const HomePageUser: React.FC<dataHomePageUser> = () => {
   // Estado para armazenar o período selecionado (Dia, Semana ou Mes)
   const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos');
 
+  // Função para checkar os dados dos cookies de sessão do usuário
+  const [name, setName] = useState('')
+  const [selectedRole, setSelectedRole] = useState('');
+  const navigate = useNavigate()
+
+  axios.defaults.withCredentials = true;
+  useEffect(() =>{
+      axios.get('http://localhost:3000/ck')
+      .then( res => {
+          if(res.data.valid) {
+              setName(res.data.username);
+              setSelectedRole(res.data.role)
+          } else {
+              navigate('/')
+                  }
+          console.log(res)
+      })
+        .catch(err => console.log(err))
+  },[])
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Manipulações CRUD Reuniões // 

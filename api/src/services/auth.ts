@@ -5,12 +5,11 @@ const API_URL = 'http://localhost:3000'; // Rota API
 
 export const authenticateUser = async ({ email, password }: Credentials): Promise<{ user: User | null, loggedIn: boolean, isAdmin: boolean }> => {
   try {
-    const response = await axios.get<User[]>(`${API_URL}/us`);
+    const response = await axios.post(`${API_URL}/login`, { email, password }); // Passando os dados de email e senha no corpo da solicitação
 
-    const user = response.data.find(user => user.email_usuario === email && user.senha_usuario === password);
-
-    const loggedIn = user !== undefined;
-    const isAdmin = user?.admin_usuario === 1; // Verifica se o usuário é um administrador
+    const { user, admin } = response.data;
+    const loggedIn = !!user;
+    const isAdmin = admin === 1; // Verifica se o usuário é um administrador
 
     return { user, loggedIn, isAdmin };
   } catch (error) {

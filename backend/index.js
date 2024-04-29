@@ -47,9 +47,18 @@ app.use(cors({
 }));
 
 
-app.listen(PORT, () => {
-	console.log(`Servidor recebendo dados no port ${PORT}`);
-});
+app.set('view engine', 'ejs');
+app.use(cookieParser());
+app.use(session({
+	secret: 'secret', //Chave gerada para o cookie de sessão
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		secure: false,
+		maxAge: 1000 * 60 * 60 * 24 //Tempo em milisegundos que o cookie vai durar
+	}
+}))
+
 
 //SELECT USUARIOS
 app.get("/us", (req, res) => {
@@ -64,6 +73,7 @@ app.get("/us", (req, res) => {
 		});
 	});
 });
+
 //SELECT USUARIO
 app.get("/us/:id", (req, res) => {
 	con.connect(function (err) {
@@ -234,12 +244,62 @@ app.get('/inus', function (req, res) {
         console.log('Usuario inserido');
         return res.status(201).json({ message: 'Usuario inserido'});
     });
-
-
-
-
-
 });
+
+// FUNÇÃO QUE CHECA SE O USUÁRIO E SUA SENHA CONSTAM NO BANCO DE DADOS PARA FAZER O LOGIN
+app.post("/login", function (req, res) {
+	const { email, password } = req.body;
+  
+	con.connect(function (err) {
+	  if (err) throw err;
+  
+	  console.log("Verificando Cadastro");
+	  const sql = 'SELECT * FROM usuarios WHERE email_usuario = ? AND senha_usuario = ?';
+	  con.query(sql, [email, password], (err, result) => {
+		if (err) {
+		  console.error("Erro no servidor:", err);
+		  return res.status(500).json({ message: "Erro no servidor" });
+		}
+  
+		if (result.length > 0) {
+		  req.session.username = result[0].nome_usuario;
+		  req.session.email = result[0].email_usuario;
+		  req.session.admin = result[0].admin_usuario;
+		  req.session.permissao = result[0].permissao_usuario;
+  
+		  console.log('Nome:', req.session.username, 'Admin:', req.session.admin, 'Permissão:', req.session.role);
+		  return res.json({
+			login: true,
+			username: req.session.username,
+			email: req.session.email,
+			admin: req.session.admin,
+			role: req.session.permissao
+		  });
+		} else {
+		  console.log('Usuário não encontrado:', email, password);
+		  return res.status(401).json({ login: false, message: "Credenciais inválidas" });
+		}
+	  });
+	})
+});
+
+
+//FUNÇÃO PARA A CHECAGEM DE COOKIES DE USUARIO
+app.get("/ck", (req, res) => {
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Buscando Cookies");
+
+		if (req.session.username) {
+			console.log('Achei')
+			return res.json({ valid: true, username: req.session.username, admin:req.session.admin, role: req.session.role })
+		} else {
+			console.log('Não achei')
+			return res.json({ valid: false })
+		}
+	});
+});
+
 
 global.token = "";
 
@@ -381,4 +441,9 @@ app.get('/listar_reuniao', async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, error: 'Error fetching meetings' });
     }
+});
+
+
+app.listen(PORT, () => {
+	console.log(`Servidor recebendo dados no port ${PORT}`);
 });

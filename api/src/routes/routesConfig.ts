@@ -1,6 +1,7 @@
 import { RouteProps } from 'react-router-dom';
 import HomePageAdmin from '../pages/home/HomePageAdmin';
-import HomePageUser from '../pages/home/HomePageUser';
+import HomePageUser from '../pages/home/homePageUser';
+
 
 export interface AppRoute extends RouteProps {
   path: string;
