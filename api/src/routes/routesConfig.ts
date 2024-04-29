@@ -1,7 +1,7 @@
 import { RouteProps } from 'react-router-dom';
 import HomePageAdmin from '../pages/home/HomePageAdmin';
-import HomePageUser from '../pages/home/homePageUser';
-
+import HomePageUser from '../pages/home/HomePageUser';
+import PageTest from '../components/componentTest';
 
 export interface AppRoute extends RouteProps {
   path: string;
@@ -20,6 +20,13 @@ const routes: AppRoute[] = [
     component: HomePageUser,
     exact: true,
   },
+
+  {
+    path: '/t',
+    component: PageTest,
+    exact: true,
+  },
+
   
 ];
 

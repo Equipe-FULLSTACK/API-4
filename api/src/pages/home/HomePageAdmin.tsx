@@ -17,11 +17,11 @@ import TypeMeeting from '../../components/meeting/TypeMetting';
 import VisualizacaoSemanal from '../../components/meeting/ListMettingWeek';
 import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
 import ReuniaoModal from '../../components/meeting/MeetingCRUD';
-import { v4 as uuidv4 } from 'uuid';
 
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
+import UserPage from '../../components/user/userPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -35,7 +35,7 @@ const darkTheme = createTheme({
   },
 });
 
-// Função principal para a HomePageAdmin
+
 const HomePageAdmin: React.FC = () => {
   // Estado para armazenar o período selecionado (Dia, Semana ou Mes)
   const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos');
@@ -91,7 +91,6 @@ const HomePageAdmin: React.FC = () => {
   // Função para lidar com a mudança de período
   const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
-    handle
     console.log(`Período selecionado: ${newPeriodo}`);
   };
 
@@ -233,6 +232,10 @@ const handleTipoChange = (novoTipo: string) => {
 
 
             <Stack>{/* Renderiza visualizaçã condicional */}
+
+            <UserPage></UserPage>
+
+            <Stack sx={{display:'flex'}}> {/* APAGAR DEPOIS */}
               <div>
                 {/* Visualização diária */}
                 <div style={styleDay}>
@@ -279,7 +282,7 @@ const handleTipoChange = (novoTipo: string) => {
                 </div>
 
               </div>
-
+            </Stack>
 
 
             </Stack>
