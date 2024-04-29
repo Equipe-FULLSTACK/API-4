@@ -1,8 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Avatar, IconButton, Stack, Tooltip, Typography, Paper } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon, Person as PersonIcon, Email as EmailIcon, Lock as LockIcon, CheckCircle as CheckCircleIcon, Cancel as CancelIcon, SupervisedUserCircle as SupervisedUserCircleIcon } from '@mui/icons-material';
+import {
+    TableContainer,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+    Avatar,
+    IconButton,
+    Stack,
+    Tooltip,
+    Typography,
+    Paper,
+    Button,
+} from '@mui/material';
+import {
+    Delete as DeleteIcon,
+    Edit as EditIcon,
+    Person as PersonIcon,
+    Email as EmailIcon,
+    Lock as LockIcon,
+    CheckCircle as CheckCircleIcon,
+    Cancel as CancelIcon,
+    SupervisedUserCircle as SupervisedUserCircleIcon,
+} from '@mui/icons-material';
 import { User } from '../../types/userTypes';
+import NomeColumn from './NameColumn';
+import EmailColumn from './EmailColumn';
+import PermissaoColumn from './PermissionColumn';
+import DiretoriaColumn from './DiretoriaColumn';
 
 const API_URL = 'http://localhost:3000';
 
@@ -25,7 +52,7 @@ const UserPage = () => {
     const handleDeleteUser = async (userId: number) => {
         try {
             await axios.delete(`${API_URL}/us/${userId}`);
-            setUsers(users.filter(user => user.id_usuario !== userId));
+            setUsers(users.filter((user) => user.id_usuario !== userId));
         } catch (error) {
             console.error('Error deleting user:', error);
         }
@@ -38,13 +65,13 @@ const UserPage = () => {
     const getColorByPermission = (permissionLevel: string) => {
         switch (permissionLevel) {
             case '1':
-                return { color: '#4caf50', icon: <PersonIcon />, description: 'Usuário padrão' }; // Verde, ícone de pessoa
+                return { color: '#4caf50', icon: <PersonIcon />, description: 'Usuário padrão' };
             case '2':
-                return { color: '#2196f3', icon: <SupervisedUserCircleIcon />, description: 'Super usuário' }; // Azul, ícone de supervisão
+                return { color: '#2196f3', icon: <SupervisedUserCircleIcon />, description: 'Super usuário' };
             case '3':
-                return { color: '#f44336', icon: <LockIcon />, description: 'Admin' }; // Vermelho, ícone de cadeado
+                return { color: '#f44336', icon: <LockIcon />, description: 'Admin' };
             default:
-                return { color: '#000000', icon: <PersonIcon />, description: 'Super admin' }; // Preto como padrão, ícone de pessoa
+                return { color: 'primary', icon: <PersonIcon />, description: 'Super admin' };
         }
     };
 
@@ -53,14 +80,29 @@ const UserPage = () => {
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell style={{ borderLeft: '4px solid #4caf50' }}>Avatar</TableCell> {/* Adicionando borda esquerda verde */}
-                        <TableCell>Nome</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Permissão</TableCell>
-                        <TableCell>Diretoria</TableCell>
-                        <TableCell>Ações</TableCell>
+                        <TableCell>
+                            <Button disabled>
+                                <Typography variant="body1" color="initial">Avatar</Typography>
+                            </Button>
+                        </TableCell>
+
+                        <NomeColumn users={users} setUsers={setUsers} />
+
+                        <EmailColumn users={users} setUsers={setUsers} />
+
+                        <PermissaoColumn users={users} setUsers={setUsers} />
+
+                        <DiretoriaColumn users={users} setUsers={setUsers} />
+
+                        <TableCell>
+                            <Button disabled>
+                                <Typography variant="body1" color="initial">Ações</Typography>
+                            </Button>
+                        </TableCell>
+                        
                     </TableRow>
                 </TableHead>
+
                 <TableBody>
                     {users.map((user) => (
                         <TableRow key={user.id_usuario}>
@@ -68,7 +110,7 @@ const UserPage = () => {
                                 <Avatar alt={user.nome_usuario} src={user.userPhoto} />
                             </TableCell>
                             <TableCell>
-                                <Typography variant="body1" sx={{ color: '#000000' }}>{/* Mantendo o padrão de cores */}
+                                <Typography variant="body1" sx={{ color: getColorByPermission(user.permissao_usuario).color }}>
                                     {user.nome_usuario}
                                 </Typography>
                             </TableCell>
@@ -79,9 +121,9 @@ const UserPage = () => {
                                 </Stack>
                             </TableCell>
                             <TableCell>
-                                <Stack direction="row" alignItems="center" spacing={1} sx={{ backgroundColor: getColorByPermission(user.permissao_usuario).color, borderRadius: 8, padding: '4px 8px', display: 'inline-flex' }}>
+                                <Stack direction="row" alignItems="center" spacing={1} sx={{ backgroundColor: getColorByPermission(user.permissao_usuario).color, borderRadius: 2, padding: '4px 16px', display: 'inline-flex' }}>
                                     {getColorByPermission(user.permissao_usuario).icon}
-                                    <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#ffffff' }}>{getColorByPermission(user.permissao_usuario).description}</Typography>
+                                    <Typography variant="body2" sx={{ color: 'primary' }}>{getColorByPermission(user.permissao_usuario).description}</Typography>
                                 </Stack>
                             </TableCell>
                             <TableCell>

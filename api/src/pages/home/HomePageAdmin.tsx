@@ -21,7 +21,7 @@ import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
-import UserPage from '../../components/user/userPage';
+import UserPage from '../../components/user/UserPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -231,7 +231,7 @@ const handleTipoChange = (novoTipo: string) => {
             </Stack>
 
 
-            <Stack>{/* Renderiza visualizaçã condicional */}
+            <Stack>
 
             <UserPage></UserPage>
 
