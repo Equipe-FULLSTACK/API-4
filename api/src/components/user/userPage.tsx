@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Grid, Card, CardContent, Typography, Stack, Tooltip, Avatar, IconButton } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Avatar, IconButton, Stack, Tooltip, Typography, Paper } from '@mui/material';
+import { Delete as DeleteIcon, Edit as EditIcon, Person as PersonIcon, Email as EmailIcon, Lock as LockIcon, CheckCircle as CheckCircleIcon, Cancel as CancelIcon, SupervisedUserCircle as SupervisedUserCircleIcon } from '@mui/icons-material';
 import { User } from '../../types/userTypes';
 
 const API_URL = 'http://localhost:3000';
@@ -38,74 +38,77 @@ const UserPage = () => {
     const getColorByPermission = (permissionLevel: string) => {
         switch (permissionLevel) {
             case '1':
-                return '#4caf50'; // Verde
+                return { color: '#4caf50', icon: <PersonIcon />, description: 'Usuário padrão' }; // Verde, ícone de pessoa
             case '2':
-                return '#2196f3'; // Azul
+                return { color: '#2196f3', icon: <SupervisedUserCircleIcon />, description: 'Super usuário' }; // Azul, ícone de supervisão
             case '3':
-                return '#f44336'; // Vermelho
+                return { color: '#f44336', icon: <LockIcon />, description: 'Admin' }; // Vermelho, ícone de cadeado
             default:
-                return '#000000'; // Preto como padrão
+                return { color: '#000000', icon: <PersonIcon />, description: 'Super admin' }; // Preto como padrão, ícone de pessoa
         }
     };
 
-    const usersByPermission = users.reduce((acc, user) => {
-        const permissionLevel = user.permissao_usuario;
-        if (!acc[permissionLevel]) {
-            acc[permissionLevel] = [];
-        }
-        acc[permissionLevel].push(user);
-        return acc;
-    }, {});
-
     return (
-        <Grid container spacing={3}>
-            {Object.entries(usersByPermission).map(([permissionLevel, users]) => (
-                <Grid item key={permissionLevel} xs={12} sm={6} md={4} lg={3}>
-                    {users.map(user => (
-                        <Card key={user.id_usuario} sx={{ marginBottom: 1, borderLeft: `6px solid ${getColorByPermission(permissionLevel)}`, backgroundColor: 'transparent' }}>
-
-                            <CardContent>
-                                <Stack direction="row" spacing={1} alignItems="center" marginBottom={1} gap={2}>
-
-                                    <Avatar alt={user.nome_usuario} src={user.userPhoto} sx={{ width: 60, height: 60 }} />
-
-                                    <Stack direction="row" spacing={1} alignItems="center" marginBottom={1} gap={2}>
-
-                                        <Typography color={'Background'} variant="body1" sx={{ color: getColorByPermission(permissionLevel), marginLeft: 1 }}>
-                                            {user.nome_usuario}
-                                        </Typography>
-
-                                    </Stack>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell style={{ borderLeft: '4px solid #4caf50' }}>Avatar</TableCell> {/* Adicionando borda esquerda verde */}
+                        <TableCell>Nome</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Permissão</TableCell>
+                        <TableCell>Diretoria</TableCell>
+                        <TableCell>Ações</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {users.map((user) => (
+                        <TableRow key={user.id_usuario}>
+                            <TableCell style={{ borderLeft: `4px solid ${getColorByPermission(user.permissao_usuario).color}` }}>
+                                <Avatar alt={user.nome_usuario} src={user.userPhoto} />
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="body1" sx={{ color: '#000000' }}>{/* Mantendo o padrão de cores */}
+                                    {user.nome_usuario}
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Stack direction="row" alignItems="center" spacing={1}>
+                                    <EmailIcon />
+                                    <Typography variant="body2">{user.email_usuario}</Typography>
                                 </Stack>
-                                <Stack marginTop={2} padding={1}>
-                                    <Typography variant="body2" sx={{ marginTop: 0.5 }}>
-                                        Email: {user.email_usuario}
-                                    </Typography>
-                                    <Typography variant="body2" sx={{ marginTop: 0.5 }}>
-                                        Permissão: {permissionLevel}
-                                    </Typography>
-                                    <Typography variant="body2" sx={{ marginTop: 0.5 }}>
-                                        Diretoria: {user.diretoria_usuario ? 'Sim' : 'Não'}
-                                    </Typography>
-                                    <Stack direction="row" justifyContent="flex-end" alignItems="center" marginTop={1}>
-                                        <Tooltip title="Delete">
-                                            <IconButton onClick={() => handleDeleteUser(user.id_usuario)}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Edit Permission">
-                                            <IconButton onClick={() => handleEditPermission(user.id_usuario)}>
-                                                <EditIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Stack>
+                            </TableCell>
+                            <TableCell>
+                                <Stack direction="row" alignItems="center" spacing={1} sx={{ backgroundColor: getColorByPermission(user.permissao_usuario).color, borderRadius: 8, padding: '4px 8px', display: 'inline-flex' }}>
+                                    {getColorByPermission(user.permissao_usuario).icon}
+                                    <Typography variant="body2" sx={{ fontWeight: 'bold', color: '#ffffff' }}>{getColorByPermission(user.permissao_usuario).description}</Typography>
                                 </Stack>
-                            </CardContent>
-                        </Card>
+                            </TableCell>
+                            <TableCell>
+                                <Stack direction="row" alignItems="center" spacing={1}>
+                                    {user.diretoria_usuario ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />}
+                                    <Typography variant="body2">{user.diretoria_usuario ? 'Sim' : 'Não'}</Typography>
+                                </Stack>
+                            </TableCell>
+                            <TableCell>
+                                <Stack direction="row" spacing={1}>
+                                    <Tooltip title="Delete">
+                                        <IconButton onClick={() => handleDeleteUser(user.id_usuario)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip title="Edit Permission">
+                                        <IconButton onClick={() => handleEditPermission(user.id_usuario)}>
+                                            <EditIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Stack>
+                            </TableCell>
+                        </TableRow>
                     ))}
-                </Grid>
-            ))}
-        </Grid>
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 
