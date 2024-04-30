@@ -86,11 +86,11 @@ INSERT INTO agendamentos (id_usuario, id_sala, datetime_inicio, datetime_final) 
 
 #INSERT tabela salas
 SELECT * FROM salas;
-INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala1", "Fisica", 1, "não existe", 40);
-INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala2", "Hibrida", 1, "linkdasala.com", 55);
-INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala3", "Virtual", 1, "linkdasala.com", 80);
-INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala4", "Fisica", 1, "não existe", 40);
-INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala5", "Hibrida", 1, "linkdasala.com", 55);
+INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala1", "fisica", 1, NULL, 40);
+INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala2", "hibrida", 1, "linkdasala.com", 55);
+INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala3", "virtual", 1, "linkdasala.com", 80);
+INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala4", "fisica", 1, NULL, 40);
+INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES ("sala5", "hibrida", 1, "linkdasala.com", 55);
 
 #INSERT tabela participantes
 select * from participantes;
@@ -106,4 +106,3 @@ select * from salas;
 select * from reunioes;
 select * from usuarios;
 select * from participantes;
-

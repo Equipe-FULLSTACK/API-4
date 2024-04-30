@@ -229,11 +229,10 @@ app.get("/sala/:id", (req, res) => {
 	});
 });
 
-
-app.get('/inus', function (req, res) {
+//INSERT USUARIO
+app.post('/in/us', function (req, res) {
     const { nome, email, senha, diretoria, permissao } = req.body;
-
-    // Executa a consulta SQL para criar um novo processo incluindo active
+	console.log(`recebidos os dados: ${nome}, ${email}, ${senha}, ${diretoria}, ${permissao}`);
     const sql = 'INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario, diretoria_usuario, permissao_usuario) VALUES (?, ?, ?, ?, ?)';
 	con.query(sql, [nome, email, senha, diretoria, permissao], function (err, result) {
         if (err) {
@@ -244,6 +243,100 @@ app.get('/inus', function (req, res) {
         console.log('Usuario inserido');
         return res.status(201).json({ message: 'Usuario inserido'});
     });
+});
+
+//INSERT AGENDAMENTO
+app.post('/in/ag', function (req, res) {
+    const { id_usuario, id_sala, inicio, final } = req.body;
+	console.log(`recebidos os dados: ${id_usuario}, ${id_sala}, ${inicio}, ${final}`);
+    const sql = 'INSERT INTO agendamentos (id_usuario, id_sala, datetime_inicio, datetime_final) VALUES (?, ?, ?, ?)';
+	con.query(sql, [id_usuario, id_sala, inicio, final], function (err, result) {
+        if (err) {
+            console.error('Erro ao inserir agendamento:', err);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+
+        console.log('Agendamento inserido');
+        return res.status(201).json({ message: 'Agendamento inserido'});
+    });
+});
+
+//INSERT REUNIAO
+app.post('/in/re', function (req, res) {
+    const { id_agendamento, tipo, titulo, inicio, final, pauta, id_responsavel } = req.body;
+	console.log(`recebidos os dados: ${id_agendamento}, ${tipo}, ${titulo}, ${inicio}, ${final}, ${pauta}, ${id_responsavel}`);
+    const sql = 'INSERT INTO reunioes (id_agendamento, tipo_reuniao, titulo_reuniao, datetime_inicio, datetime_final, pauta_reuniao, responsavel_reuniao) VALUES (?, ?, ?, ?, ?, ?, ?)';
+	con.query(sql, [id_agendamento, tipo, titulo, inicio, final, pauta, id_responsavel], function (err, result) {
+        if (err) {
+            console.error('Erro ao inserir reuniao:', err);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+
+        console.log('Reuniao inserida');
+        return res.status(201).json({ message: 'Reuniao inserida'});
+    });
+});
+
+//INSERT PARTICIPANTE
+app.post('/in/pa', function (req, res) {
+    const { id_participante, id_reuniao, nome, email } = req.body;
+	console.log(`recebidos os dados: ${id_participante}, ${id_reuniao}, ${nome}, ${email}`);
+    const sql = 'INSERT INTO participantes (id_participante, id_reuniao, nome, email) VALUES (?, ?, ?, ?)';
+	con.query(sql, [id_participante, id_reuniao, nome, email], function (err, result) {
+        if (err) {
+            console.error('Erro ao inserir participante:', err);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+
+        console.log('Participante inserido');
+        return res.status(201).json({ message: 'Participante inserido'});
+    });
+});
+
+//INSERT SALAS
+app.post('/in/sala', function (req, res) {
+    const { nome, tipo, permissao, link, vagas } = req.body;
+	console.log(`recebidos os dados: ${nome}, ${tipo}, ${permissao}, ${link}, ${vagas}`);
+    const sql = 'INSERT INTO salas (nome_sala, tipo_sala, permissao_sala, link_sala, vagas_sala) VALUES (?, ?, ?, ?, ?)';
+	con.query(sql, [nome, tipo, permissao, link, vagas], function (err, result) {
+        if (err) {
+            console.error('Erro ao inserir sala:', err);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+
+        console.log('Sala inserida');
+        return res.status(201).json({ message: 'Sala inserida'});
+    });
+});
+
+//DELETAR USUARIO POR ID
+app.get("/del/us/:id", (req, res) => {
+	const id_usuario = req.params.id;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Deletando usuario");
+
+		var sql = 'DELETE FROM usuarios WHERE id_usuario = ?';
+		con.query(sql, id_usuario, function (err, result, fields) {
+			if (err) throw err;
+			res.json(result);
+		});
+	});
+});
+
+//UPDATE USUARIO
+app.post('/up/us/:id', function (req, res) {
+	const id_usuario = req.params.id;
+	const { nome, email, senha, diretoria, permissao } = req.body;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Atualizando");
+		var sql = 'UPDATE usuarios SET nome_usuario = ?, email_usuario = ?, senha_usuario = ?, diretoria_usuario = ?, permissao_usuario = ? WHERE id_usuario = ?';
+		con.query(sql, [nome, email, senha, diretoria, permissao, id_usuario], function (err, result) {
+			if (err) throw err;
+		});
+	});
+	//return res.redirect('http://localhost:3000/');
 });
 
 // FUNÇÃO QUE CHECA SE O USUÁRIO E SUA SENHA CONSTAM NO BANCO DE DADOS PARA FAZER O LOGIN
