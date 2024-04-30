@@ -21,7 +21,7 @@ import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
-import UserPage from '../../components/user/UserPage';
+import UserPage from '../../components/user/userPage';
 import PermissionFilter from '../../components/user/PermissionFilter';
 
 const darkTheme = createTheme({
