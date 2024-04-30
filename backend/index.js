@@ -103,7 +103,7 @@ app.get("/ag", (req, res) => {
 	});
 });
 //SELECT AGENDAMENTOS DE UM USUARIO
-app.get("/agus/:id", (req, res) => {
+app.get("/ag/:id", (req, res) => {
 	const id_usuario = req.params.id;
 	con.connect(function (err) {
 		if (err) throw err;
@@ -132,7 +132,7 @@ app.get("/re", (req, res) => {
 });
 
 //SELECT REUNIAO DE UM AGENDAMENTO
-app.get("/reag/:id", (req, res) => {
+app.get("/re/:id", (req, res) => {
 	const id_agendamento = req.params.id;
 	con.connect(function (err) {
 		if (err) throw err;

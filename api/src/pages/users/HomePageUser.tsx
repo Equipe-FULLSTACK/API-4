@@ -22,6 +22,7 @@ import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import UserPage from '../../components/user/UserPage';
+import PermissionFilter from '../../components/user/PermissionFilter';
 
 const darkTheme = createTheme({
   palette: {
@@ -36,7 +37,7 @@ const darkTheme = createTheme({
 });
 
 
-const HomePageAdmin: React.FC = () => {
+const HomePageAdminUser: React.FC = () => {
   // Estado para armazenar o período selecionado (Dia, Semana ou Mes)
   const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos');
 
@@ -139,8 +140,8 @@ const handleSearch = (text: string) => {
   };
 
   const handleEditarReuniaoClick = (reuniao) => {
-    setReuniaoEditada(reuniao); // Define a reunião a ser editada
-    setModalOpen(true); // Abre o modal
+    setReuniaoEditada(reuniao);
+    setModalOpen(true); 
   };
 
   const handleModalClose = () => {
@@ -226,62 +227,14 @@ const handleTipoChange = (novoTipo: string) => {
               </Stack>
 
               <Stack width={'20rem'}>
-                <TypeMeeting onTipoChange={handleTipoChange} tipoSelecionado={tipoSelecionado} />
+                <PermissionFilter />
               </Stack>
             </Stack>
 
 
             <Stack>
 
-            <Stack sx={{display:'flex'}}> {/* APAGAR DEPOIS */}
-              <div>
-                {/* Visualização diária */}
-                <div style={styleDay}>
-                  <VisualizacaoDiaria
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
-                  />
-                </div>
-
-                {/* Visualização semanal */}
-                <div style={styleWeek}>
-                  <VisualizacaoSemanal
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
-                  />
-                </div>
-
-                {/* Visualização mensal */}
-                <div style={styleMonth}>
-                  <VisualizacaoMensal
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
-                  />
-                </div>
-                
-                {/* Visualização mensal */}
-                <div style={styleAll}>
-                  <VisualizacaoAll
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
-                  />
-                </div>
-
-              </div>
-            </Stack>
-
+              <UserPage/>
 
             </Stack>
           </Stack>
@@ -299,4 +252,4 @@ const handleTipoChange = (novoTipo: string) => {
   );
 };
 
-export default HomePageAdmin;
+export default HomePageAdminUser;

@@ -17,6 +17,10 @@ const LoginPage: React.FC = () => {
     try {
       const { user, loggedIn, isAdmin } = await authenticateUser({ email, password });
 
+      console.log('Verifica o usuário retorno do authenticator: ' + user)
+      console.log('Verifica o usuário retorno do loggedIn: ' + loggedIn)
+      console.log('Verifica o usuário retorno do isAdmin: ' + user)
+
       if (loggedIn) {
         setIsLoggedIn(true);
         setIsAdmin(isAdmin);
@@ -31,7 +35,7 @@ const LoginPage: React.FC = () => {
 
   if (isLoggedIn) {
     if (isAdmin) {
-      return <Navigate to="/admin" />;
+      return <Navigate to="/admin"/>;
     } else {
       return <Navigate to="/user" />;
     }

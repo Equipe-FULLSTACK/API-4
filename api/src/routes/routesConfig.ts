@@ -1,7 +1,8 @@
 import { RouteProps } from 'react-router-dom';
 import HomePageAdmin from '../pages/home/HomePageAdmin';
-import HomePageUser from '../pages/home/HomePageUser';
+import HomePageUser from '../pages/home/HomePageAdmin';
 import PageTest from '../components/componentTest';
+import HomePageAdminUser from '../pages/users/HomePageUser';
 
 export interface AppRoute extends RouteProps {
   path: string;
@@ -15,6 +16,13 @@ const routes: AppRoute[] = [
     component: HomePageAdmin,
     exact: true,
   },
+
+  {
+    path: '/admin/user',
+    component: HomePageAdminUser,
+    exact: true,
+  },
+
   {
     path: '/user',
     component: HomePageUser,

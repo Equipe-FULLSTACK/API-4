@@ -1,33 +1,20 @@
 import React from 'react';
-import { Badge, List, ListItem, IconButton, Tooltip } from '@mui/material';
-import {
-  CalendarToday,
-  MeetingRoom,
-  Settings,
-  Notifications,
-  HelpOutline,
-  Group,
-} from '@mui/icons-material';
+import { List, ListItem, IconButton, Tooltip } from '@mui/material';
+import { CalendarToday, MeetingRoom, Settings, Notifications, HelpOutline, Group } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom'; // Importe o hook useNavigate do React Router
 
 interface NavBarProps {
-  onCalendarClick?: () => void;
-  onRoomsClick?: () => void;
-  onSettingsClick?: () => void;
-  onNotificationsClick?: () => void;
-  onHelpClick?: () => void;
-  onPeopleClick?: () => void;
   notificationCount?: number;
 }
 
-const NavBar: React.FC<NavBarProps> = ({
-  onCalendarClick,
-  onRoomsClick,
-  onSettingsClick,
-  onNotificationsClick,
-  onHelpClick,
-  onPeopleClick,
-  notificationCount = 5, 
-}) => {
+const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
+  const pages = ["/calendar", "/rooms", "/admin/user", "/settings", "/notifications", "/help"];
+  const navigate = useNavigate(); // Obtenha a função de navegação usando o hook useNavigate
+
+  const handleNavigation = (index: number) => {
+    navigate(pages[index]);
+  };
+
   return (
     <List
       sx={{
@@ -39,8 +26,8 @@ const NavBar: React.FC<NavBarProps> = ({
         gap: 2,
       }}
     >
-      {/* Ícone de Calendário com Tooltip */}
-      <ListItem onClick={onCalendarClick} sx={{ padding: 0 }}>
+      {/* Ícone de Calendário com Tooltip e Navegação */}
+      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(0)}>
         <Tooltip title="Calendário" placement="right">
           <IconButton color="inherit" size="large">
             <CalendarToday />
@@ -48,8 +35,8 @@ const NavBar: React.FC<NavBarProps> = ({
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Salas com Tooltip */}
-      <ListItem onClick={onRoomsClick} sx={{ padding: 0 }}>
+      {/* Ícone de Salas com Tooltip e Navegação */}
+      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(1)}>
         <Tooltip title="Salas" placement="right">
           <IconButton color="inherit" size="large">
             <MeetingRoom />
@@ -57,8 +44,8 @@ const NavBar: React.FC<NavBarProps> = ({
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Pessoas com Tooltip */}
-      <ListItem onClick={onPeopleClick} sx={{ padding: 0 }}>
+      {/* Ícone de Pessoas com Tooltip e Navegação */}
+      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(2)}>
         <Tooltip title="Pessoas" placement="right">
           <IconButton color="inherit" size="large">
             <Group />
@@ -66,8 +53,8 @@ const NavBar: React.FC<NavBarProps> = ({
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Configurações com Tooltip */}
-      <ListItem onClick={onSettingsClick} sx={{ padding: 0 }}>
+      {/* Ícone de Configurações com Tooltip e Navegação */}
+      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(3)}>
         <Tooltip title="Configurações" placement="right">
           <IconButton color="inherit" size="large">
             <Settings />
@@ -75,19 +62,17 @@ const NavBar: React.FC<NavBarProps> = ({
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Notificações com Tooltip e Badge */}
-      <ListItem onClick={onNotificationsClick} sx={{ padding: 0 }}>
+      {/* Ícone de Notificações com Tooltip, Badge e Navegação */}
+      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(4)}>
         <Tooltip title="Notificações" placement="right">
-          <Badge badgeContent={notificationCount} color="warning" anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-            <IconButton color="inherit" size="small" sx={{paddingLeft:1.5}}>
-              <Notifications />
-            </IconButton>
-          </Badge>
+          <IconButton color="inherit" size="small" sx={{ paddingLeft: 1.5 }}>
+            <Notifications />
+          </IconButton>
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Ajuda com Tooltip */}
-      <ListItem onClick={onHelpClick} sx={{ padding: 0 }}>
+      {/* Ícone de Ajuda com Tooltip e Navegação */}
+      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(5)}>
         <Tooltip title="Ajuda" placement="right">
           <IconButton color="inherit" size="large">
             <HelpOutline />

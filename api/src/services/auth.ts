@@ -7,9 +7,10 @@ export const authenticateUser = async ({ email, password }: Credentials): Promis
   try {
     const response = await axios.post(`${API_URL}/login`, { email, password }); // Passando os dados de email e senha no corpo da solicitação
 
+    console.log('Resposta requisição backend - ' + response.data)
     const { user, admin } = response.data;
     const loggedIn = !!user;
-    const isAdmin = admin === 1; // Verifica se o usuário é um administrador
+    const isAdmin = admin === 1;
 
     return { user, loggedIn, isAdmin };
   } catch (error) {

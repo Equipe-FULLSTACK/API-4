@@ -19,7 +19,6 @@ import TypeMeeting from '../../components/meeting/TypeMetting';
 import VisualizacaoSemanal from '../../components/meeting/ListMettingWeek';
 import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
 import ReuniaoModal from '../../components/meeting/MeetingCRUD';
-import { v4 as uuidv4 } from 'uuid';
 
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
