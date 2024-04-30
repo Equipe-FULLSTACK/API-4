@@ -12,16 +12,12 @@ import PrintButton from '../../components/botoes/btnPrint';
 import ProfileActions from '../../components/perfil/profileActions';
 import NavBar from '../../components/navBar/navBar';
 import DateInput from '../../components/calendar/CalendarComponent';
-import VisualizacaoDiaria from '../../components/meeting/ListMettingDay';
-import TypeMeeting from '../../components/meeting/TypeMetting';
-import VisualizacaoSemanal from '../../components/meeting/ListMettingWeek';
-import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
 import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
-import UserPage from '../../components/user/userPage';
+import UserPage from '../../components/user/UserPage';
 import PermissionFilter from '../../components/user/PermissionFilter';
 
 const darkTheme = createTheme({

@@ -31,7 +31,7 @@ const limiter = rateLimit({
 var con = mysql.createConnection({
 	host: "localhost",
 	user: "root",
-	password: "password",
+	password: "fatec",
 	database: "api4"
 });
 
@@ -296,7 +296,7 @@ app.get("/ck", (req, res) => {
 
 		if (req.session.username) {
 			console.log('Achei')
-			return res.json({ valid: true, username: req.session.username, admin: req.session.admin, role: req.session.role })
+			return res.json({ id:req.session.id_usuario,valid: true, username: req.session.username, admin: req.session.admin, role: req.session.role })
 		} else {
 			console.log('Não achei')
 			return res.json({ valid: false })
