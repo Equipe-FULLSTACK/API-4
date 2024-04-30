@@ -42,7 +42,7 @@ app.use(helmet());
 app.use(limiter);
 app.use(cors({
 	origin: 'http://localhost:5173',
-	methods: ['POST', 'GET','PUT', 'DELETE'],
+	methods: ['POST', 'GET', 'PUT', 'DELETE'],
 	credentials: true
 }));
 
@@ -231,55 +231,58 @@ app.get("/sala/:id", (req, res) => {
 
 
 app.get('/inus', function (req, res) {
-    const { nome, email, senha, diretoria, permissao } = req.body;
+	const { nome, email, senha, diretoria, permissao } = req.body;
 
-    // Executa a consulta SQL para criar um novo processo incluindo active
-    const sql = 'INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario, diretoria_usuario, permissao_usuario) VALUES (?, ?, ?, ?, ?)';
+	// Executa a consulta SQL para criar um novo processo incluindo active
+	const sql = 'INSERT INTO usuarios (nome_usuario, email_usuario, senha_usuario, diretoria_usuario, permissao_usuario) VALUES (?, ?, ?, ?, ?)';
 	con.query(sql, [nome, email, senha, diretoria, permissao], function (err, result) {
-        if (err) {
-            console.error('Erro ao inserir usuario:', err);
-            return res.status(500).json({ error: 'Erro interno do servidor' });
-        }
+		if (err) {
+			console.error('Erro ao inserir usuario:', err);
+			return res.status(500).json({ error: 'Erro interno do servidor' });
+		}
 
-        console.log('Usuario inserido');
-        return res.status(201).json({ message: 'Usuario inserido'});
-    });
+		console.log('Usuario inserido');
+		return res.status(201).json({ message: 'Usuario inserido' });
+	});
 });
 
 // FUNÇÃO QUE CHECA SE O USUÁRIO E SUA SENHA CONSTAM NO BANCO DE DADOS PARA FAZER O LOGIN
 app.post("/login", function (req, res) {
 	const { email, password } = req.body;
-  
+	console.log('Cabeçario vem do front email: ' + req.body.email + ' senha: '+ req.body.password)
+
 	con.connect(function (err) {
-	  if (err) throw err;
-  
-	  console.log("Verificando Cadastro");
-	  const sql = 'SELECT * FROM usuarios WHERE email_usuario = ? AND senha_usuario = ?';
-	  con.query(sql, [email, password], (err, result) => {
-		if (err) {
-		  console.error("Erro no servidor:", err);
-		  return res.status(500).json({ message: "Erro no servidor" });
-		}
-  
-		if (result.length > 0) {
-		  req.session.username = result[0].nome_usuario;
-		  req.session.email = result[0].email_usuario;
-		  req.session.admin = result[0].admin_usuario;
-		  req.session.permissao = result[0].permissao_usuario;
-  
-		  console.log('Nome: ', req.session.username, 'Admin: ', req.session.admin, 'Permissão: ', req.session.role);
-		  return res.json({
-			login: true,
-			username: req.session.username,
-			email: req.session.email,
-			admin: req.session.admin,
-			role: req.session.permissao,
-		  });
-		} else {
-		  console.log('Usuário não encontrado:', email, password);
-		  return res.status(401).json({ login: false, message: "Credenciais inválidas" });
-		}
-	  });
+		if (err) throw err;
+
+		console.log("Verificando Cadastro");
+		const sql = 'SELECT * FROM usuarios WHERE email_usuario = ? AND senha_usuario = ?';
+		con.query(sql, [email, password], (err, result) => {
+			if (err) {
+				console.error("Erro no servidor:", err);
+				return res.status(500).json({ message: "Erro no servidor" });
+			}
+
+			if (result.length > 0) {
+				req.session.id_usuario = result[0].id_usuario;
+				req.session.username = result[0].nome_usuario;
+				req.session.email = result[0].email_usuario;
+				req.session.admin = result[0].admin_usuario;
+				req.session.permissao = result[0].permissao_usuario;
+
+				console.log('id_usuario',req.session.id_usuario,' - Nome: ', req.session.username, ' - Admin: ', req.session.admin, ' - Permissão: ', req.session.role);
+				return res.json({
+					id: req.session.id_usuario,
+					login: true,
+					username: req.session.username,
+					email: req.session.email,
+					admin: req.session.admin,
+					role: req.session.permissao,
+				});
+			} else {
+				console.log('Usuário não encontrado:', email, password);
+				return res.status(401).json({ login: false, message: "Credenciais inválidas" });
+			}
+		});
 	})
 });
 
@@ -289,10 +292,11 @@ app.get("/ck", (req, res) => {
 	con.connect(function (err) {
 		if (err) throw err;
 		console.log("Buscando Cookies");
+		console.log(req.session.username);
 
 		if (req.session.username) {
 			console.log('Achei')
-			return res.json({ valid: true, username: req.session.username, admin:req.session.admin, role: req.session.role })
+			return res.json({ valid: true, username: req.session.username, admin: req.session.admin, role: req.session.role })
 		} else {
 			console.log('Não achei')
 			return res.json({ valid: false })
@@ -309,138 +313,138 @@ app.get("/auth", (req, res) => {
 });
 
 
-app.get('/token', async (req,res)=>{
-    const code = req.query.code;
+app.get('/token', async (req, res) => {
+	const code = req.query.code;
 
-    try{
-        const response = await axios.post(
-            'https://zoom.us/oauth/token',
-            null,
-            {
-                params:{
-                    grant_type: 'authorization_code',
-                    code:code,
-                    redirect_uri: process.env.REDIRECT_URI
-                },
-                headers:{
-                    'Authorization':`Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`
-                }
-            }
-        );
+	try {
+		const response = await axios.post(
+			'https://zoom.us/oauth/token',
+			null,
+			{
+				params: {
+					grant_type: 'authorization_code',
+					code: code,
+					redirect_uri: process.env.REDIRECT_URI
+				},
+				headers: {
+					'Authorization': `Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`
+				}
+			}
+		);
 
 		global.token = response.data.access_token;
 		console.log(`Valor do Token de Acesso: ${global.token} \n`);
-        res.send(response.data.access_token);
-    }catch(error){
-        console.log('Erro',error);
-        res.send('ERRO');
-    }
+		res.send(response.data.access_token);
+	} catch (error) {
+		console.log('Erro', error);
+		res.send('ERRO');
+	}
 
 });
 
 
-async function createMeeting(topic, start_time, type, duration, timezone, agenda){
-    try{
-        const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
-            topic,
-            type,
-            start_time,
-            duration,
-            timezone,
-            agenda,
-            settings:{
-                host_video:true,
-                participant_video:true,
-                join_before_host:true,
-                mute_upon_entry:true,
-                watermark:false,
-                use_pmi:false,
-                approval_type:0,
-                audio:'both',
-                auto_recording:'none'
-            }
-        }, {
-            headers:{
-                'Authorization': `Bearer ${global.token}`
-            }
-        });
-        const body = response.data;
+async function createMeeting(topic, start_time, type, duration, timezone, agenda) {
+	try {
+		const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
+			topic,
+			type,
+			start_time,
+			duration,
+			timezone,
+			agenda,
+			settings: {
+				host_video: true,
+				participant_video: true,
+				join_before_host: true,
+				mute_upon_entry: true,
+				watermark: false,
+				use_pmi: false,
+				approval_type: 0,
+				audio: 'both',
+				auto_recording: 'none'
+			}
+		}, {
+			headers: {
+				'Authorization': `Bearer ${global.token}`
+			}
+		});
+		const body = response.data;
 
-    }catch(error){
-        console.log('Error',error)
-    }
+	} catch (error) {
+		console.log('Error', error)
+	}
 }
 
 
 app.post('/criar_reuniao', async (req, res) => {
-    console.log('Request body:', req.body); // Log the request body
+	console.log('Request body:', req.body); // Log the request body
 
-    const { topic, start_time, duration, agenda } = req.body;
-    const timezone = 'UTC';
-    const type = 2;
+	const { topic, start_time, duration, agenda } = req.body;
+	const timezone = 'UTC';
+	const type = 2;
 
-    try {
-        const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
-            topic,
-            type,
-            start_time,
-            duration,
-            timezone,
-            agenda,
-            settings: {
-                host_video: true,
-                participant_video: true,
-                join_before_host: true,
-                mute_upon_entry: true,
-                watermark: false,
-                use_pmi: false,
-                approval_type: 0,
-                audio: 'both',
-                auto_recording: 'none'
-            }
-        }, {
-            headers: {
-                'Authorization': `Bearer ${global.token}`
-            }
-        });
+	try {
+		const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
+			topic,
+			type,
+			start_time,
+			duration,
+			timezone,
+			agenda,
+			settings: {
+				host_video: true,
+				participant_video: true,
+				join_before_host: true,
+				mute_upon_entry: true,
+				watermark: false,
+				use_pmi: false,
+				approval_type: 0,
+				audio: 'both',
+				auto_recording: 'none'
+			}
+		}, {
+			headers: {
+				'Authorization': `Bearer ${global.token}`
+			}
+		});
 
-        const createdMeeting = response.data;
-        console.log('Meeting created:', createdMeeting);
-	
+		const createdMeeting = response.data;
+		console.log('Meeting created:', createdMeeting);
 
-        // Send a success response to the frontend
-        res.status(200).json({ success: true, meeting: createdMeeting });
-    } catch (error) {
-        console.error('Error creating meeting:', error);
 
-        // Send an error response to the frontend
-        res.status(500).json({ success: false, error: 'Error creating meeting' });
-    }
+		// Send a success response to the frontend
+		res.status(200).json({ success: true, meeting: createdMeeting });
+	} catch (error) {
+		console.error('Error creating meeting:', error);
+
+		// Send an error response to the frontend
+		res.status(500).json({ success: false, error: 'Error creating meeting' });
+	}
 });
 
 async function getMeetings() {
-    try {
-        const response = await axios.get('https://api.zoom.us/v2/users/me/meetings', {
-            headers: {
-                'Authorization': `Bearer ${global.token}`
-            }
-        });
-        const data = response.data;
-        return data;
-    } catch (error) {
-        console.error('Error fetching meetings:', error);
-        throw error; // Rethrow the error to handle it in the route handler
-    }
+	try {
+		const response = await axios.get('https://api.zoom.us/v2/users/me/meetings', {
+			headers: {
+				'Authorization': `Bearer ${global.token}`
+			}
+		});
+		const data = response.data;
+		return data;
+	} catch (error) {
+		console.error('Error fetching meetings:', error);
+		throw error; // Rethrow the error to handle it in the route handler
+	}
 }
 
 // Define route to list meetings
 app.get('/listar_reuniao', async (req, res) => {
-    try {
-        const meetings = await getMeetings();
-        res.json({ success: true, meetings });
-    } catch (error) {
-        res.status(500).json({ success: false, error: 'Error fetching meetings' });
-    }
+	try {
+		const meetings = await getMeetings();
+		res.json({ success: true, meetings });
+	} catch (error) {
+		res.status(500).json({ success: false, error: 'Error fetching meetings' });
+	}
 });
 
 
