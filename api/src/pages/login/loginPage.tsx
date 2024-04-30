@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
 
       console.log('Verifica o usuário retorno do authenticator: ' + user)
       console.log('Verifica o usuário retorno do loggedIn: ' + loggedIn)
-      console.log('Verifica o usuário retorno do isAdmin: ' + user)
+      console.log('Verifica o usuário retorno do isAdmin: ' + isAdmin)
 
       if (loggedIn) {
         setIsLoggedIn(true);

@@ -267,13 +267,13 @@ app.post("/login", function (req, res) {
 		  req.session.admin = result[0].admin_usuario;
 		  req.session.permissao = result[0].permissao_usuario;
   
-		  console.log('Nome:', req.session.username, 'Admin:', req.session.admin, 'Permissão:', req.session.role);
+		  console.log('Nome: ', req.session.username, 'Admin: ', req.session.admin, 'Permissão: ', req.session.role);
 		  return res.json({
 			login: true,
 			username: req.session.username,
 			email: req.session.email,
 			admin: req.session.admin,
-			role: req.session.permissao
+			role: req.session.permissao,
 		  });
 		} else {
 		  console.log('Usuário não encontrado:', email, password);
