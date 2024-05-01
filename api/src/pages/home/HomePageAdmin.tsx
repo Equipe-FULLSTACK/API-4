@@ -5,6 +5,8 @@ import {
   Stack,
   Divider,
 } from '@mui/material';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import NovoEventoButton from '../../components/botoes/btnNovoEvento';
 import SelecionarPeriodo from '../../components/botoes/btnDia';
 import SearchButton from '../../components/botoes/btnSearch';
@@ -35,11 +37,33 @@ const darkTheme = createTheme({
   },
 });
 
+interface dataHomePage {
+  name: string;
+}
+
 
 const HomePageAdmin: React.FC = () => {
   // Estado para armazenar o período selecionado (Dia, Semana ou Mes)
   const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos');
 
+  const [name, setName] = useState('')
+  const [selectedRole, setSelectedRole] = useState('');
+  const navigate = useNavigate()
+
+  axios.defaults.withCredentials = true;
+  useEffect(() =>{
+      axios.get('http://localhost:3000/ck')
+      .then( res => {
+          if(res.data.valid) {
+              setName(res.data.username);
+              setSelectedRole(res.data.role)
+          } else {
+              navigate('/')
+          }
+          console.log(res)
+      })
+      .catch(err => console.log(err))
+  },[])
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Manipulações CRUD Reuniões // 

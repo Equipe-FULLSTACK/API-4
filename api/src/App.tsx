@@ -7,6 +7,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        
         {/* Defina a rota da página de login como a rota padrão */}
         <Route path="/" element={<LoginPage />} />
         {/* Mapeie as outras rotas do seu aplicativo */}

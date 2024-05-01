@@ -4,7 +4,6 @@ import { Snackbar, Alert, Stack } from '@mui/material';
 import { authenticateUser } from '../../services/auth';
 import LoginForm from '../../components/form/LoginForm';
 import { Navigate } from 'react-router-dom';
-import { User } from '../../types/userTypes';
 
 const LoginPage: React.FC = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -15,11 +14,13 @@ const LoginPage: React.FC = () => {
     console.log('Dados recebidos do formulário:', email, password);
 
     try {
-      const { user, loggedIn, isAdmin } = await authenticateUser({ email, password });
+      const { loggedId, loggedIn, isAdmin } = await authenticateUser({ email, password });
 
-      console.log('Verifica o usuário retorno do authenticator: ' + user)
+/* 
+      console.log('Verifica o usuário retorno do authenticator: ' + loggedId)
       console.log('Verifica o usuário retorno do loggedIn: ' + loggedIn)
       console.log('Verifica o usuário retorno do isAdmin: ' + isAdmin)
+ */
 
       if (loggedIn) {
         setIsLoggedIn(true);
