@@ -324,6 +324,67 @@ app.get("/del/us/:id", (req, res) => {
 	});
 });
 
+//DELETAR AGENDAMENTO POR ID
+app.get("/del/ag/:id", (req, res) => {
+	const id_agendamento = req.params.id;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Deletando agendamento");
+
+		var sql = 'DELETE FROM agendamentos WHERE id_agendamento = ?';
+		con.query(sql, id_agendamento, function (err, result, fields) {
+			if (err) throw err;
+			res.json(result);
+		});
+	});
+});
+
+//DELETAR REUNIAO POR ID
+app.get("/del/re/:id", (req, res) => {
+	const id_reuniao = req.params.id;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Deletando reuniao");
+
+		var sql = 'DELETE FROM reunioes WHERE id_reuniao = ?';
+		con.query(sql, id_agendamento, function (err, result, fields) {
+			if (err) throw err;
+			res.json(result);
+		});
+	});
+});
+
+//DELETAR PARTICIPANTES POR ID
+app.get("/del/pa/:id", (req, res) => {
+	const id_participante = req.params.id;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Deletando Participantes");
+
+		var sql = 'DELETE FROM participantes WHERE id_participante = ?';
+		con.query(sql, id_participante, function (err, result, fields) {
+			if (err) throw err;
+			res.json(result);
+		});
+	});
+});
+
+//DELETAR SALAS POR ID
+app.get("/del/sa/:id", (req, res) => {
+	const id_sala = req.params.id;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Deletando sala");
+
+		var sql = 'DELETE FROM salas WHERE id_sala = ?';
+		con.query(sql, id_sala, function (err, result, fields) {
+			if (err) throw err;
+			res.json(result);
+		});
+	});
+});
+
+
 //UPDATE USUARIO
 app.post('/up/us/:id', function (req, res) {
 	const id_usuario = req.params.id;
@@ -338,6 +399,67 @@ app.post('/up/us/:id', function (req, res) {
 	});
 	//return res.redirect('http://localhost:3000/');
 });
+
+//UPDATE AGENDAMENTO
+app.post('/up/ag/:id', function (req, res) {
+	const id_agendamento = req.params.id;
+	const { id_usuario, id_sala, datetime_inicio, datetime_final } = req.body;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Atualizando");
+		var sql = 'UPDATE agendamentos SET id_usuario = ?, id-sala = ?, datetime_inicio = ?, datetime_final = ?, WHERE id_agendamento = ?';
+		con.query(sql, [id_usuario, id_sala, datetime_inicio, datetime_final, id_agendamento], function (err, result) {
+			if (err) throw err;
+		});
+	});
+	//return res.redirect('http://localhost:3000/');
+});
+
+//UPDATE REUNIAO
+app.post('/up/re/:id', function (req, res) {
+	const id_reuniao = req.params.id;
+	const { id_agendamento, tipo, titulo, datetime_inicio, datetime_final, pauta, responsavel } = req.body;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Atualizando");
+		var sql = 'UPDATE reunioes SET id_agendamento = ?, tipo_reuniao = ?, titulo_reuniao = ?, datetime_inicio = ?, datetime_final = ?, pauta_reuniao = ?, responsavel_reuniao = ?, WHERE id_reuniao = ?';
+		con.query(sql, [id_agendamento, tipo, titulo, datetime_inicio, datetime_final, pauta, responsavel, id_reuniao], function (err, result) {
+			if (err) throw err;
+		});
+	});
+	//return res.redirect('http://localhost:3000/');
+});
+
+//UPDATE PARTICIPANTES
+app.post('/up/pa/:id', function (req, res) {
+	const id_participante = req.params.id;
+	const { id_reuniao, nome, email  } = req.body;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Atualizando");
+		var sql = 'UPDATE participantes SET id_reuniao = ?, nome_participante = ?, email_participante = ?, WHERE id_participante = ?';
+		con.query(sql, [id_reuniao, nome, email, id_participante], function (err, result) {
+			if (err) throw err;
+		});
+	});
+	//return res.redirect('http://localhost:3000/');
+});
+
+//UPDATE SALA
+app.post('/up/sa/:id', function (req, res) {
+	const id_sala = req.params.id;
+	const { nome, tipo, permissao, link, vagas } = req.body;
+	con.connect(function (err) {
+		if (err) throw err;
+		console.log("Atualizando");
+		var sql = 'UPDATE salas SET id_sala = ?, nome_sala = ?, tipo_sala = ?, permissao_sala = ?, link_sala = ?, vagas_sala = ?, WHERE id_sala = ?';
+		con.query(sql, [nome, tipo, permissao, link, vagas, id_sala], function (err, result) {
+			if (err) throw err;
+		});
+	});
+	//return res.redirect('http://localhost:3000/');
+});
+
 
 // FUNÇÃO QUE CHECA SE O USUÁRIO E SUA SENHA CONSTAM NO BANCO DE DADOS PARA FAZER O LOGIN
 app.post("/login", function (req, res) {
