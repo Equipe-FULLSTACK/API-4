@@ -52,7 +52,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
 
   axios.defaults.withCredentials = true;
   useEffect(() =>{
-      axios.get('http://localhost:3000/ck')
+      axios.get('http://localhost:3000/login/ck')
       .then( res => {
           if(res.data.valid) {
               setName(res.data.username);

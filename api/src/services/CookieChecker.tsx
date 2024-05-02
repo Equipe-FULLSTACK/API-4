@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const CookieChecker: React.FC<CookieCheckerProps> = ({ onUserData }) => {
   useEffect(() => {
     const checkCookie = async () => {
       try {
-        const response = await axios.get<{ valid: boolean; userId: number; isAdmin: boolean }>('http://localhost:3000/ck', { withCredentials: true });
+        const response = await axios.get<{ valid: boolean; userId: number; isAdmin: boolean }>('http://localhost:3000/login/ck', { withCredentials: true });
         if (response.data.valid) {
           // COOKIE VALIDO ENVIA DADO AO SOLICITANTE.
           const userData: UserData = {

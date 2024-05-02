@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Credentials, User } from '../types/userTypes';
+import { Credentials } from '../types/userTypes';
 
 const API_URL = 'http://localhost:3000'; // Rota da API
 
