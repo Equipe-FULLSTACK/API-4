@@ -21,6 +21,13 @@ router.post("/", async (req, res) => {
                 admin: user.admin,
                 role: user.role
             };
+
+            console.log(`   
+                            Atualizando user, ${req.session.userLogged.username}
+                            user, ${req.session.userLogged.email}
+                            user, ${req.session.userLogged.admin}
+                            user, ${req.session.userLogged.role}`
+            )
         }
         res.json(user);
     } catch (error) {
