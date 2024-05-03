@@ -50,7 +50,7 @@ app.use(cors({
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(session({
-	secret: 'secret', //Chave gerada para o cookie de sessão
+	secret: 'secret', 
 	resave: false,
 	saveUninitialized: false,
 	cookie: {
