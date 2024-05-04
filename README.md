@@ -1,12 +1,8 @@
+<h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
+<h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
-Equipe FULLSTACK - API 4º Semestre
-==================================
-**********************************
-
-  ============================
-  ****************************
-###  <div align="center"> Projeto API 4º Semestre: </div>
-  ### <div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div>
+<h1><div align="center">Equipe-FULLSTACK </div></h1>
+<div align="center"> <img src="/readme/fullstack.png" width="200" height="200"> </div>
 
 
 
