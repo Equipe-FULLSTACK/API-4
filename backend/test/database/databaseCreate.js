@@ -1,24 +1,41 @@
-const con = require('./database');
-const defaultSQL = require('./databaseDefault');
+const mysql = require('mysql2');
+const createTableQueries = require('./databaseDefault');
+
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "fatec",
+});
 
 con.query("CREATE DATABASE IF NOT EXISTS api4", function (err, result) {
     if (err) throw err;
-    console.log("Banco de dados 'api4' criado ou já existente");
 
     con.query("USE api4", function (err, result) {
-        if (err) throw err;
+        if (err) {
+            console.error("Erro ao selecionar o banco de dados 'api4':", err);
+            con.end();
+            return;
+        }
 
-        // Verifica se as tabelas existem e estão conforme o padrão default
         con.query("SHOW TABLES", function (err, result) {
             if (err) throw err;
+
             const tables = result.map(row => row['Tables_in_api4']);
+
             if (tables.length === 0) {
-                con.query(defaultSQL, function (err, result) {
-                    if (err) throw err;
-                    console.log("Estrutura padrão do banco de dados criada");
+                
+                Object.keys(createTableQueries).forEach(table => {
+                    con.query(createTableQueries[table], function (err, result) {
+                        if (err) throw err;
+                        console.log(`Tabela ${table} criada com sucesso`);
+                    });
                 });
+
+                console.log("Estrutura padrão do banco de dados criada");
+                con.end();
             } else {
-                console.log("Banco de dados 'api4' já possui tabelas");
+                console.log("O banco de dados 'api4' já possui tabelas");
+                con.end();
             }
         });
     });

@@ -514,7 +514,7 @@ app.get("/ck", (req, res) => {
 			return res.json({ id:req.session.id_usuario,valid: true, username: req.session.username, admin: req.session.admin, role: req.session.role })
 		} else {
 			console.log('Não achei')
-			return res.json({ valid: false })
+			return res.json({ valid: false })	
 		}
 	});
 });
