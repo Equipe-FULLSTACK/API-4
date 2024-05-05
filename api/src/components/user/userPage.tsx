@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import {
     TableContainer,
     Table,
@@ -31,37 +30,14 @@ import EmailColumn from './EmailColumn';
 import PermissaoColumn from './PermissionColumn';
 import DiretoriaColumn from './DiretoriaColumn';
 
-const API_URL = 'http://localhost:3000';
+interface UserTableProps {
+    users: User[];
+    setUsers: React.Dispatch<React.SetStateAction<User[]>>; // Função de atualização de usuários
+    onDeleteUser?: (userId: number) => void;
+    onEditPermission?: (userId: number) => void;
+}
 
-const UserPage = () => {
-    const [users, setUsers] = useState<User[]>([]);
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get<User[]>(`${API_URL}/us`);
-                setUsers(response.data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        };
-
-        fetchUsers();
-    }, []);
-
-    const handleDeleteUser = async (userId: number) => {
-        try {
-            await axios.delete(`${API_URL}/us/${userId}`);
-            setUsers(users.filter((user) => user.id_usuario !== userId));
-        } catch (error) {
-            console.error('Error deleting user:', error);
-        }
-    };
-
-    const handleEditPermission = (userId: number) => {
-        console.log(`Editing permission for user with ID ${userId}`);
-    };
-
+const UserTable: React.FC<UserTableProps> = ({ users, setUsers, onDeleteUser, onEditPermission }) => {
     const getColorByPermission = (permissionLevel: string) => {
         switch (permissionLevel) {
             case '1':
@@ -90,9 +66,9 @@ const UserPage = () => {
 
                         <EmailColumn users={users} setUsers={setUsers} />
 
-                        <PermissaoColumn users={users} setUsers={setUsers} />
+                        <PermissaoColumn users={users} setUsers={setUsers}  />
 
-                        <DiretoriaColumn users={users} setUsers={setUsers} />
+                        <DiretoriaColumn users={users} setUsers={setUsers}  />
 
                         <TableCell>
                             <Button disabled>
@@ -135,15 +111,17 @@ const UserPage = () => {
                             <TableCell>
                                 <Stack direction="row" spacing={1}>
                                     <Tooltip title="Delete">
-                                        <IconButton onClick={() => handleDeleteUser(user.id_usuario)}>
+                                        <IconButton onClick={() => onDeleteUser && onDeleteUser(user.id_usuario)}>
                                             <DeleteIcon />
                                         </IconButton>
                                     </Tooltip>
-                                    <Tooltip title="Edit Permission">
-                                        <IconButton onClick={() => handleEditPermission(user.id_usuario)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                    </Tooltip>
+                                    {onEditPermission && (
+                                        <Tooltip title="Edit Permission">
+                                            <IconButton onClick={() => onEditPermission(user.id_usuario)}>
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    )}
                                 </Stack>
                             </TableCell>
                         </TableRow>
@@ -154,4 +132,4 @@ const UserPage = () => {
     );
 };
 
-export default UserPage;
+export default UserTable;

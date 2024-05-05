@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Menu,
@@ -12,16 +12,19 @@ import {
   Settings as SettingsIcon,
   Notifications as NotificationsIcon,
 } from '@mui/icons-material';
+import axios from 'axios';
 
 interface ProfileActionsProps {
   onEditProfile?: () => void;
   onSettings?: () => void;
   onNotifications?: () => void;
-  profileImage: string;
 }
 
-const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettings, onNotifications, profileImage }) => {
+const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettings, onNotifications }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [userId, setUserId] = useState<number>(0)
+  const [userProfile, setUserProfile] = useState<string>('')
+
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,6 +34,38 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
     setAnchorEl(null);
   };
 
+
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios.get('http://localhost:3000/ck')
+      .then(res => {
+        if (res.data.valid) {
+          setUserId(res.data.id);
+        } else {
+          console.error('Falha requisição usuários')
+        }
+        console.log(res)
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+    useEffect(() => {
+      axios.get(`http://localhost:3000/us/${userId}`)
+        .then(res => {
+          if (res.data.valid) {
+            console.log(res.data.userPhoto);
+            setUserProfile(res.data.userPhoto);
+          } else {
+            console.error('Falha requisição photo')
+          }
+          console.log(res)
+        })
+        .catch(err => console.log(err))
+    }, [])
+
+
+
+
   const isOpen = Boolean(anchorEl);
 
   return (
@@ -38,7 +73,7 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
       {/* Envolvemos o Avatar com Tooltip */}
       <Tooltip title="Ações de perfil" placement="bottom">
         <Avatar
-          src={profileImage}
+          src={userProfile}
           alt="Foto de perfil"
           onClick={handleAvatarClick}
           sx={{ cursor: 'pointer' }}

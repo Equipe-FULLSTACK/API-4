@@ -115,7 +115,6 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   // Função para lidar com a mudança de período
   const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
-    handle
     console.log(`Período selecionado: ${newPeriodo}`);
   };
 

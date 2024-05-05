@@ -29,7 +29,7 @@ const PermissaoColumn: React.FC<PermissaoColumnProps> = ({ users, setUsers }) =>
     <TableCell>
       <Button onClick={handleSort} >
         <Typography variant="body1" color="initial">
-          Permissão
+          E-mail
           {sortDirection && (
             sortDirection === 'asc' ? ' ▲' : ' ▼'
           )}

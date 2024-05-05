@@ -22,12 +22,14 @@ router.post("/", async (req, res) => {
                 role: user.role
             };
 
-            console.log(`   
-                            Atualizando user, ${req.session.userLogged.username}
-                            user, ${req.session.userLogged.email}
-                            user, ${req.session.userLogged.admin}
-                            user, ${req.session.userLogged.role}`
-            )
+            /* console.log(`   
+                            Rotina loginRoute.js verifica atualização dos dados no cookie
+                            id ${req.session.userLogged.id}
+                            user, ${req.session.userLogged.username}
+                            email, ${req.session.userLogged.email}
+                            admin, ${req.session.userLogged.admin}
+                            permissao, ${req.session.userLogged.role}`
+            ) */
         }
         res.json(user);
     } catch (error) {

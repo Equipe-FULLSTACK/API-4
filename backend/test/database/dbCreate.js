@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const createTableQueries = require('./databaseDefault');
+const createTableQueries = require('./dbDefault');
 
 const con = mysql.createConnection({
     host: "localhost",

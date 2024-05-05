@@ -4,6 +4,15 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     if (req.session.userLogged) {
+      
+      /* console.log(`   
+                            Rotina cookieRoute.js verifica dados que são passados do cookie
+                            id ${req.session.userLogged.id}
+                            user ${req.session.userLogged.username}
+                            email, ${req.session.userLogged.email}
+                            admin, ${req.session.userLogged.admin}
+                            permissao, ${req.session.userLogged.role}`) */
+      
       return res.json({
         id: req.session.userLogged.id,
         valid: true,

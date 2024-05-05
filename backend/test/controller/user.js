@@ -1,4 +1,4 @@
-const con = require('../database/databaseConnection');
+const con = require('../database/dbConnection');
 
 // Funções CRUD para usuários
 
