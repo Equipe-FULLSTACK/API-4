@@ -44,14 +44,21 @@ const RoomCRUD = ({ open, onClose, sala, adicionarSala, atualizarSala, removerSa
     
             console.log('API createProcess response:', response.data);
     
-            const nomeSala = response.data.nome_sala;
+            const nomeSala = response.data.insertId;
             console.log('Sala:', nomeSala);
     
-            if (nomeSala) {
-                adicionarSala(formData);
-                alert(`Sala Criada com Sucesso`);
+            if (response.data) {
+                const nomeSala = response.data.insertId; // Aqui você pode ajustar para o campo correto, dependendo do que deseja acessar
+                console.log('Sala:', response.data);
+            
+                if (nomeSala) {
+                    adicionarSala(formData);
+                    alert(`Sala Criada com Sucesso`);
+                } else {
+                    throw new Error('Nenhuma sala encontrada na resposta');
+                }
             } else {
-                throw new Error('Nenhuma sala encontrada na resposta');
+                throw new Error('Nenhuma resposta recebida do servidor');
             }
         } catch (error) {
             console.error('Erro ao criar reunião:', error);

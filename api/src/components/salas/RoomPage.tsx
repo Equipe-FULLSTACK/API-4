@@ -30,7 +30,7 @@ import { Room } from '../../types/RoomTypes';
 
 interface RoomTableProps {
     rooms: Room[];
-    setRooms: React.Dispatch<React.SetStateAction<Room[]>>; // Função de atualização de usuários
+    setRooms: React.Dispatch<React.SetStateAction<Room[]>>; // Função de atualização de salas
     onDeleteRoom?: (roomId: number) => void;
     onEditPermission?: (roomId: number) => void;
 }

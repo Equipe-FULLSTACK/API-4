@@ -187,7 +187,7 @@ const [rooms, setRooms] = useState<Room[]>([]);
         adicionarSala={adicionarSala}
         atualizarSala={atualizarSala}
         removerSala={removerSala}
-      />
+       />
     </ThemeProvider>
   );
 };
