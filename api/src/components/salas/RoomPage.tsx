@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import {
     TableContainer,
     Table,
@@ -48,6 +49,20 @@ const RoomTable: React.FC<RoomTableProps> = ({ rooms, setRooms, onDeleteRoom, on
                 return { color: 'primary', icon: <PersonIcon />, description: 'Super admin' };
         }
     };
+
+    const handleDeleteRoom = async (roomId: number) => {
+        try {
+            await axios.delete(`http://localhost:3000/sala/${roomId}`);
+            // Se a exclusão for bem-sucedida, atualize a lista de salas localmente
+            const updatedRooms = rooms.filter(room => room.id !== roomId);
+            setRooms(updatedRooms);
+            alert('Sala excluída com sucesso!');
+        } catch (error) {
+            console.error('Erro ao excluir sala:', error);
+            alert('Erro ao excluir sala. Por favor, tente novamente.');
+        }
+    };
+
 
     return (
         <TableContainer component={Paper}>
@@ -99,9 +114,9 @@ const RoomTable: React.FC<RoomTableProps> = ({ rooms, setRooms, onDeleteRoom, on
                             <TableCell>
                                 <Stack direction="row" spacing={1}>
                                     <Tooltip title="Delete">
-                                        <IconButton onClick={() => onDeleteRoom && onDeleteRoom(room.id_sala)}>
-                                            <DeleteIcon />
-                                        </IconButton>
+                                    <IconButton onClick={() => onDeleteRoom && onDeleteRoom(room.id_sala)}>
+                                        <DeleteIcon />
+                                    </IconButton>
                                     </Tooltip>
                                     {onEditPermission && (
                                         <Tooltip title="Edit Permission">
@@ -121,3 +136,4 @@ const RoomTable: React.FC<RoomTableProps> = ({ rooms, setRooms, onDeleteRoom, on
 };
 
 export default RoomTable;
+

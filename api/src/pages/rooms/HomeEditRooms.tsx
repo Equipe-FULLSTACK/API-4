@@ -30,12 +30,11 @@ const darkTheme = createTheme({
 
 const API_URL = 'http://localhost:3000';
 
-
 const HomePageAdminRooms: React.FC = () => {
-
   const [tipoSelecionado, setTipoSelecionado] = useState('todos');
   const [modalOpen, setModalOpen] = useState(false);
   const [salaEditada, setSalaEditada] = useState(null);
+  const [rooms, setRooms] = useState<Room[]>([]);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -51,104 +50,25 @@ const HomePageAdminRooms: React.FC = () => {
   }, []);
 
   const handleSearch = async (text: string) => {
-    console.log(`Texto pesquisado: ${text}`);
-    try {
-      if (text.trim() === '') {
-        const response = await axios.get<Room[]>(`${API_URL}/salas`);
-        setRooms(response.data);
-      } else {
-        const filteredrooms = rooms.filter(room =>
-          room.nome_sala.toLowerCase().includes(text.toLowerCase()) ||
-          room.tipo_sala.toLowerCase().includes(text.toLowerCase()) ||
-          room.permissao_sala.toLowerCase().includes(text.toLowerCase())
-        );
-        setRooms(filteredrooms);
-      }
-    } catch (error) {
-      console.error('Error fetching rooms:', error);
-    }
+    // Implemente a lógica de pesquisa aqui
   };
-
-
 
   const handleTipoChange = (novoTipo: string) => {
-    console.log(`Tipo selecionado: ${novoTipo}`);
-    setTipoSelecionado(novoTipo);
-    if (novoTipo === 'todos') {
-      axios.get<Room[]>(`${API_URL}/salas`)
-        .then(response => {
-          setRooms(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching rooms:', error);
-        });
-    } else {
-      const filtered = rooms.filter(room => room.permissao_sala === novoTipo);
-      setRooms(filtered);
+    // Implemente a lógica de filtragem por tipo aqui
+  };
+
+  const handleDeleteRoom = async (roomId: number) => {
+    try {
+      await axios.delete(`${API_URL}/sala/${roomId}`);
+      // Atualizar o estado local removendo a sala excluída
+      setRooms(prevRooms => prevRooms.filter(room => room.id_sala !== roomId));
+    } catch (error) {
+      console.error('Error deleting room:', error);
     }
   };
 
- //////////////////////////////////FUNÇÕES SUPORTE PARA EDIÇÃO REUNIÃO E CRIAÇÃO//////////////////////////////
-  // Função para lidar com o clique no botão novo evento
-  const handleNovoEventoClick = () => {
-    console.log('Teste BTN novo Evento!');
-    setSalaEditada(null); // Inicia com uma sala vazia para adicionar uma nova reunião
-    setModalOpen(true); // Abre o modal
-};
-const handleEditarSalaClick = (sala) => {
-    setSalaEditada(sala); // Define a sala a ser editada
-    setModalOpen(true); // Abre o modal
-};
-
-const handleModalClose = () => {
-    setModalOpen(false); // Fecha o modal
-};
-
-// Método para editar uma sala
-const handleEditarClick = (sala) => {
-    handleEditarSalaClick(sala);
-};
-
-  // Método para remover uma reunião
-  const handleRemoverClick = (id) => {
-    removerSala(id);
-  };
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Manipulações CRUD Reuniões // 
-const [rooms, setRooms] = useState<Room[]>([]); 
-
-
-    // Função para adicionar uma nova reunião
-    const adicionarSala = (novaSala) => {
-        setRooms((salasAnteriores) => [...salasAnteriores, novaSala]);
-      };
-
-  // Função para atualizar uma reunião existente
-  const atualizarSala = (id, salaAtualizada) => {
-    setRooms((salasAnteriores) =>
-      salasAnteriores.map((sala) =>
-        id.sala === id ? { ...sala, ...salaAtualizada } : sala
-      )
-    );
-  };
-
-  // Função para imprimir os dados no console
-  useEffect(() => {
-    console.log('Reuniões:', rooms);
-  }, [rooms]);
-
-
-
-  // Função para remover uma sala
-  const removerSala = (id) => {
-    setRooms((reunioesAnteriores) =>
-      reunioesAnteriores.filter((sala) => sala.id !== id)
-    );
+  const handleEditPermission = async (roomId: number) => {
+    // Implemente a lógica de edição de permissões aqui
   };
 
   return (
@@ -158,16 +78,14 @@ const [rooms, setRooms] = useState<Room[]>([]);
           <NavBar />
           <Divider orientation="vertical" />
         </Stack>
-          <Divider />
-          
-          <Stack width="100%">
+        <Divider />
+        <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
-            <NovoEventoButton onClick={handleNovoEventoClick} />
+            <NovoEventoButton onClick={() => setModalOpen(true)} />
             <SearchButton onSearch={handleSearch} />
             <PrintButton />
             <ProfileActions />
           </Stack>
-
           <Stack marginTop={3}>
             <Stack flexDirection={'row'} justifyContent={'end'} marginRight={3}>
               <Stack width={'20rem'}>
@@ -175,19 +93,24 @@ const [rooms, setRooms] = useState<Room[]>([]);
               </Stack>
             </Stack>
             <Stack>
-              <RoomTable rooms={rooms} setRooms={setRooms} />
+              <RoomTable
+                rooms={rooms}
+                setRooms={setRooms}
+                onDeleteRoom={handleDeleteRoom}
+                onEditPermission={handleEditPermission}
+              />
             </Stack>
           </Stack>
         </Stack>
       </Stack>
       <RoomCRUD
         open={modalOpen}
-        onClose={handleModalClose}
+        onClose={() => setModalOpen(false)}
         sala={salaEditada}
-        adicionarSala={adicionarSala}
-        atualizarSala={atualizarSala}
-        removerSala={removerSala}
-       />
+        adicionarSala={novaSala => setRooms([...rooms, novaSala])}
+        atualizarSala={(id, salaAtualizada) => setRooms(rooms.map(sala => (sala.id === id ? salaAtualizada : sala)))}
+        removerSala={id => setRooms(rooms.filter(sala => sala.id !== id))}
+      />
     </ThemeProvider>
   );
 };

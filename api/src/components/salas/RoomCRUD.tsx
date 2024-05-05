@@ -28,6 +28,8 @@ const RoomCRUD = ({ open, onClose, sala, adicionarSala, atualizarSala, removerSa
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    
+
     const isFormComplete = formData.nome && formData.permissao_sala && formData.tipo_sala && formData.link_sala && formData.vagas_sala;
 
     const handleSave = async () => {
