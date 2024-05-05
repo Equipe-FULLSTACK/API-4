@@ -8,7 +8,7 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
-  const pages = ["/admin", "/rooms", "/admin/user", "/settings", "/notifications", "/help"];
+  const pages = ["/admin", "/admin/rooms", "/admin/user", "/settings", "/notifications", "/help"];
   const navigate = useNavigate(); 
 
   const handleNavigation = (index: number) => {
