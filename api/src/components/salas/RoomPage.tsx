@@ -53,7 +53,6 @@ const RoomTable: React.FC<RoomTableProps> = ({ rooms, setRooms, onDeleteRoom, on
     const handleDeleteRoom = async (roomId: number) => {
         try {
             await axios.delete(`http://localhost:3000/sala/${roomId}`);
-            // Se a exclusão for bem-sucedida, atualize a lista de salas localmente
             const updatedRooms = rooms.filter(room => room.id !== roomId);
             setRooms(updatedRooms);
             alert('Sala excluída com sucesso!');

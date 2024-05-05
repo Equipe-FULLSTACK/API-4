@@ -50,17 +50,16 @@ const HomePageAdminRooms: React.FC = () => {
   }, []);
 
   const handleSearch = async (text: string) => {
-    // Implemente a lógica de pesquisa aqui
+    // A FAZER
   };
 
   const handleTipoChange = (novoTipo: string) => {
-    // Implemente a lógica de filtragem por tipo aqui
+    // A FAZER
   };
 
   const handleDeleteRoom = async (roomId: number) => {
     try {
       await axios.delete(`${API_URL}/sala/${roomId}`);
-      // Atualizar o estado local removendo a sala excluída
       setRooms(prevRooms => prevRooms.filter(room => room.id_sala !== roomId));
     } catch (error) {
       console.error('Error deleting room:', error);
@@ -68,7 +67,7 @@ const HomePageAdminRooms: React.FC = () => {
   };
 
   const handleEditPermission = async (roomId: number) => {
-    // Implemente a lógica de edição de permissões aqui
+    // A FAZER
   };
 
   return (
