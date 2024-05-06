@@ -44,6 +44,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const result = await salaController.deleteSalaById(req.params.id);
         res.json(result);
+        console.log("deletado");
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
