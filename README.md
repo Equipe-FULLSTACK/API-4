@@ -7,21 +7,16 @@
 
 
   #### <div align="center"> Estado do Projeto ao final da Segunda Sprint: </div>
-  
-  <div align="center"> <img src="/readme/login.jpeg "width="640" height="360"> </div>
-  <br>
-  <div align="center"> <img src="/readme/Users.jpeg "width="640" height="360"> </div>
-  <br>
-  <div align="center"> <img src="/readme/users1.jpeg "width="640" height="360"> </div>
-  <br>
-  <div align="center"> <img src="/readme/processos_abas.png "width="640" height="360"> </div>
-  <br>
-  <div align="center"> <img src="/readme/processos_modais.png "width="640" height="360"> </div>
-  <br>
-  
-  
-
  
+![login](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/46f04ee0-016f-4506-a19f-46cf2ee9afcf)
+<br>
+
+![users1](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/0652e4a0-8401-4781-a275-8791dd6df4e8)
+<br>
+
+ ![Users](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/af972abc-fa51-4e6d-9d48-9312a2426a3a) 
+ <br>
+
  
 A Sprint teve inicio na data de 15/04/2024. Foram criadas as telas home, cadastro de salas e usuarios  e tela de agendamento. assim como implementada a integração com o banco de dados entre o front-end e o back-end da aplicação.
 
