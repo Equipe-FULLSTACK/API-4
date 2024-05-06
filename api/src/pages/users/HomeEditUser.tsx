@@ -92,7 +92,9 @@ const HomePageAdminUser: React.FC = () => {
   const handleEditDeleteUser = (user: User) => {
     console.log(user);
     setEditingUser(user);
-    setOpenUserCRUD(true); // Corrigido aqui, sempre abre o UserCRUD ao editar/deletar um usuário
+    if (editingUser) {
+      setOpenUserCRUD(true)
+    }
   }
 
   const handleAddUser = () => {

@@ -49,6 +49,7 @@ const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }
     const handleRemove = async () => {
         try {
             if (formData.id_usuario) {
+                console.log('Usuario a deletar', formData.id_usuario)
                 await axios.delete(`http://localhost:3000/us/${formData.id_usuario}`);
                 onRemoveUser(formData.id_usuario);
                 onClose();
