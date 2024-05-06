@@ -1,54 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, Button, Typography, FormControl, TextField, Stack } from '@mui/material';
-import PermissionFilter from '../user/PermissionFilter';
-import BoolFilter from '../botoes/BollFilter';
-import EmailInput from '../form/EmailInput';
-import PasswordComparison from '../form/PasswordComparison';
-import BtnSIATT from '../botoes/btnSIATTLogo';
+import { Modal, Box, Button } from '@mui/material';
+import FormUser from '../form/FormUser';
 import axios from 'axios';
-import { AccountCircle } from '@mui/icons-material';
-import { User } from './userTypes';
+import { User } from '../../types/userTypes';
 
 const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }: { open: boolean, onClose: () => void, user: User | null, onAddUser: (userData: User) => void, onUpdateUser: (userData: User) => void, onRemoveUser: (userId: number) => void }) => {
     const [formData, setFormData] = useState<User>({
-        id_usuario: user?.id_usuario || null,
-        nome_usuario: user?.nome_usuario || '',
-        email_usuario: user?.email_usuario || '',
-        senha_usuario: user?.senha_usuario || '',
-        diretoria_usuario: user?.diretoria_usuario || false,
-        permissao_usuario: user?.permissao_usuario || '',
-        admin_usuario: user?.admin_usuario || false,
-        userPhoto: user?.userPhoto || '',
+        id_usuario: 0,
+        nome_usuario: '',
+        email_usuario: '',
+        senha_usuario: '',
+        diretoria_usuario: 0,
+        permissao_usuario: '',
+        admin_usuario: 0,
+        userPhoto: '',
     });
 
     useEffect(() => {
-        setFormData({
-            id_usuario: user?.id_usuario || null,
-            nome_usuario: user?.nome_usuario || '',
-            email_usuario: user?.email_usuario || '',
-            senha_usuario: user?.senha_usuario || '',
-            diretoria_usuario: user?.diretoria_usuario || false,
-            permissao_usuario: user?.permissao_usuario || '',
-            admin_usuario: user?.admin_usuario || false,
-            userPhoto: user?.userPhoto || '',
-        });
+        if (user) {
+            setFormData({
+                id_usuario: user.id_usuario || 0,
+                nome_usuario: user.nome_usuario || '',
+                email_usuario: user.email_usuario || '',
+                senha_usuario: user.senha_usuario || '',
+                diretoria_usuario: user.diretoria_usuario || 0,
+                permissao_usuario: user.permissao_usuario || '',
+                admin_usuario: user.admin_usuario || 0,
+                userPhoto: user.userPhoto || '',
+            });
+        }
     }, [user]);
-
-    const [tipoSelecionado, setTipoSelecionado] = useState('1');
-    const [isEmailValid, setIsEmailValid] = useState(false);
-    const [email, setEmail] = useState('');
-    const [isPasswordMatched, setIsPasswordMatched] = useState(false);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = event.target;
-        setFormData((prevData: User) => ({ ...prevData, [name]: type === 'checkbox' ? checked : value }));
-    };
-
-    const handleTipoChange = (novoTipo: string) => {
-        setTipoSelecionado(novoTipo);
-    };
-
-    const isFormComplete = formData.nome_usuario && formData.email_usuario && formData.senha_usuario && formData.permissao_usuario && isEmailValid && isPasswordMatched;
 
     const handleSave = async () => {
         try {
@@ -93,43 +74,22 @@ const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }
                     zIndex: 1300
                 }}
             >
-                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                <FormUser
+                    formData={formData}
+                    name={formData.nome_usuario}
+                    email={formData.email_usuario}
+                    password={formData.senha_usuario}
+                    diretoria={formData.diretoria_usuario}
+                    admin={formData.admin_usuario}
+                    tipoSelecionado={formData.permissao_usuario}
+                    handleValueNameChange={(event) => setFormData({ ...formData, nome_usuario: event.target.value })}
+                    handleEmailChange={(value) => setFormData({ ...formData, email_usuario: value })}
+                    handlePasswordMatchChange={(isMatch, password) => setFormData({ ...formData, senha_usuario: password })}
+                    handleValueDiretoriaChange={(value) => setFormData({ ...formData, diretoria_usuario: value })}
+                    handleValueAdminChange={(value) => setFormData({ ...formData, admin_usuario: value })}
+                    handleTipoChange={(novoTipo) => setFormData({ ...formData, permissao_usuario: novoTipo })}
+                />
 
-                    <Typography variant="h4">
-                        {formData.id_usuario ? 'Editar Usuário' : 'Adicionar Usuário'}
-                    </Typography>
-                    <BtnSIATT disable={true}></BtnSIATT>
-                </Stack>
-
-                <Stack>
-                    <TextField
-                        label="Nome"
-                        name="nome_usuario"
-                        value={formData.nome_usuario}
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                    />
-
-                    <EmailInput value={email} onChange={setEmail} onValidChange={setIsEmailValid} />
-                </Stack>
-
-                <PasswordComparison direction='row' onPasswordMatchChange={(isMatch) => setIsPasswordMatched(isMatch)} />
-
-                <Stack direction={'row'} gap={5}>
-                    <FormControl fullWidth margin="normal">
-                        <BoolFilter label='Diretoria' value={formData.diretoria_usuario} onValueChange={(value) => handleChange({ target: { name: 'diretoria_usuario', value: value } })} />
-                    </FormControl>
-
-                    <FormControl fullWidth margin="normal">
-                        <PermissionFilter permissionSelected={tipoSelecionado} onPermissionChange={handleTipoChange} />
-                    </FormControl>
-
-                    <FormControl fullWidth margin="normal">
-                        <BoolFilter label='Administrador' value={formData.admin_usuario} onValueChange={(value) => handleChange({ target: { name: 'admin_usuario', value: value } })} />
-                    </FormControl>
-
-                </Stack>
                 <Box display="flex" justifyContent="space-between" mt={3}>
                     {formData.id_usuario && (
                         <Button variant="outlined" color="secondary" onClick={handleRemove}>
@@ -140,7 +100,7 @@ const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }
                         variant="contained"
                         color="primary"
                         onClick={handleSave}
-                        disabled={!isFormComplete}
+                        disabled={!formData.nome_usuario || !formData.email_usuario || !formData.senha_usuario}
                     >
                         Salvar
                     </Button>

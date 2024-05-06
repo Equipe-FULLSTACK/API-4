@@ -1,3 +1,5 @@
+// UserTable.tsx
+
 import React from 'react';
 import {
     TableContainer,
@@ -33,8 +35,8 @@ import DiretoriaColumn from './DiretoriaColumn';
 interface UserTableProps {
     users: User[];
     setUsers: React.Dispatch<React.SetStateAction<User[]>>; // Função de atualização de usuários
-    onDeleteUser?: (userId: number) => void;
-    onEditPermission?: (userId: number) => void;
+    onDeleteUser?: (user: User) => void; // Função de exclusão de usuário
+    onEditPermission?: (user: User) => void; // Função de edição de permissões do usuário
 }
 
 const UserTable: React.FC<UserTableProps> = ({ users, setUsers, onDeleteUser, onEditPermission }) => {
@@ -111,13 +113,13 @@ const UserTable: React.FC<UserTableProps> = ({ users, setUsers, onDeleteUser, on
                             <TableCell>
                                 <Stack direction="row" spacing={1}>
                                     <Tooltip title="Delete">
-                                        <IconButton onClick={() => onDeleteUser && onDeleteUser(user.id_usuario)}>
+                                        <IconButton onClick={() => onDeleteUser && onDeleteUser(user)}>
                                             <DeleteIcon />
                                         </IconButton>
                                     </Tooltip>
                                     {onEditPermission && (
                                         <Tooltip title="Edit Permission">
-                                            <IconButton onClick={() => onEditPermission(user.id_usuario)}>
+                                            <IconButton onClick={() => onEditPermission(user)}>
                                                 <EditIcon />
                                             </IconButton>
                                         </Tooltip>

@@ -3,8 +3,8 @@ import { FormControl, InputLabel, Select, MenuItem, Stack } from '@mui/material'
 import { Check, Close } from '@mui/icons-material';
 
 interface BoolFilterProps {
-    value: boolean;
-    onValueChange: (value: boolean) => void;
+    value: number;
+    onValueChange: (value: number) => void;
     label: string;
 }
 
@@ -16,20 +16,22 @@ const BoolFilter: React.FC<BoolFilterProps> = ({ value, onValueChange, label }) 
             <Select
                 labelId="bool-filter-label"
                 id="bool-filter-select"
-                value={value.toString()} // Converte o valor booleano para string
-                onChange={(e) => onValueChange(e.target.value === 'true')} // Converte o valor de string para booleano
+                value={value.toString()}
+                onChange={(e) => onValueChange(Number(e.target.value))}
                 variant="outlined"
             >
-                {/* Renderiza as opções de seleção */}
-                {[false, true].map(boolValue => (
-                    <MenuItem key={boolValue.toString()} value={boolValue.toString()}>
-                        {/* Renderiza o ícone ao lado do valor */}
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                            {boolValue ? <Check style={{ color: 'green' }} /> : <Close style={{ color: 'red' }} />}
-                            <span>{boolValue ? 'Sim' : 'Não'}</span>
-                        </Stack>
-                    </MenuItem>
-                ))}
+                <MenuItem key="1" value="1">
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                        <Check style={{ color: 'green' }} />
+                        <span>Sim</span>
+                    </Stack>
+                </MenuItem>
+                <MenuItem key="0" value="0">
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                        <Close style={{ color: 'red' }} />
+                        <span>Não</span>
+                    </Stack>
+                </MenuItem>
             </Select>
         </FormControl>
     );

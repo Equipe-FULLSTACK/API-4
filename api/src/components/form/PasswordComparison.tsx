@@ -3,24 +3,26 @@ import { Box, Typography, FormControl, Stack } from '@mui/material';
 import PasswordInput from './PasswordInput';
 
 interface PasswordComparisonProps {
-    onPasswordMatchChange: (isMatch: boolean) => void;
+    onPasswordMatchChange: (isMatch: boolean, password: string) => void;
     direction: 'row' | 'column';
+    password: string;
 }
 
-const PasswordComparison: React.FC<PasswordComparisonProps> = ({ onPasswordMatchChange, direction }) => {
+const PasswordComparison: React.FC<PasswordComparisonProps> = ({ onPasswordMatchChange, direction, password }) => {
+
+
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const [isMatch, setIsMatch] = useState(false);
 
-    // Função para comparar as senhas
     useEffect(() => {
         const comparePasswords = () => {
             if (password1 === password2 && password1 !== '' && password2 !== '') {
                 setIsMatch(true);
-                onPasswordMatchChange(true);
+                onPasswordMatchChange(true, password1);
             } else {
                 setIsMatch(false);
-                onPasswordMatchChange(false);
+                onPasswordMatchChange(false, '');
             }
         };
         

@@ -32,6 +32,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
+    console.log('UpdateUser',req.params.id, req.body)
     try {
         const updatedUser = await userController.updateUserById(req.params.id, req.body);
         res.json(updatedUser);

@@ -1,3 +1,4 @@
+// HomePageAdminUser.tsx
 import React, { useEffect, useState } from 'react';
 import {
   ThemeProvider,
@@ -34,7 +35,10 @@ const API_URL = 'http://localhost:3000';
 const HomePageAdminUser: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [tipoSelecionado, setTipoSelecionado] = useState('todos');
-  const [openUserCRUD, setOpenUserCRUD] = useState(false); // Estado para controlar a abertura do modal
+  const [openUserCRUD, setOpenUserCRUD] = useState(false);
+  const [editingUser, setEditingUser] = useState<User>();
+  const [render, setRender] = useState<boolean>(false);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -85,12 +89,29 @@ const HomePageAdminUser: React.FC = () => {
     }
   };
 
+  const handleEditDeleteUser = (user: User) => {
+    console.log(user);
+    setEditingUser(user);
+    setOpenUserCRUD(true); // Corrigido aqui, sempre abre o UserCRUD ao editar/deletar um usuário
+  }
+
   const handleAddUser = () => {
     setOpenUserCRUD(true);
   };
 
   const handleCloseUserCRUD = () => {
     setOpenUserCRUD(false);
+    setEditingUser(undefined);
+  };
+
+  const handleSaveUser = (userData: User) => {
+    console.log('Adicionando ou atualizando usuário:', userData);
+    handleCloseUserCRUD();
+  };
+
+  const handleRemoveUser = (userId: number) => {
+    console.log('Removendo usuário:', userId);
+    handleCloseUserCRUD();
   };
 
   return (
@@ -103,7 +124,7 @@ const HomePageAdminUser: React.FC = () => {
 
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
-            <BtnSIATT/>
+            <BtnSIATT />
             <SearchButton onSearch={handleSearch} />
             <PrintButton />
             <ProfileActions />
@@ -114,14 +135,14 @@ const HomePageAdminUser: React.FC = () => {
           <Stack marginTop={3}>
 
             <Stack flexDirection={'row'} justifyContent={'space-between'} marginRight={3} alignItems={'center'}>
-              <BtnNewUser onClick={handleAddUser} /> {/* Botão para abrir o modal de adicionar usuário */}
+              <BtnNewUser onClick={handleAddUser} />
               <Stack width={'20rem'}>
                 <PermissionFilter permissionSelected={tipoSelecionado} onPermissionChange={handleTipoChange} />
               </Stack>
             </Stack>
 
             <Stack>
-              <UserPage users={users} setUsers={setUsers} />
+              <UserPage users={users} setUsers={setUsers} onDeleteUser={handleEditDeleteUser} onEditPermission={handleEditDeleteUser} />
             </Stack>
           </Stack>
         </Stack>
@@ -131,16 +152,11 @@ const HomePageAdminUser: React.FC = () => {
       <UserCRUD
         open={openUserCRUD}
         onClose={handleCloseUserCRUD}
-        onSave={(user: User) => {
-          console.log('Adicionando ou atualizando usuário:', user);
-          handleCloseUserCRUD();
-        }}
-        onRemove={(userId: number) => {
-
-          console.log('Removendo usuário:', userId);
-          // Aqui você pode fazer uma chamada de API para remover o usuário do backend
-          handleCloseUserCRUD();
-        }}
+        user={editingUser}
+        onSave={handleSaveUser}
+        onRemove={handleRemoveUser}
+        onUpdateUser={handleSaveUser}
+        onRemoveUser={handleRemoveUser}
       />
     </ThemeProvider>
   );
