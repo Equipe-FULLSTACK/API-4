@@ -51,7 +51,7 @@ const HomePageAdminUser: React.FC = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [render]);
 
   const handleSearch = async (text: string) => {
     console.log(`Texto pesquisado: ${text}`);
@@ -104,16 +104,19 @@ const HomePageAdminUser: React.FC = () => {
   const handleCloseUserCRUD = () => {
     setOpenUserCRUD(false);
     setEditingUser(undefined);
+    setRender(prevState => !prevState);
   };
 
   const handleSaveUser = (userData: User) => {
     console.log('Adicionando ou atualizando usuário:', userData);
     handleCloseUserCRUD();
+    setRender(prevState => !prevState);
   };
 
   const handleRemoveUser = (userId: number) => {
     console.log('Removendo usuário:', userId);
     handleCloseUserCRUD();
+    setRender(prevState => !prevState);
   };
 
   return (
@@ -126,7 +129,7 @@ const HomePageAdminUser: React.FC = () => {
 
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
-            <BtnSIATT />
+            <BtnSIATT disable={false}/>
             <SearchButton onSearch={handleSearch} />
             <PrintButton />
             <ProfileActions />
@@ -159,6 +162,7 @@ const HomePageAdminUser: React.FC = () => {
         onRemove={handleRemoveUser}
         onUpdateUser={handleSaveUser}
         onRemoveUser={handleRemoveUser}
+        onAddUser={handleAddUser}
       />
     </ThemeProvider>
   );

@@ -45,7 +45,7 @@ const BtnSIATT: React.FC<NovoUsuarioButtonProps> = ({ onClick, disable }) => {
             .catch(err => console.log(err))
             .finally(() => {
                 setLoading(false);
-                setMounted(true); // Define a variável de montagem como verdadeira após a conclusão da solicitação Axios
+                setMounted(true); 
             });
     };
 
