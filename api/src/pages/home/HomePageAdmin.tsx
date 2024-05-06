@@ -24,6 +24,7 @@ import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import UserPage from '../../components/user/UserPage';
+import BtnSIATT from '../../components/botoes/btnSIATTLogo';
 
 const darkTheme = createTheme({
   palette: {
@@ -60,7 +61,7 @@ const HomePageAdmin: React.FC = () => {
           } else {
               navigate('/')
           }
-          console.log(res)
+          /* console.log(res) */
       })
       .catch(err => console.log(err))
   },[])
@@ -99,7 +100,7 @@ const HomePageAdmin: React.FC = () => {
 
   // Função para imprimir os dados no console
   useEffect(() => {
-    console.log('Reuniões:', reunioes);
+    /* console.log('Reuniões:', reunioes); */
   }, [reunioes]);
 
 
@@ -115,21 +116,21 @@ const HomePageAdmin: React.FC = () => {
   // Função para lidar com a mudança de período
   const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
-    console.log(`Período selecionado: ${newPeriodo}`);
+    /* console.log(`Período selecionado: ${newPeriodo}`); */
   };
 
 
   // Função para lidar com a mudança de data
   const handleDateChange = (date: string) => {
     setData(date);
-    console.log('Data selecionada:', date);
+    /* console.log('Data selecionada:', date); */
   };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  // Função para lidar com a pesquisa
 const handleSearch = (text: string) => {
-  console.log(`Texto pesquisado: ${text}`);
-
+  /* console.log(`Texto pesquisado: ${text}`);
+ */
   // Verifica se o campo de pesquisa está ativo
   if (text.trim() === '') {
       // Se o texto estiver vazio, restaure o array original de reuniões
@@ -157,7 +158,7 @@ const handleSearch = (text: string) => {
 
   // Função para lidar com o clique no botão novo evento
   const handleNovoEventoClick = () => {
-    console.log('Teste BTN novo Evento!');
+    /* console.log('Teste BTN novo Evento!'); */
     setReuniaoEditada(null); // Inicia com uma reunião vazia para adicionar uma nova reunião
     setModalOpen(true); // Abre o modal
   };
@@ -185,7 +186,7 @@ const handleSearch = (text: string) => {
   
 // Função para lidar com a mudança de tipo selecionado
 const handleTipoChange = (novoTipo: string) => {
-  console.log(`Tipo selecionado: ${novoTipo}`);
+  /* console.log(`Tipo selecionado: ${novoTipo}`); */
 
   // Sempre começamos com o array original de reuniões
   let reunioesParaFiltrar = reunioesIniciais;
@@ -234,6 +235,7 @@ const handleTipoChange = (novoTipo: string) => {
 
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
+            <BtnSIATT/>
             <NovoEventoButton onClick={handleNovoEventoClick} />
             <SelecionarPeriodo onPeriodoChange={handlePeriodChange} />
             <SearchButton onSearch={handleSearch} />

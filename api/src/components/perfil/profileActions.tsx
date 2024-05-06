@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Avatar,
   Menu,
   MenuItem,
   ListItemIcon,
   ListItemText,
-  Tooltip, // Importamos Tooltip
+  Tooltip,
 } from '@mui/material';
 import {
   Edit as EditIcon,
   Settings as SettingsIcon,
   Notifications as NotificationsIcon,
+  Logout as LogoutIcon,
 } from '@mui/icons-material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileActionsProps {
   onEditProfile?: () => void;
@@ -21,10 +23,8 @@ interface ProfileActionsProps {
 }
 
 const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettings, onNotifications }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [userId, setUserId] = useState<number>(0)
-  const [userProfile, setUserProfile] = useState<string>('')
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -34,53 +34,29 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
     setAnchorEl(null);
   };
 
-
-  axios.defaults.withCredentials = true;
-  useEffect(() => {
-    axios.get('http://localhost:3000/ck')
-      .then(res => {
-        if (res.data.valid) {
-          setUserId(res.data.id);
-        } else {
-          console.error('Falha requisição usuários')
-        }
-        console.log(res)
+  const handleLogout = () => {
+    axios.post('http://localhost:3000/logout') // Fazendo a requisição POST para o endpoint /logout
+      .then(() => {
+        // Redirecionando para a página inicial após o logout
+        navigate('/');
       })
-      .catch(err => console.log(err))
-  }, [])
-
-    useEffect(() => {
-      axios.get(`http://localhost:3000/us/${userId}`)
-        .then(res => {
-          if (res.data.valid) {
-            console.log(res.data.userPhoto);
-            setUserProfile(res.data.userPhoto);
-          } else {
-            console.error('Falha requisição photo')
-          }
-          console.log(res)
-        })
-        .catch(err => console.log(err))
-    }, [])
-
-
-
+      .catch(error => {
+        console.error('Erro ao fazer logout:', error);
+      });
+  };
 
   const isOpen = Boolean(anchorEl);
 
   return (
     <div>
-      {/* Envolvemos o Avatar com Tooltip */}
       <Tooltip title="Ações de perfil" placement="bottom">
         <Avatar
-          src={userProfile}
           alt="Foto de perfil"
           onClick={handleAvatarClick}
           sx={{ cursor: 'pointer' }}
         />
       </Tooltip>
 
-      {/* Menu para exibir a lista de ações de perfil */}
       <Menu
         anchorEl={anchorEl}
         open={isOpen}
@@ -94,7 +70,6 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
           horizontal: 'left',
         }}
       >
-        {/* Envolvemos os itens do Menu com Tooltip */}
         <Tooltip title="Editar Perfil" placement="left">
           <MenuItem onClick={onEditProfile}>
             <ListItemIcon>
@@ -119,6 +94,16 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
               <NotificationsIcon />
             </ListItemIcon>
             <ListItemText primary="Notificações" />
+          </MenuItem>
+        </Tooltip>
+
+        {/* Botão de Logout */}
+        <Tooltip title="Sair" placement="left">
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Sair" />
           </MenuItem>
         </Tooltip>
       </Menu>

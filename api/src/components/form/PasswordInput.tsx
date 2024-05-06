@@ -36,8 +36,8 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ value, onChange, onValidC
     if (value && value.length > 0) {
       validatePassword(value); // Validar a senha
     } else {
-      setError(null); // Limpar erros se o campo estiver vazio
-      setIsValid(false); // Definir como inválido se o campo estiver vazio
+      setError(null);
+      setIsValid(false); 
     }
   };
 

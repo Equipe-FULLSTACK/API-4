@@ -8,7 +8,6 @@ interface NovoEventoButtonProps {
 
 const NovoEventoButton: React.FC<NovoEventoButtonProps> = ({ onClick }) => {
   return (
-    // Envolva o botão com um Tooltip
     <Tooltip title="Novo Evento" placement="bottom">
       <Button
         variant="contained"

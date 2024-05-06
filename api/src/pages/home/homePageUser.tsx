@@ -23,6 +23,7 @@ import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
+import BtnSIATT from '../../components/botoes/btnSIATTLogo';
 
 const darkTheme = createTheme({
   palette: {
@@ -234,6 +235,7 @@ const handleTipoChange = (novoTipo: string) => {
 
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
+            <BtnSIATT/>
             <NovoEventoButton onClick={handleNovoEventoClick} />
             <SelecionarPeriodo onPeriodoChange={handlePeriodChange} />
             <SearchButton onSearch={handleSearch} />

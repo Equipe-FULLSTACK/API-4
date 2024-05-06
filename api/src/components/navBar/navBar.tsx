@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { List, ListItem, IconButton, Tooltip } from '@mui/material';
 import { CalendarToday, MeetingRoom, Settings, Notifications, HelpOutline, Group } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom'; // Importe o hook useNavigate do React Router
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface NavBarProps {
   notificationCount?: number;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const pages = ["/admin", "/rooms", "/admin/user", "/settings", "/notifications", "/help"];
   const navigate = useNavigate(); 
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/ck')
+      .then(res => {
+        if (res.data.valid && res.data.admin) {
+          setIsAdmin(true);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   const handleNavigation = (index: number) => {
     navigate(pages[index]);
@@ -26,7 +38,7 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
         gap: 2,
       }}
     >
-      {/* Ícone de Calendário com Tooltip e Navegação */}
+
       <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(0)}>
         <Tooltip title="Calendário" placement="right">
           <IconButton color="inherit" size="large">
@@ -35,7 +47,6 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Salas com Tooltip e Navegação */}
       <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(1)}>
         <Tooltip title="Salas" placement="right">
           <IconButton color="inherit" size="large">
@@ -44,14 +55,15 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Pessoas com Tooltip e Navegação */}
-      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(2)}>
-        <Tooltip title="Pessoas" placement="right">
-          <IconButton color="inherit" size="large">
-            <Group />
-          </IconButton>
-        </Tooltip>
-      </ListItem>
+      {isAdmin && (
+        <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(2)}>
+          <Tooltip title="Pessoas" placement="right">
+            <IconButton color="inherit" size="large">
+              <Group />
+            </IconButton>
+          </Tooltip>
+        </ListItem>
+      )}
 
       {/* Ícone de Configurações com Tooltip e Navegação */}
       <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(3)}>
@@ -62,7 +74,6 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Notificações com Tooltip, Badge e Navegação */}
       <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(4)}>
         <Tooltip title="Notificações" placement="right">
           <IconButton color="inherit" size="small" sx={{ paddingLeft: 1.5 }}>
@@ -71,7 +82,6 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
         </Tooltip>
       </ListItem>
 
-      {/* Ícone de Ajuda com Tooltip e Navegação */}
       <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(5)}>
         <Tooltip title="Ajuda" placement="right">
           <IconButton color="inherit" size="large">

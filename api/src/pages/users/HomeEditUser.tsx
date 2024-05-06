@@ -5,7 +5,6 @@ import {
   Stack,
   Divider,
 } from '@mui/material';
-import NovoEventoButton from '../../components/botoes/btnNovoEvento';
 import SearchButton from '../../components/botoes/btnSearch';
 import PrintButton from '../../components/botoes/btnPrint';
 import ProfileActions from '../../components/perfil/profileActions';
@@ -14,6 +13,9 @@ import UserPage from '../../components/user/UserPage';
 import PermissionFilter from '../../components/user/PermissionFilter';
 import { User } from '../../types/userTypes';
 import axios from 'axios';
+import BtnNewUser from '../../components/botoes/btnNewUser';
+import UserCRUD from '../../components/modal/UserCRUD';
+import BtnSIATT from '../../components/botoes/btnSIATTLogo';
 
 const darkTheme = createTheme({
   palette: {
@@ -29,10 +31,10 @@ const darkTheme = createTheme({
 
 const API_URL = 'http://localhost:3000';
 
-
 const HomePageAdminUser: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]); 
+  const [users, setUsers] = useState<User[]>([]);
   const [tipoSelecionado, setTipoSelecionado] = useState('todos');
+  const [openUserCRUD, setOpenUserCRUD] = useState(false); // Estado para controlar a abertura do modal
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -83,6 +85,14 @@ const HomePageAdminUser: React.FC = () => {
     }
   };
 
+  const handleAddUser = () => {
+    setOpenUserCRUD(true);
+  };
+
+  const handleCloseUserCRUD = () => {
+    setOpenUserCRUD(false);
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <Stack flexDirection="row" sx={{ width: '100%' }}>
@@ -93,15 +103,18 @@ const HomePageAdminUser: React.FC = () => {
 
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
+            <BtnSIATT/>
             <SearchButton onSearch={handleSearch} />
             <PrintButton />
-            <ProfileActions/>
+            <ProfileActions />
           </Stack>
 
           <Divider />
 
           <Stack marginTop={3}>
-            <Stack flexDirection={'row'} justifyContent={'end'} marginRight={3}>
+
+            <Stack flexDirection={'row'} justifyContent={'space-between'} marginRight={3} alignItems={'center'}>
+              <BtnNewUser onClick={handleAddUser} /> {/* Botão para abrir o modal de adicionar usuário */}
               <Stack width={'20rem'}>
                 <PermissionFilter permissionSelected={tipoSelecionado} onPermissionChange={handleTipoChange} />
               </Stack>
@@ -113,6 +126,22 @@ const HomePageAdminUser: React.FC = () => {
           </Stack>
         </Stack>
       </Stack>
+
+      {/* Modal para adicionar ou editar usuários */}
+      <UserCRUD
+        open={openUserCRUD}
+        onClose={handleCloseUserCRUD}
+        onSave={(user: User) => {
+          console.log('Adicionando ou atualizando usuário:', user);
+          handleCloseUserCRUD();
+        }}
+        onRemove={(userId: number) => {
+
+          console.log('Removendo usuário:', userId);
+          // Aqui você pode fazer uma chamada de API para remover o usuário do backend
+          handleCloseUserCRUD();
+        }}
+      />
     </ThemeProvider>
   );
 };

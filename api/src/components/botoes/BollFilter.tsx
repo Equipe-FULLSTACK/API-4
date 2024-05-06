@@ -5,26 +5,27 @@ import { Check, Close } from '@mui/icons-material';
 interface BoolFilterProps {
     value: boolean;
     onValueChange: (value: boolean) => void;
+    label: string;
 }
 
-const testComponent: React.FC<BoolFilterProps> = ({ value, onValueChange }) => {
+const BoolFilter: React.FC<BoolFilterProps> = ({ value, onValueChange, label }) => {
     return (
         <FormControl margin="normal" fullWidth>
-            <InputLabel id="bool-filter-label">Filtrar por Valor</InputLabel>
+            {/* Exibe o label */}
+            <InputLabel id="bool-filter-label">{label}</InputLabel>
             <Select
                 labelId="bool-filter-label"
                 id="bool-filter-select"
                 value={value.toString()} // Converte o valor booleano para string
                 onChange={(e) => onValueChange(e.target.value === 'true')} // Converte o valor de string para booleano
+                variant="outlined"
             >
                 {/* Renderiza as opções de seleção */}
-                {[true, false].map(boolValue => (
+                {[false, true].map(boolValue => (
                     <MenuItem key={boolValue.toString()} value={boolValue.toString()}>
-
+                        {/* Renderiza o ícone ao lado do valor */}
                         <Stack direction="row" alignItems="center" spacing={1}>
-                            <span style={{ color: boolValue ? 'green' : 'red' }}>
-                                {boolValue ? <Check /> : <Close />}
-                            </span>
+                            {boolValue ? <Check style={{ color: 'green' }} /> : <Close style={{ color: 'red' }} />}
                             <span>{boolValue ? 'Sim' : 'Não'}</span>
                         </Stack>
                     </MenuItem>
@@ -34,4 +35,4 @@ const testComponent: React.FC<BoolFilterProps> = ({ value, onValueChange }) => {
     );
 };
 
-export default testComponent;
+export default BoolFilter;
