@@ -8,11 +8,11 @@
 
   #### <div align="center"> Estado do Projeto ao final da Segunda Sprint: </div>
   
-  <div align="center"> <img src="/readme/login.png "width="640" height="360"> </div>
+  <div align="center"> <img src="/readme/login.jpeg "width="640" height="360"> </div>
   <br>
-  <div align="center"> <img src="/readme/cadastro.png "width="640" height="360"> </div>
+  <div align="center"> <img src="/readme/Users.jpeg "width="640" height="360"> </div>
   <br>
-  <div align="center"> <img src="/readme/processos.png "width="640" height="360"> </div>
+  <div align="center"> <img src="/readme/users1.jpeg "width="640" height="360"> </div>
   <br>
   <div align="center"> <img src="/readme/processos_abas.png "width="640" height="360"> </div>
   <br>
