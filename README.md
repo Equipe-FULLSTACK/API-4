@@ -1,4 +1,17 @@
-<h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
+# <div align="center"> Escopo do Projeto </div>
+  
+  #### <p align="center">
+O escopo geral do projeto consiste em criar uma plataforma web abrangente para atender às necessidades da equipe e toda a organização. Esta plataforma permitirá a criação de salas de reuniões na agenda vinculando ela ao Zoom de processos regulatórios, com a flexibilidade de definir etapas, responsáveis e prazos. Um painel de controle intuitivo fornecerá um monitoramento em tempo real, destacando as etapas concluídas e pendentes, enquanto os usuários poderão anexar evidências relevantes, como documentos e imagens, a cada etapa.
+
+Além disso, o sistema garantirá notificações automáticas para alertar os responsáveis sobre etapas pendentes ou atrasadas. Os relatórios personalizados facilitarão a análise do desempenho e eficácia dos processos, enquanto a segurança e autenticação robustas garantirão o acesso apenas a usuários autorizados.
+
+A plataforma será altamente compatível, funcionando em diversos navegadores e dispositivos e se integrará a sistemas externos para troca de dados.
+
+Para facilitar a comunicação e colaboração, notificações externas via e-mail ou mensagens serão incorporadas para eventos críticos nos processos, e os membros da equipe poderão colaborar nas etapas do processo e discutir detalhes diretamente na plataforma. Além disso, haverá suporte a dispositivos móveis por meio de um aplicativo dedicado, e a automatização de fluxos de trabalho permitirá o acionamento automático de etapas subsequentes. Em resumo, o projeto visa fornecer uma solução abrangente para gerenciar e monitorar os processos regulatórios, garantindo conformidade, eficiência e colaboração em toda a organização.
+  
+  #### <p align="center">
+  
+  <h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
 <h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
 <h1><div align="center">Equipe-FULLSTACK </div></h1>
@@ -129,6 +142,15 @@
             <a href="https://linkedin.com/in/">Linkedin</a>
           </td>
          </tr>
+        <tr>
+          <td>Giovani Avila</td>
+          <td><img src="/readme/thiago.png" width="75px" height="75px"></td>
+          <td>Desenvolvedor</td>
+          <td>
+            <a href="https://github.com/GiovaniAvila">Github</a><br>
+            <a href="https://www.linkedin.com/in/giovani-carvalho-avila-80593a224/">Linkedin</a>
+          </td>
+        </tr>
     </tbody>
 </table>
 <br>
