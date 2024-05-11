@@ -4,7 +4,7 @@ const con = require('../database/dbConnection');
 
 exports.createReuniao = async (reuniaoData) => {
     try {
-        const query = 'INSERT INTO reunioes SET ?';
+        const query = 'INSERT INTO reuniao SET ?';
         const [result] = await con.promise().query(query, reuniaoData);
         return result;
     } catch (error) {
@@ -14,7 +14,7 @@ exports.createReuniao = async (reuniaoData) => {
 
 exports.getAllReunioes = async () => {
     try {
-        const query = 'SELECT * FROM reunioes';
+        const query = 'SELECT * FROM reuniao';
         const [rows] = await con.promise().query(query);
         return rows;
     } catch (error) {
@@ -24,7 +24,7 @@ exports.getAllReunioes = async () => {
 
 exports.getReuniaoById = async (reuniaoId) => {
     try {
-        const query = 'SELECT * FROM reunioes WHERE id_reuniao = ?';
+        const query = 'SELECT * FROM reuniao WHERE id_reuniao = ?';
         const [rows] = await con.promise().query(query, [reuniaoId]);
         if (rows.length === 0) {
             throw new Error('Reunião não encontrada');
@@ -37,7 +37,7 @@ exports.getReuniaoById = async (reuniaoId) => {
 
 exports.updateReuniaoById = async (reuniaoId, reuniaoData) => {
     try {
-        const query = 'UPDATE reunioes SET ? WHERE id_reuniao = ?';
+        const query = 'UPDATE reuniao SET ? WHERE id_reuniao = ?';
         const [result] = await con.promise().query(query, [reuniaoData, reuniaoId]);
         if (result.affectedRows === 0) {
             throw new Error('Reunião não encontrada');
@@ -50,7 +50,7 @@ exports.updateReuniaoById = async (reuniaoId, reuniaoData) => {
 
 exports.deleteReuniaoById = async (reuniaoId) => {
     try {
-        const query = 'DELETE FROM reunioes WHERE id_reuniao = ?';
+        const query = 'DELETE FROM reuniao WHERE id_reuniao = ?';
         const [result] = await con.promise().query(query, [reuniaoId]);
         if (result.affectedRows === 0) {
             throw new Error('Reunião não encontrada');

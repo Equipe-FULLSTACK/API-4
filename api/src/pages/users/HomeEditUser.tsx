@@ -34,6 +34,7 @@ const API_URL = 'http://localhost:3000';
 
 const HomePageAdminUser: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [usersStart, setUsersStart] = useState<User[]>([]);
   const [tipoSelecionado, setTipoSelecionado] = useState('todos');
   const [openUserCRUD, setOpenUserCRUD] = useState(false);
   const [editingUser, setEditingUser] = useState<User>();
@@ -45,6 +46,7 @@ const HomePageAdminUser: React.FC = () => {
       try {
         const response = await axios.get<User[]>(`${API_URL}/us`);
         setUsers(response.data);
+        setUsersStart(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -84,7 +86,7 @@ const HomePageAdminUser: React.FC = () => {
           console.error('Error fetching users:', error);
         });
     } else {
-      const filtered = users.filter(user => user.permissao_usuario === novoTipo);
+      const filtered = usersStart.filter(user => user.permissao_usuario === novoTipo);
       setUsers(filtered);
     }
   };

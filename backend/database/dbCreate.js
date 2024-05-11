@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const createTableQueries = require('./dbDefault');
+const initialInserts = require('./dbInsert');
 
 const con = mysql.createConnection({
     host: "localhost",
@@ -32,6 +33,15 @@ con.query("CREATE DATABASE IF NOT EXISTS api4", function (err, result) {
                 });
 
                 console.log("Estrutura padrão do banco de dados criada");
+
+
+                // AGORA VAMOS POPULAR BANCO
+                Object.keys(initialInserts).forEach(table => {
+                    con.query(initialInserts[table], function (err, result) {
+                        if (err) throw err;
+                        console.log(`Insert ${table} criado com sucesso`);
+                    });
+                });
                 con.end();
             } else {
                 console.log("O banco de dados 'api4' já possui tabelas");

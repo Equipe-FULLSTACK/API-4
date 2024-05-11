@@ -101,8 +101,9 @@ const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }
                         variant="contained"
                         color="primary"
                         onClick={handleSave}
-                        disabled={!formData.nome_usuario || !formData.email_usuario || !formData.senha_usuario}
-                    >
+                        disabled={false}
+                        /* disabled={!formData.nome_usuario || !formData.email_usuario || !formData.senha_usuario}
+                         */>
                         Salvar
                     </Button>
                     <Button variant="text" color="secondary" onClick={onClose}>

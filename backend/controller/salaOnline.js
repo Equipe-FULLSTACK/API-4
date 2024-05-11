@@ -1,10 +1,10 @@
 const con = require('../database/dbConnection');
 
-// Funções CRUD para salas
+// Funções CRUD para salas Online
 
-exports.createSala = async (salaData) => {
+exports.createSalaOnline = async (salaData) => {
     try {
-        const query = 'INSERT INTO salas SET ?';
+        const query = 'INSERT INTO salaonline SET ?';
         const [result] = await con.promise().query(query, salaData);
         return result;
     } catch (error) {
@@ -12,9 +12,9 @@ exports.createSala = async (salaData) => {
     }
 };
 
-exports.getAllSalas = async () => {
+exports.getAllSalasOnline = async () => {
     try {
-        const query = 'SELECT * FROM salas';
+        const query = 'SELECT * FROM salaonline';
         const [rows] = await con.promise().query(query);
         return rows;
     } catch (error) {
@@ -22,9 +22,9 @@ exports.getAllSalas = async () => {
     }
 };
 
-exports.getSalaById = async (salaId) => {
+exports.getSalaByIdOnline = async (salaId) => {
     try {
-        const query = 'SELECT * FROM salas WHERE id_sala = ?';
+        const query = 'SELECT * FROM salaonline WHERE id_sala_online = ?';
         const [rows] = await con.promise().query(query, [salaId]);
         if (rows.length === 0) {
             throw new Error('Sala não encontrada');
@@ -35,9 +35,9 @@ exports.getSalaById = async (salaId) => {
     }
 };
 
-exports.updateSalaById = async (salaId, salaData) => {
+exports.updateSalaByIdOnline = async (salaId, salaData) => {
     try {
-        const query = 'UPDATE salas SET ? WHERE id_sala = ?';
+        const query = 'UPDATE salaonline SET ? WHERE id_sala_online = ?';
         const [result] = await con.promise().query(query, [salaData, salaId]);
         if (result.affectedRows === 0) {
             throw new Error('Sala não encontrada');
@@ -48,9 +48,9 @@ exports.updateSalaById = async (salaId, salaData) => {
     }
 };
 
-exports.deleteSalaById = async (salaId) => {
+exports.deleteSalaByIdOnline = async (salaId) => {
     try {
-        const query = 'DELETE FROM salas WHERE id_sala = ?';
+        const query = 'DELETE FROM salaonline WHERE id_sala_online = ?';
         const [result] = await con.promise().query(query, [salaId]);
         if (result.affectedRows === 0) {
             throw new Error('Sala não encontrada');

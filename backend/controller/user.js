@@ -4,7 +4,7 @@ const con = require('../database/dbConnection');
 
 exports.createUser = async (userData) => {
     try {
-        const query = 'INSERT INTO usuarios SET ?';
+        const query = 'INSERT INTO usuario SET ?';
         const [result] = await con.promise().query(query, userData);
         return result;
     } catch (error) {
@@ -14,7 +14,7 @@ exports.createUser = async (userData) => {
 
 exports.getAllUsers = async () => {
     try {
-        const query = 'SELECT * FROM usuarios';
+        const query = 'SELECT * FROM usuario';
         const [rows] = await con.promise().query(query);
         return rows;
     } catch (error) {
@@ -24,7 +24,7 @@ exports.getAllUsers = async () => {
 
 exports.getUserById = async (userId) => {
     try {
-        const query = 'SELECT * FROM usuarios WHERE id_usuario = ?';
+        const query = 'SELECT * FROM usuario WHERE id_usuario = ?';
         const [rows] = await con.promise().query(query, [userId]);
         if (rows.length === 0) {
             throw new Error('Usuário não encontrado');
@@ -37,7 +37,7 @@ exports.getUserById = async (userId) => {
 
 exports.updateUserById = async (userId, userData) => {
     try {
-        const query = 'UPDATE usuarios SET ? WHERE id_usuario = ?';
+        const query = 'UPDATE usuario SET ? WHERE id_usuario = ?';
         const [result] = await con.promise().query(query, [userData, userId]);
         if (result.affectedRows === 0) {
             throw new Error('Usuário não encontrado');
@@ -50,7 +50,7 @@ exports.updateUserById = async (userId, userData) => {
 
 exports.deleteUserById = async (userId) => {
     try {
-        const query = 'DELETE FROM usuarios WHERE id_usuario = ?';
+        const query = 'DELETE FROM usuario WHERE id_usuario = ?';
         const [result] = await con.promise().query(query, [userId]);
         if (result.affectedRows === 0) {
             throw new Error('Usuário não encontrado');

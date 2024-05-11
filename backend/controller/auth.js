@@ -2,7 +2,7 @@ const con = require('../database/dbConnection');
 
 exports.login = async (email, password) => {
     try {
-        const sql = 'SELECT * FROM usuarios WHERE email_usuario = ? AND senha_usuario = ?';
+        const sql = 'SELECT * FROM usuario WHERE email_usuario = ? AND senha_usuario = ?';
         const [rows] = await con.promise().query(sql, [email, password]);
         if (rows.length > 0) {
             const user = rows[0];

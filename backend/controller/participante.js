@@ -4,7 +4,7 @@ const con = require('../database/dbConnection');
 
 exports.createParticipante = async (participanteData) => {
     try {
-        const query = 'INSERT INTO participantes SET ?';
+        const query = 'INSERT INTO participante_reuniao SET ?';
         const [result] = await con.promise().query(query, participanteData);
         return result;
     } catch (error) {
@@ -14,7 +14,7 @@ exports.createParticipante = async (participanteData) => {
 
 exports.getAllParticipantes = async () => {
     try {
-        const query = 'SELECT * FROM participantes';
+        const query = 'SELECT * FROM participante_reuniao';
         const [rows] = await con.promise().query(query);
         return rows;
     } catch (error) {
@@ -24,7 +24,7 @@ exports.getAllParticipantes = async () => {
 
 exports.getParticipanteById = async (participanteId) => {
     try {
-        const query = 'SELECT * FROM participantes WHERE id_participante = ?';
+        const query = 'SELECT * FROM participante_reuniao WHERE id_participante = ?';
         const [rows] = await con.promise().query(query, [participanteId]);
         if (rows.length === 0) {
             throw new Error('Participante não encontrado');
@@ -37,7 +37,7 @@ exports.getParticipanteById = async (participanteId) => {
 
 exports.updateParticipanteById = async (participanteId, participanteData) => {
     try {
-        const query = 'UPDATE participantes SET ? WHERE id_participante = ?';
+        const query = 'UPDATE participante_reuniao SET ? WHERE id_participante = ?';
         const [result] = await con.promise().query(query, [participanteData, participanteId]);
         if (result.affectedRows === 0) {
             throw new Error('Participante não encontrado');
@@ -50,7 +50,7 @@ exports.updateParticipanteById = async (participanteId, participanteData) => {
 
 exports.deleteParticipanteById = async (participanteId) => {
     try {
-        const query = 'DELETE FROM participantes WHERE id_participante = ?';
+        const query = 'DELETE FROM participante_reuniao WHERE id_participante = ?';
         const [result] = await con.promise().query(query, [participanteId]);
         if (result.affectedRows === 0) {
             throw new Error('Participante não encontrado');
