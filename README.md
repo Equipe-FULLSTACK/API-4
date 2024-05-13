@@ -141,8 +141,7 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
          </tr>
         <tr>
           <td>Giovani Avila</td>
-          <td><img src="/readme/giovani.png" ![Uploading giovani.png…]()
-width="75px" height="75px"></td>
+          <td><img src="/readme/giovani.png" width="75px" height="75px"></td>
           <td>Desenvolvedor</td>
           <td>
             <a href="https://github.com/GiovaniAvila">Github</a><br>
