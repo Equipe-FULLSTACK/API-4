@@ -82,7 +82,20 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
   
   <br>
 
-<h1><div align="center">Nossa Equipe</div></h1>
+
+  
+<div align="center">
+
+<br><br>
+    <img src="/readme/TasksSprint1.png" width="640" height="360"><br>
+<h1> Diagrama Conceitual do Banco de Dados </h1>
+<br><br>
+    <img src="/readme/Conceitual02.png" width="640" height="360"><br>
+<h1> Diagrama Logico do Banco de Dados </h1>
+<br><br>
+    <img src="/readme/Logico02.png" width="640" height="360"><br>
+</div>
+  <h1><div align="center">Nossa Equipe</div></h1>
 
 <div align="center">
 <table style="align: center">
@@ -152,22 +165,6 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 </table>
 <br>
 </div>
-  
-<div align="center">
-<h1> Burndown
-<br><br>
-    <img src="/readme/BurndownSprint1.png" width="640" height="360"><br>
-<h1> Backlog da Sprint </h1>
-<br><br>
-    <img src="/readme/TasksSprint1.png" width="640" height="360"><br>
-<h1> Diagrama Conceitual do Banco de Dados </h1>
-<br><br>
-    <img src="/readme/Conceitual02.png" width="640" height="360"><br>
-<h1> Diagrama Logico do Banco de Dados </h1>
-<br><br>
-    <img src="/readme/Logico02.png" width="640" height="360"><br>
-</div>
-  
   
  
 
