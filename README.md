@@ -1,14 +1,7 @@
-# <div align="center"> Escopo do Projeto </div>
-  
-  #### <p align="center">
-O escopo geral do projeto consiste em criar uma plataforma web de Agendamento de Reuniões abrangente, projetado para atender às necessidades específicas da empresa parceira. Este portal será uma solução integrada que visa otimizar o agendamento de reuniões em um ambiente onde as equipes se tornaram maiores e mais dispersas.
-
-O portal terá a capacidade de centralizar informações de diferentes fontes, integrando dados de calendários, agendas e sistemas de comunicação em um banco de dados unificado e sempre atualizado. Isso proporcionará uma visão holística dos horários e disponibilidades, facilitando o processo de agendamento para todos os colaboradores.
-
-Além disso, a plataforma permitirá o agendamento de reuniões de diferentes categorias, incluindo presenciais, online e híbridas, com diferentes níveis de permissão para cada tipo de encontro. Um layout amigável e intuitivo será apresentado, garantindo que cada colaborador possa visualizar facilmente os horários e locais ideais para suas reuniões, levando em consideração a disponibilidade das salas físicas ou virtuais.
-  #### <p align="center">
-  
-  <h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
+ Terceira Sprint - 26/05/2024
+  ============================
+  ****************************  
+<h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
 <h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
 <h1><div align="center">Equipe-FULLSTACK </div></h1>
