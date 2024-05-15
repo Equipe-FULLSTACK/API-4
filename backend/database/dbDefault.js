@@ -75,6 +75,7 @@ const createTableQueries = {
     notificacao_reuniao: `
         CREATE TABLE notificacao_reuniao (
             id_notificacao INT PRIMARY KEY AUTO_INCREMENT,
+            mensagem VARCHAR(256),
             usuario_id INT,
             reuniao_id INT,
             lida BOOLEAN DEFAULT FALSE,
