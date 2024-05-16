@@ -173,17 +173,18 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
   
 # <p align="center">SPRINTS
 
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1" target="_blank">Primeira Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1" onclick="window.open(this.href,'_blank');return false;">Primeira Sprint</a>
   ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-2" target="_blank">Segunda Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-2" onclick="window.open(this.href,'_blank');return false;">Segunda Sprint</a>
   ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-3" target="_blank">Terceira Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-3" onclick="window.open(this.href,'_blank');return false;">Terceira Sprint</a>
   ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-4" target="_blank">Quarta Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-4" onclick="window.open(this.href,'_blank');return false;">Quarta Sprint</a>
 </p>
 
 
-</p>
+
+
   
 
   
