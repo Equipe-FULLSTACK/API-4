@@ -1,7 +1,9 @@
 # <div align="center"> Escopo do Projeto </div>
- 
+
   #### <p align="center">
    <span id="topo">
+     <a href="www.google.com" target="_blank">TESTE</a>
+ 
 O escopo geral do projeto consiste em criar uma plataforma web de Agendamento de Reuniões abrangente, projetado para atender às necessidades específicas da empresa parceira. Este portal será uma solução integrada que visa otimizar o agendamento de reuniões em um ambiente onde as equipes se tornaram maiores e mais dispersas.
 
 O portal terá a capacidade de centralizar informações de diferentes fontes, integrando dados de calendários, agendas e sistemas de comunicação em um banco de dados unificado e sempre atualizado. Isso proporcionará uma visão holística dos horários e disponibilidades, facilitando o processo de agendamento para todos os colaboradores.
@@ -172,7 +174,7 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
   
   
 # <p align="center">SPRINTS
- <a href="google.com" target="_blank">TESTE</a>
+
 
 
 
