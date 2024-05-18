@@ -3,7 +3,6 @@
   #### <p align="center">
    <span id="topo">
      <a href="www.google.com" target="_blank">TESTE</a>
-[clique aqui](https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1).
  
 O escopo geral do projeto consiste em criar uma plataforma web de Agendamento de Reuniões abrangente, projetado para atender às necessidades específicas da empresa parceira. Este portal será uma solução integrada que visa otimizar o agendamento de reuniões em um ambiente onde as equipes se tornaram maiores e mais dispersas.
 
