@@ -12,16 +12,27 @@ interface LoginResponse {
   role: string;
 }
 
+export let eadmin: boolean = localStorage.getItem('eadmin') === 'true';
+
 export const authenticateUser = async ({ email, password }: Credentials): Promise<{ loggedId: number, loggedIn: boolean, isAdmin: boolean }> => {
   try {
     const response = await axios.post<LoginResponse>(`${API_URL}/login`, { email, password });
 
-    /* console.log('Resposta da requisição para o backend - ', response.data); */
+    /* console.log('Resposta da requisição pa9ra o backend - ', response.data); */
 
     const {id, login, admin } = response.data;
     const loggedIn = login;
     const loggedId = id;
     const isAdmin = admin === 1;
+
+    if (isAdmin && !eadmin) {
+      eadmin = true;
+      localStorage.setItem('eadmin', 'true'); // Salva o valor no local storage
+    } else if (!isAdmin && eadmin) {
+      eadmin = false;
+      localStorage.setItem('eadmin', 'false'); // Salva o valor no local storage
+    }
+    console.log('Usuário é administrador:', admin);
 
     return { loggedId, loggedIn, isAdmin };
   } catch (error) {

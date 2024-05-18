@@ -43,8 +43,10 @@ const RoomCRUD = ({
     tamanho_sala: sala?.tamanho_sala || "",
   });
 
+  const [errors, setErrors] = useState({});
   const [categoria, setCategoria] = useState<string>(formData.tipo_sala);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
+  
 
   useEffect(() => {
     setFormData({
@@ -165,7 +167,7 @@ const RoomCRUD = ({
       alert(`${error}`);
     }
   };
-  
+
 
   return (
     <>
@@ -275,7 +277,7 @@ const RoomCRUD = ({
             >
               Salvar
             </Button>
-           {/*  <Button
+            {/* <Button
               variant="contained"
               color="primary"
               onClick={handleUpdate}

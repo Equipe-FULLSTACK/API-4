@@ -10,6 +10,9 @@ import { Room } from "../../types/RoomTypes";
 import axios from "axios";
 import RoomTable from "../../components/salas/RoomPage";
 import RoomCRUD from "../../components/salas/RoomCRUD";
+import { authenticateUser } from "../../services/auth";
+import {eadmin} from "../../services/auth"
+import TelaSalaUsuarios from "../users/TelaSalaUsuarios";
 
 const darkTheme = createTheme({
   palette: {
@@ -31,6 +34,8 @@ const HomePageAdminRooms: React.FC = () => {
   const [salaEditada, setSalaEditada] = useState(null);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+
+  console.log(eadmin)
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -78,59 +83,66 @@ const HomePageAdminRooms: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Stack flexDirection="row" sx={{ width: "100%" }}>
-        <Stack height="100vh" flexDirection="row" marginRight={1}>
-          <NavBar />
-          <Divider orientation="vertical" />
-        </Stack>
-        <Divider />
-        <Stack width="100%">
-          <Stack
-            flexDirection="row"
-            height={40}
-            padding={1}
-            margin="1rem 3rem 1rem 0rem"
-            justifyContent="space-between"
-            width="auto"
-          >
-            <NovoEventoButton onClick={() => setModalOpen(true)} />
-            <SearchButton onSearch={handleSearch} />
-            <PrintButton />
-            <ProfileActions />
+    <>
+     { eadmin ? <ThemeProvider theme={darkTheme}>
+        <Stack flexDirection="row" sx={{ width: "100%" }}>
+          <Stack height="100vh" flexDirection="row" marginRight={1}>
+            <NavBar />
+            <Divider orientation="vertical" />
           </Stack>
-          <Stack marginTop={3}>
-            <Stack flexDirection={"row"} justifyContent={"end"} marginRight={3}>
-              <Stack width={"20rem"}>
-                <PermissionFilter
-                  permissionSelected={tipoSelecionado}
-                  onPermissionChange={handleTipoChange}
+          <Divider />
+          <Stack width="100%">
+            <Stack
+              flexDirection="row"
+              height={40}
+              padding={1}
+              margin="1rem 3rem 1rem 0rem"
+              justifyContent="space-between"
+              width="auto"
+            >
+              <NovoEventoButton onClick={() => setModalOpen(true)} />
+              <SearchButton onSearch={handleSearch} />
+              <PrintButton />
+              <ProfileActions />
+            </Stack>
+            <Stack marginTop={3}>
+              <Stack
+                flexDirection={"row"}
+                justifyContent={"end"}
+                marginRight={3}
+              >
+                <Stack width={"20rem"}>
+                  <PermissionFilter
+                    permissionSelected={tipoSelecionado}
+                    onPermissionChange={handleTipoChange}
+                  />
+                </Stack>
+              </Stack>
+              <Stack>
+                <RoomTable
+                  rooms={rooms}
+                  setRooms={setRooms}
+                  onDeleteRoom={handleDeleteRoom}
+                  onEditPermission={handleEditPermission}
                 />
               </Stack>
             </Stack>
-            <Stack>
-              <RoomTable
-                rooms={rooms}
-                setRooms={setRooms}
-                onDeleteRoom={handleDeleteRoom}
-                onEditPermission={handleEditPermission}
-              />
-            </Stack>
           </Stack>
         </Stack>
-      </Stack>
-      <RoomCRUD
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        sala={salaEditada}
-        adicionarSala={(novaSala) => setRooms([...rooms, novaSala])}
-        onUpdateRoom={(id, salaAtualizada) =>
-          setRooms(
-            rooms.map((sala) => (sala.id === id ? salaAtualizada : sala))
-          )
-        }
-      />
-    </ThemeProvider>
+        <RoomCRUD
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          sala={salaEditada}
+          adicionarSala={(novaSala) => setRooms([...rooms, novaSala])}
+          onUpdateRoom={(id, salaAtualizada) =>
+            setRooms(
+              rooms.map((sala) => (sala.id === id ? salaAtualizada : sala))
+            )
+          }
+        />
+      </ThemeProvider> : <TelaSalaUsuarios/>
+      }
+    </>
   );
 };
 
