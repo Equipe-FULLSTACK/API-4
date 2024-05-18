@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ThemeProvider, createTheme, Stack, Divider } from "@mui/material";
+import {
+  ThemeProvider,
+  createTheme,
+  Stack,
+  Divider,
+  Box,
+  Typography,
+} from "@mui/material";
 import NovoEventoButton from "../../components/botoes/btnNovoEvento";
 import SearchButton from "../../components/botoes/btnSearch";
 import PrintButton from "../../components/botoes/btnPrint";
@@ -11,8 +18,10 @@ import axios from "axios";
 import RoomTable from "../../components/salas/RoomPage";
 import RoomCRUD from "../../components/salas/RoomCRUD";
 import { authenticateUser } from "../../services/auth";
-import {eadmin} from "../../services/auth"
+import { eadmin } from "../../services/auth";
 import TelaSalaUsuarios from "../users/TelaSalaUsuarios";
+import BtnSIATT from "../../components/botoes/btnSIATTLogo";
+import DateInput from "../../components/calendar/CalendarComponent";
 
 const darkTheme = createTheme({
   palette: {
@@ -35,7 +44,7 @@ const HomePageAdminRooms: React.FC = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
 
-  console.log(eadmin)
+  console.log(eadmin);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -84,64 +93,86 @@ const HomePageAdminRooms: React.FC = () => {
 
   return (
     <>
-     { eadmin ? <ThemeProvider theme={darkTheme}>
-        <Stack flexDirection="row" sx={{ width: "100%" }}>
-          <Stack height="100vh" flexDirection="row" marginRight={1}>
-            <NavBar />
-            <Divider orientation="vertical" />
-          </Stack>
-          <Divider />
-          <Stack width="100%">
-            <Stack
-              flexDirection="row"
-              height={40}
-              padding={1}
-              margin="1rem 3rem 1rem 0rem"
-              justifyContent="space-between"
-              width="auto"
-            >
-              <NovoEventoButton onClick={() => setModalOpen(true)} />
-              <SearchButton onSearch={handleSearch} />
-              <PrintButton />
-              <ProfileActions />
+      {eadmin ? (
+        <ThemeProvider theme={darkTheme}>
+          <Stack flexDirection="row" sx={{ width: "100%" }}>
+            <Stack height="100vh" flexDirection="row" marginRight={1}>
+              <NavBar />
+              <Divider orientation="vertical" />
             </Stack>
-            <Stack marginTop={3}>
+            <Divider />
+            <Stack width="100%">
               <Stack
-                flexDirection={"row"}
-                justifyContent={"end"}
-                marginRight={3}
+                flexDirection="row"
+                height={40}
+                padding={1}
+                margin="1rem 3rem 1rem 0rem"
+                justifyContent="space-between"
+                width="auto"
               >
-                <Stack width={"20rem"}>
-                  <PermissionFilter
-                    permissionSelected={tipoSelecionado}
-                    onPermissionChange={handleTipoChange}
+                <Box display="flex" gap="40px">
+                  <BtnSIATT />
+                  <NovoEventoButton onClick={() => setModalOpen(true)} />
+                  <SearchButton onSearch={handleSearch} />
+                  <PrintButton />
+                </Box>
+
+                <ProfileActions />
+              </Stack>
+              <Divider />
+              <Stack>
+                <Stack
+                  flexDirection={"row"}
+                  justifyContent="space-between"
+                  marginRight={3}
+                  marginLeft={3}
+                  marginBottom={2}
+                  marginTop={2}
+                  alignItems="center"
+                >
+                  <Box display="flex" alignItems="center">
+                    <Box
+                      width={4}
+                      height={29}
+                      bgcolor="#66bb6a"
+                      borderRadius="5px"
+                      marginRight={1}
+                    />
+                    <Typography fontSize="35px">Lista de salas</Typography>
+                  </Box>
+                  <Stack width={"20rem"}>
+                    <PermissionFilter
+                      permissionSelected={tipoSelecionado}
+                      onPermissionChange={handleTipoChange}
+                    />
+                  </Stack>
+                </Stack>
+                <Stack>
+                  <RoomTable
+                    rooms={rooms}
+                    setRooms={setRooms}
+                    onDeleteRoom={handleDeleteRoom}
+                    onEditPermission={handleEditPermission}
                   />
                 </Stack>
               </Stack>
-              <Stack>
-                <RoomTable
-                  rooms={rooms}
-                  setRooms={setRooms}
-                  onDeleteRoom={handleDeleteRoom}
-                  onEditPermission={handleEditPermission}
-                />
-              </Stack>
             </Stack>
           </Stack>
-        </Stack>
-        <RoomCRUD
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          sala={salaEditada}
-          adicionarSala={(novaSala) => setRooms([...rooms, novaSala])}
-          onUpdateRoom={(id, salaAtualizada) =>
-            setRooms(
-              rooms.map((sala) => (sala.id === id ? salaAtualizada : sala))
-            )
-          }
-        />
-      </ThemeProvider> : <TelaSalaUsuarios/>
-      }
+          <RoomCRUD
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            sala={salaEditada}
+            adicionarSala={(novaSala) => setRooms([...rooms, novaSala])}
+            onUpdateRoom={(id, salaAtualizada) =>
+              setRooms(
+                rooms.map((sala) => (sala.id === id ? salaAtualizada : sala))
+              )
+            }
+          />
+        </ThemeProvider>
+      ) : (
+        <TelaSalaUsuarios />
+      )}
     </>
   );
 };

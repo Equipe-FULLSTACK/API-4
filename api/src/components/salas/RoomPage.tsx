@@ -121,18 +121,26 @@ const RoomTable: React.FC<RoomTableProps> = ({
   };
 
   const handleUpdateRoom = (roomId: number) => {
-    const roomToUpdate = rooms.find((room) => room.id_sala_presencial === roomId);
+    const roomToUpdate = rooms.find(
+      (room) => room.id_sala_presencial === roomId
+    );
     if (roomToUpdate) {
       setSelectedRoomForEdit(roomToUpdate);
       setIsEditModalOpen(true);
     }
   };
-  
 
   return (
     <>
-      {" "}
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          overflowY: "auto",
+          maxHeight: "75vh",
+          "&::-webkit-scrollbar": { borderRadius: "10px" },
+          '&::-webkit-scrollbar-thumb': { backgroundColor: '#242424', borderRadius: "20px" },
+        }}
+      >
         <Table>
           <TableHead>
             <TableRow>
