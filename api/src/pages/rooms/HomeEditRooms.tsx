@@ -130,14 +130,16 @@ const HomePageAdminRooms: React.FC = () => {
                   marginTop={2}
                   alignItems="center"
                 >
-                  <Box display="flex" alignItems="center">
+                  <Box display="flex" gap="5px" alignItems="center">
                     <Box
-                      width={4}
-                      height={29}
-                      bgcolor="#66bb6a"
-                      borderRadius="5px"
-                      marginRight={1}
-                    />
+                      width={5}
+                      height={27}
+                      sx={{
+                        background: 'linear-gradient(to top, #cfd30b, #d1d50c)',
+                        borderTopLeftRadius: 4, 
+                        borderBottomLeftRadius: 4, 
+                      }}
+                    ></Box>
                     <Typography fontSize="35px">Lista de salas</Typography>
                   </Box>
                   <Stack width={"20rem"}>

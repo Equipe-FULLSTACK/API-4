@@ -23,6 +23,7 @@ import {
   Email as EmailIcon,
   Lock as LockIcon,
   CheckCircle as CheckCircleIcon,
+  SupervisedUserCircle as SupervisedUserCircleIcon,
   Cancel as CancelIcon,
 } from "@mui/icons-material";
 import NomeColumn from "./NameColumn";
@@ -67,11 +68,13 @@ const RoomTable: React.FC<RoomTableProps> = ({
       case "2":
         return {
           color: "#2196f3",
-          icon: <SupervisedroomCircleIcon />,
+          icon: <SupervisedUserCircleIcon />,
           description: "Super usuário",
         };
       case "3":
         return { color: "#f44336", icon: <LockIcon />, description: "Admin" };
+        case "4":
+        return { color: "#333333", icon: <PersonIcon />, description: "Super admin" };
       default:
         return {
           color: "primary",
@@ -138,7 +141,10 @@ const RoomTable: React.FC<RoomTableProps> = ({
           overflowY: "auto",
           maxHeight: "75vh",
           "&::-webkit-scrollbar": { borderRadius: "10px" },
-          '&::-webkit-scrollbar-thumb': { backgroundColor: '#242424', borderRadius: "20px" },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#242424",
+            borderRadius: "20px",
+          },
         }}
       >
         <Table>
@@ -170,12 +176,13 @@ const RoomTable: React.FC<RoomTableProps> = ({
             {rooms.map((room) => (
               <TableRow key={room.id_sala}>
                 <TableCell
-                  style={{
+                   /* sx={{
                     borderLeft: `4px solid ${
-                      getColorByPermission(room.tipo_sala).color
+                      room.permissao_sala ? getColorByPermission(room.permissao_sala).color : '#f44336'
                     }`,
-                  }}
+                  }}  */
                 ></TableCell>
+
                 <TableCell>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Typography
@@ -186,7 +193,7 @@ const RoomTable: React.FC<RoomTableProps> = ({
                         width={10}
                         height={10}
                         borderRadius="50%"
-                        bgcolor="success.main"
+                        sx={{ backgroundColor: room.permissao_sala ? getColorByPermission(room.permissao_sala).color : '#f44336' }} 
                         display="inline-block"
                         mr={1}
                       />
@@ -238,18 +245,40 @@ const RoomTable: React.FC<RoomTableProps> = ({
                     alignItems="center"
                     display="flex"
                     gap="10px"
-                    marginLeft="20%"
                   >
-                    <Box display="flex" justifyContent="center">
-                      {room.permissao_sala ? (
-                        <MeetingRoomIcon color="success" />
-                      ) : (
-                        <CancelIcon color="error" />
-                      )}
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      width="8vw"
+                      bgcolor={
+                        room.permissao_sala
+                          ? getColorByPermission(room.permissao_sala).color
+                          : "#f44336"
+                      }
+                      borderRadius={2}
+                      padding={1}
+                    >
+                      <Avatar
+                        sx={{
+                          width: 24,
+                          height: 24,
+                          bgcolor: "transparent",
+                          marginRight: 1,
+                        }}
+                      >
+                        {room.permissao_sala ? (
+                          getColorByPermission(room.permissao_sala).icon
+                        ) : (
+                          <CancelIcon />
+                        )}
+                      </Avatar>
+                      <Typography variant="body2" color="text.primary">
+                        {room.permissao_sala
+                          ? getColorByPermission(room.permissao_sala)
+                              .description
+                          : "Sem permissão"}
+                      </Typography>
                     </Box>
-                    <Typography variant="body2">
-                      {room.permissao_sala}
-                    </Typography>
                   </Stack>
                 </TableCell>
                 <TableCell>
