@@ -40,13 +40,13 @@ const RoomCRUD = ({
     tipo_sala: sala?.tipo_sala || "",
     link_sala: sala?.link_sala || "",
     vagas_sala: sala?.vagas_sala || "",
-    tamanho_sala: sala?.tamanho_sala || "",
+    tamanho_sala: sala?.tamanho_sala || "Pequena",
   });
 
   const [errors, setErrors] = useState({});
   const [categoria, setCategoria] = useState<string>(formData.tipo_sala);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
-  
+  const [tamanhoSala, setTamanhoSala] = useState<string>(formData.tamanho_sala);
 
   useEffect(() => {
     setFormData({
@@ -65,8 +65,16 @@ const RoomCRUD = ({
     const { name, value } = event.target;
     if (name === "tipo_sala") {
       setCategoria(value);
+      // Defina tamanho_sala para vazio se o tipo_sala for Online
+      const novoTamanhoSala = value === "Online" ? "" : tamanhoSala;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+        tamanho_sala: novoTamanhoSala,
+      }));
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const isFormComplete =
@@ -132,29 +140,22 @@ const RoomCRUD = ({
   };
 
   const handleUpdate = async () => {
-    const {
-      id,
-      nome,
-      permissao_sala,
-      vagas_sala,
-      tamanho_sala,
-    } = formData;
+    const { id, nome, permissao_sala, vagas_sala, tamanho_sala } = formData;
 
-    console.log(id)
-  
+    console.log(id);
+
     try {
-     
       let url = `http://localhost:3000/salapresencial/${id}`;
-  
+
       let response = await axios.put(url, {
         nome: nome,
         tamanho: tamanho_sala,
         vagas: vagas_sala,
         permissao_sala: permissao_sala,
       });
-  
+
       console.log(`API ${url} response:`, response.data);
-  
+
       if (response.data) {
         setSnackbarMessage("Sala atualizada com sucesso!");
         onUpdateRoom(id, formData); // Atualiza a sala na lista
@@ -167,7 +168,6 @@ const RoomCRUD = ({
       alert(`${error}`);
     }
   };
-
 
   return (
     <>
@@ -217,15 +217,19 @@ const RoomCRUD = ({
 
           {categoria === "Presencial" && (
             <>
-              <TextField
-                label="Tamanho"
+              <Select
+                labelId="tamanho-sala-label"
+                id="tamanho-sala"
                 name="tamanho_sala"
-                type="text"
                 value={formData.tamanho_sala}
                 onChange={handleChange}
-                fullWidth
-                margin="normal"
-              />
+                label="Tamanho da Sala"
+              >
+                <MenuItem value="Pequena">Pequena</MenuItem>
+                <MenuItem value="Média">Média</MenuItem>
+                <MenuItem value="Grande">Grande</MenuItem>
+                <MenuItem value="Auditório">Auditório</MenuItem>
+              </Select>
               <TextField
                 label="Vagas"
                 name="vagas_sala"
