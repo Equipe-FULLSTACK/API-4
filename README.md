@@ -89,13 +89,13 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 <div align="center">
 
 <br><br>
-    <img src="documentacao/po/ProductBacklogTotal.png" width="640" height="360"><br>
+    <img src="documentacao/po/ProductBacklogTotal.png" width="720" height="380"><br>
 <h1> Diagrama Conceitual do Banco de Dados </h1>
 <br><br>
-    <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="720" height="380"><br>
 <h1> Diagrama Logico do Banco de Dados </h1>
 <br><br>
-    <img src="documentacao/db/sprint3/LogicoSprint3.png" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/LogicoSprint3.png" width="720" height="380"><br>
 </div>
   <h1><div align="center">Nossa Equipe</div></h1>
 
