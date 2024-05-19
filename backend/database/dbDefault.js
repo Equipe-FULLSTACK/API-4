@@ -15,7 +15,7 @@ const createTableQueries = {
         CREATE TABLE salaPresencial (
             id_sala_presencial INT PRIMARY KEY AUTO_INCREMENT,
             nome VARCHAR(100) NOT NULL,
-            tamanho INT,
+            tamanho ENUM('Pequena', 'Média', 'Grande','Auditório') NOT NULL DEFAULT 'Pequena', 
             vagas INT,
             permissao_sala VARCHAR(1) NOT NULL DEFAULT '1'
         );

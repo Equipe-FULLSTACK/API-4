@@ -20,16 +20,16 @@ const initialInserts = {
     
     salaPresencial:`
         INSERT INTO salaPresencial (nome, tamanho, vagas, permissao_sala) VALUES
-            ('Sala Presencial 1', 50, 30, '1'),
-            ('Sala Presencial 2', 40, 25, '1'),
-            ('Sala Presencial 3', 60, 35, '1'),
-            ('Sala Presencial 4', 45, 28, '1'),
-            ('Sala Presencial 5', 55, 32, '1'),
-            ('Sala Presencial 6', 70, 40, '1'),
-            ('Sala Presencial 7', 30, 20, '1'),
-            ('Sala Presencial 8', 65, 38, '1'),
-            ('Sala Presencial 9', 75, 42, '1'),
-            ('Sala Presencial 10', 80, 45, '1');`
+            ('Sala Presencial 1', 'Pequena', 10, '1'),
+            ('Sala Presencial 2', 'Pequena', 4, '1'),
+            ('Sala Presencial 3', 'Média', 15, '2'),
+            ('Sala Presencial 4', 'Média', 20, '2'),
+            ('Sala Presencial 5', 'Grande', 15, '3'),
+            ('Sala Presencial 6', 'Grande', 20, '3'),
+            ('Sala Presencial 7', 'Grande', 25, '3'),
+            ('Sala Presencial 8', 'Auditório', 150, '4'),
+            ('Sala Presencial 9', 'Auditório', 200, '4'),
+            ('Sala Presencial 10', 'Auditório', 100, '4');`
         ,
 
     salaOnline:`
