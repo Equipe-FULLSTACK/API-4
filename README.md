@@ -2,7 +2,7 @@
 
   #### <p align="center">
    <span id="topo">
-     <a href="www.google.com" target="_blank">TESTE</a>
+     
  
 O escopo geral do projeto consiste em criar uma plataforma web de Agendamento de Reuniões abrangente, projetado para atender às necessidades específicas da empresa parceira. Este portal será uma solução integrada que visa otimizar o agendamento de reuniões em um ambiente onde as equipes se tornaram maiores e mais dispersas.
 
@@ -89,10 +89,10 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 <div align="center">
 
 <br><br>
-    <img src="/readme/TasksSprint1.png" width="640" height="360"><br>
+    <img src="documentacao/po/ProductBacklogTotal.png" width="640" height="360"><br>
 <h1> Diagrama Conceitual do Banco de Dados </h1>
 <br><br>
-    <img src="/readme/Conceitual02.png" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="640" height="360"><br>
 <h1> Diagrama Logico do Banco de Dados </h1>
 <br><br>
     <img src="/readme/Logico02.png" width="640" height="360"><br>
