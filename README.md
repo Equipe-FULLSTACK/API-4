@@ -95,7 +95,7 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
     <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="640" height="360"><br>
 <h1> Diagrama Logico do Banco de Dados </h1>
 <br><br>
-    <img src="/readme/Logico02.png" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/LogicoSprint3.png" width="640" height="360"><br>
 </div>
   <h1><div align="center">Nossa Equipe</div></h1>
 
