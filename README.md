@@ -20,6 +20,10 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 
   <h1><div align="center"> Estado Atual do Projeto: </div></h1>
   <br>
+  <div>
+   [<img src="https://i.ytimg.com/vi/D25dlZTuNJY/hqdefault.jpg?s…RhDIFQoZTAP&rs=AOn4CLCwS-tO39o4oldZxXAQP_gPy8t2jA" width="600" height="400" />](https://www.youtube.com/watch?v=IOb_bTfLFQE)
+  </div>
+
   <div align="center">
   <img src="/readme/api01.jpg" width="640" height="360"><br>
   <img src="/readme/api02.jpg" width="640" height="360"><br>
