@@ -13,59 +13,10 @@
   <img src="/readme/api04.jpg" width="640" height="360"><br>
   </div>
  
-<h1><div align="center"> Escopo do Projeto </div></h1>
   
 <br>
   
-<h1> <p align="center">Requisitos do Projeto</p> </h1>
-  
-  ## <p align="center">Requisitos Funcionais
- *Criação de reuniões*
-- RF1: Os usuários devem poder criar reuniões, definindo a sala, horário e dia.
-- RF2: A plataforma deve permitir a personalização das etapas e a ordem de execução de acordo com as necessidades da equipe.
-- RF3: Deve ser possível atribuir prioridades aos agendamentos de salas.
 
-*Acompanhamento em Tempo Real*
-- RF4: A plataforma deve fornecer um painel de controle para visualização em tempo real do status das salas.
-- RF5: Os usuários devem poder filtrar as salas com base em diferentes critérios, como data, responsável ou estado.
-
-*Segurança e Controle de Acesso*
-- RF12: Deve ser implementado um sistema de autenticação seguro para garantir o acesso somente a usuários autorizados.
-- RF13: A plataforma deve suportar diferentes níveis de permissão de acesso, incluindo administradores e usuários regulares.
-
-*Personalização e Configuração*
-- RF14: A personalização dos fluxos de trabalho deve incluir a adição, remoção ou reordenação de reuniões.
-
-*Integração de Dados*
-- RF15: A plataforma deve permitir a integração com sistemas externos através de APIs para facilitar a troca de informações.
-    
-  #
-    
-  ## <p align="center">Requisitos Não Funcionais
-    *Desempenho*
-- RNF2: O tempo de resposta para carregar o painel de controle não deve exceder X segundos mesmo em momentos de pico de uso.
-
-*Disponibilidade*
-- RNF5: A plataforma deve estar disponível para uso 24 horas por dia, 7 dias por semana, exceto durante manutenções programadas.
-
-*Usabilidade*
-- RNF7: A interface do usuário deve ser intuitiva, com uma curva de aprendizado mínima para que os usuários possam interagir sem dificuldades.
-- RNF8: O design responsivo deve garantir que a plataforma seja facilmente utilizável em dispositivos desktop e móveis.
-
-#
-
-## <p align="center">Requisitos de Interface
-
-*Layout e Navegação*
-- RI1: A interface deve ter um layout limpo e organizado, com uma navegação intuitiva para permitir fácil acesso às funcionalidades.
-
-*Painel de Controle*
-
-*Detalhes do Processo*
-
-*Formulários e Entrada de Dados*
-
-*Notificações e Alertas*
 
   #
   
@@ -148,13 +99,13 @@
     <img src="/readme/BurndownSprint1.png" width="640" height="360"><br>
 <h1> Backlog da Sprint </h1>
 <br><br>
-    <img src="/readme/TasksSprint1.png" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/TasksSprint3att.png" width="640" height="360"><br>
 <h1> Diagrama Conceitual do Banco de Dados </h1>
 <br><br>
-    <img src="/readme/Conceitual02.png" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="640" height="360"><br>
 <h1> Diagrama Logico do Banco de Dados </h1>
 <br><br>
-    <img src="/readme/Logico02.png" width="640" height="360"><br>
+    <img src="documentacao/db/sprint3/LogicoSprint3.png" width="640" height="360"><br>
 </div>
   
   
