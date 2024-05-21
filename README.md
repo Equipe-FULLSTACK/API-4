@@ -1,28 +1,55 @@
  Terceira Sprint - 26/05/2024
   ============================
-  ****************************  
-<h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
+  ****************************
+   <span id="topo">
+<h1><div align="center"> Equipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
 <h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
- #### <div align="center"> Estado do Projeto ao final da Terceira Sprint: </div>1>
-  <br>
-  <div align="center">
-  <img src="/readme/api01.jpg" width="640" height="360"><br>
-  <img src="/readme/api02.jpg" width="640" height="360"><br>
-  <img src="/readme/api03.jpg" width="640" height="360"><br>
-  <img src="/readme/api04.jpg" width="640" height="360"><br>
-  </div>
+  #### <div align="center"> Estado do Projeto ao final da Segunda Sprint: </div>
  
-  
+![login](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/46f04ee0-016f-4506-a19f-46cf2ee9afcf)
 <br>
+
+![users1](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/0652e4a0-8401-4781-a275-8791dd6df4e8)
+<br>
+
+ ![Users](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/af972abc-fa51-4e6d-9d48-9312a2426a3a) 
+ <br>
+
+ 
+A Sprint teve inicio na data de 15/04/2024. Foram criadas as telas home, cadastro de salas e usuarios  e tela de agendamento. assim como implementada a integração com o banco de dados entre o front-end e o back-end da aplicação.
+
+
+
+
+
+
+Ao longo da Sprint, foi feito um levantamento de requisitos e implementadas novas funções para o projeto, como:
+
+
+- Página "home"
+- Página "cadastro salas"						
+- Página "cadastrousuario"
+- Página "Agendamento"
+- Design da interface "Agendamento" (complemento)						
+- Backend - Integração API com Backend - CRUD Usuários						
+- Integração API com Backend - CRUD Salas						
+- Integração API com Backend - CRUD Agendamentos 						
+- Integração API com Backend -  Select geral 						
+- integração Back com Banco de Dados (CRUD: Usuário, Salas, Agendamentos)						
+- CRUD Zoom 						
+- Atualização Banco de Dados						
+- Sessão de Login integrado com a interface ADM/Usuário						
+- Criar documentação técnica/Operacional								
   
 
+### <p align = "center">Gráfico de Burndown
 
-  #
-  
-  <br>
 
-<h1><div align="center">Nossa Equipe</div></h1>
+ <br>
+  <div align="center"> <img src="/readme/BurndownSprint2-4sem.png "width="640" height="360"> </div>
+  <br><br>
+  <h1><div align="center">Nossa Equipe</div></h1>
 
 <div align="center">
 <table style="align: center">
@@ -92,29 +119,10 @@
 </table>
 <br>
 </div>
-  
-<div align="center">
-<h1> Burndown
-<br><br>
-    <img src="/readme/BurndownSprint1.png" width="640" height="360"><br>
-<h1> Backlog da Sprint </h1>
-<br><br>
-    <img src="documentacao/db/sprint3/TasksSprint3att.png" width="640" height="360"><br>
-<h1> Diagrama Conceitual do Banco de Dados </h1>
-<br><br>
-    <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="640" height="360"><br>
-<h1> Diagrama Logico do Banco de Dados </h1>
-<br><br>
-    <img src="documentacao/db/sprint3/LogicoSprint3.png" width="640" height="360"><br>
-</div>
-  
-  
- 
 
-     
   
   
-# <p align="center">SPRINTS
+  # <p align="center">SPRINTS
 
   ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1">Primeira Sprint</a>
   ## <br>
@@ -123,8 +131,7 @@
   ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-3">Terceira Sprint</a>
   ## <br>
   ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-4">Quarta Sprint</a>
-
-</p>
+  <br><br>
   
-
+→ [Voltar ao topo](#topo)
   
