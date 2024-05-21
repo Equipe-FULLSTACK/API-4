@@ -182,7 +182,7 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 
 
 
-<a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1" target="_blank" rel="noopener noreferrer">SPRINT1</a>
+[SPRINT 1](https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1)
 
   ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1" onclick="window.open(this.href,'_blank');return false;">Primeira Sprint</a>
   ## <br>
