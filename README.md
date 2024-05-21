@@ -18,10 +18,11 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 <div align="center"> <img src="/readme/fullstack.png" width="200" height="200"> </div>
 
 
-  <h1><div align="center"> Estado Atual do Projeto: </div></h1>
-  <br>
-  <div>
-   [<img src="https://i.ytimg.com/vi/D25dlZTuNJY/hqdefault.jpg?s…RhDIFQoZTAP&rs=AOn4CLCwS-tO39o4oldZxXAQP_gPy8t2jA" width="600" height="400" />](https://www.youtube.com/watch?v=IOb_bTfLFQE)
+  #### <div align="center"> Sprint Review 1 </div>
+  <div align="center">
+  
+  [<img src="https://i.ytimg.com/vi/D25dlZTuNJY/hqdefault.jpg?s…RhDIFQoZTAP&rs=AOn4CLCwS-tO39o4oldZxXAQP_gPy8t2jA" width="600" height="400" />](https://www.youtube.com/watch?v=IOb_bTfLFQE&t=1s)
+
   </div>
 
   <div align="center">
