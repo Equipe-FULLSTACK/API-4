@@ -21,7 +21,7 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
   #### <div align="center"> Sprint Review 1 </div>
   <div align="center">
   
-  [<img src="https://i.ytimg.com/vi/D25dlZTuNJY/hqdefault.jpg?s…RhDIFQoZTAP&rs=AOn4CLCwS-tO39o4oldZxXAQP_gPy8t2jA" width="600" height="400" />](https://www.youtube.com/watch?v=IOb_bTfLFQE&t=1s)
+  [<img src="https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/e3081eac-03de-4276-86ef-d63aded5be19" width="700" height="400" />](https://www.youtube.com/watch?v=IOb_bTfLFQE&t=1s)
 
   </div>
 
