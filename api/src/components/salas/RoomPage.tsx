@@ -27,7 +27,7 @@ import {
 import NomeColumn from './NameColumn';
 import PermissaoColumn from './PermissionColumn';
 import DiretoriaColumn from './TypeColumn';
-import { Room } from '../../types/RoomTypes';
+import { Room } from '../../types/roomTypes';
 
 interface RoomTableProps {
     rooms: Room[];

@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router-dom';
 import HomePageAdmin from '../pages/home/HomePageAdmin';
-import HomePageUser from '../pages/home/HomePageAdmin';
+import HomePageUser from '../pages/home/HomePageUser';
 import BoolFilter from '../components/componentTest';
 import HomePageAdminUser from '../pages/users/HomeEditUser';
 import HomePageAdminRooms from '../pages/rooms/HomeEditRooms';

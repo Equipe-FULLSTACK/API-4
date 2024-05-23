@@ -11,7 +11,7 @@ import PrintButton from '../../components/botoes/btnPrint';
 import ProfileActions from '../../components/perfil/profileActions';
 import NavBar from '../../components/navBar/navBar';
 import PermissionFilter from '../../components/salas/PermissionFilter';
-import { Room } from '../../types/RoomTypes';
+import { Room } from '../../types/roomTypes';
 import axios from 'axios';
 import RoomTable from '../../components/salas/RoomPage';
 import RoomCRUD from '../../components/salas/RoomCRUD';
