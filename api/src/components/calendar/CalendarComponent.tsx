@@ -4,20 +4,17 @@ import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-f
 import { ptBR } from 'date-fns/locale';
 
 interface DateInputProps {
-    onDateChange: (date: string) => void;
-    initialDate?: string;
+    onDateChange: (date: Date) => void;
+    initialDate: Date;
     formatDate: 'Dia' | 'Semana' | 'Mes' | 'Todos';
     disabled?: boolean;
     required?: boolean;
 }
 
 const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, formatDate, disabled = false, required = false }) => {
-    // Data de hoje em formato 'yyyy-MM-dd'
-    const today = format(new Date(), 'yyyy-MM-dd');
-    
     // Estado para a data selecionada e descrição da data
-    const [selectedDate, setSelectedDate] = useState(initialDate || today);
-    const [dateDescription, setDateDescription] = useState('');
+    const [selectedDate, setSelectedDate] = useState<Date>(initialDate);
+    const [dateDescription, setDateDescription] = useState<string>('');
 
     // Atualiza a data selecionada quando initialDate muda
     useEffect(() => {
@@ -28,16 +25,17 @@ const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, format
 
     // Atualiza a data e chama a função de mudança de data
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newDate = event.target.value;
+        const newDate = new Date(event.target.value);
         setSelectedDate(newDate);
         onDateChange(newDate);
+        console.log(`Teste nova data ${newDate}`);
     };
 
     // Atualiza a descrição da data sempre que selectedDate ou formatDate mudarem
     useEffect(() => {
         try {
             let description = '';
-            const date = new Date(selectedDate);
+            const date = selectedDate;
 
             // Cria descrição com base no formato da data
             if (formatDate === 'Dia') {
@@ -50,9 +48,9 @@ const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, format
                 const startOfSelectedMonth = format(startOfMonth(date), 'dd/MM/yyyy', { locale: ptBR });
                 const endOfSelectedMonth = format(endOfMonth(date), 'dd/MM/yyyy', { locale: ptBR });
                 description = `Agenda do mês de ${startOfSelectedMonth} a ${endOfSelectedMonth}`;
-            } else
-                description = 'Lista de todas as reuniões cadastradas no sistema.'
-
+            } else {
+                description = 'Lista de todas as reuniões cadastradas no sistema.';
+            }
 
             // Atualiza a descrição da data
             setDateDescription(description);
@@ -70,7 +68,7 @@ const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, format
                     type="date"
                     lang="PT-BR"
                     label="Selecione uma data"
-                    value={selectedDate}
+                    value={format(selectedDate, 'yyyy-MM-dd')}
                     onChange={handleDateChange}
                     InputLabelProps={{ shrink: true }}
                     sx={{ width: 200 }}

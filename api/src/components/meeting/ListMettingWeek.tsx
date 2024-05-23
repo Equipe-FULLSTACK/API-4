@@ -1,28 +1,29 @@
 import React from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import CardMettingDay from './CardMettingDay';
+import { Meeting } from '../../types/MeetingTypes';
+import { startOfWeek, endOfWeek, format, isSameDay } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 // Função para calcular os dias da semana com base na data selecionada
-const calcularDiasDaSemana = (dataSelecionada) => {
-    const data = new Date(dataSelecionada);
-    const diaDaSemana = data.getDay(); // 0 para domingo, 6 para sábado
+const calcularDiasDaSemana = (dataSelecionada: Date): Date[] => {
+    const inicioSemana = startOfWeek(dataSelecionada, { weekStartsOn: 0 });
+    const fimSemana = endOfWeek(dataSelecionada, { weekStartsOn: 0 });
 
-    // Calcula o início da semana (domingo)
-    const inicioSemana = new Date(data);
-    inicioSemana.setDate(data.getDate() - diaDaSemana);
-
-    // Calcula todos os dias da semana
     const diasDaSemana = [];
-    for (let i = 0; i < 7; i++) {
-        const dia = new Date(inicioSemana);
-        dia.setDate(inicioSemana.getDate() + i);
-        diasDaSemana.push(dia);
+    for (let dia = inicioSemana; dia <= fimSemana; dia.setDate(dia.getDate() + 1)) {
+        diasDaSemana.push(new Date(dia));
     }
 
     return diasDaSemana;
 };
 
-const VisualizacaoSemanal = ({ dataSelecionada, reunioes }) => {
+interface VisualizacaoSemanalProps {
+  dataSelecionada: Date;
+  reunioes: Meeting[];
+}
+
+const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSelecionada, reunioes }) => {
     // Calcula os dias da semana com base na data selecionada
     const diasDaSemana = calcularDiasDaSemana(dataSelecionada);
     // Nomes dos dias da semana
@@ -30,9 +31,11 @@ const VisualizacaoSemanal = ({ dataSelecionada, reunioes }) => {
 
     // Agrupa reuniões por dia
     const reunioesPorDia = diasDaSemana.map(dia => {
-        const dataFormatada = dia.toISOString().split('T')[0];
-        return reunioes.filter(reuniao => reuniao.data === dataFormatada);
+        return reunioes.filter(reuniao => isSameDay(new Date(reuniao.data_inicio), dia));
     });
+
+    // Formata a hora para 'HH:mm'
+    const formatarHora = (date: Date): string => format(date, 'HH:mm', { locale: ptBR });
 
     return (
         <div>
@@ -41,9 +44,9 @@ const VisualizacaoSemanal = ({ dataSelecionada, reunioes }) => {
                     <TableRow>
                         {/* Cabeçalho com a hora e os nomes dos dias da semana com suas datas */}
                         <TableCell>Hora</TableCell>
-                        {nomesDiasDaSemana.map((nomeDia, index) => (
+                        {diasDaSemana.map((dia, index) => (
                             <TableCell key={index}>
-                                {nomeDia} - {diasDaSemana[index].getDate()}
+                                {nomesDiasDaSemana[dia.getDay()]} - {format(dia, 'dd/MM')}
                             </TableCell>
                         ))}
                     </TableRow>
@@ -54,7 +57,9 @@ const VisualizacaoSemanal = ({ dataSelecionada, reunioes }) => {
                         const hora = `${String(indexHora).padStart(2, '0')}:00`;
 
                         // Verifica se há reuniões nesta hora para qualquer dia da semana
-                        const temReunioesNestaHora = reunioesPorDia.some(reunioesNesteDia => reunioesNesteDia.some(reuniao => reuniao.inicio === hora));
+                        const temReunioesNestaHora = reunioesPorDia.some(reunioesNesteDia => 
+                            reunioesNesteDia.some(reuniao => formatarHora(new Date(reuniao.data_inicio)) === hora)
+                        );
 
                         if (temReunioesNestaHora) {
                             return (
@@ -64,13 +69,15 @@ const VisualizacaoSemanal = ({ dataSelecionada, reunioes }) => {
                                     {reunioesPorDia.map((reunioesNesteDia, index) => (
                                         <TableCell key={index}>
                                             {/* Filtra as reuniões com a hora atual e mapeia */}
-                                            {reunioesNesteDia.filter(reuniao => reuniao.inicio === hora).map((reuniao, reuniaoIndex) => (
+                                            {reunioesNesteDia
+                                                .filter(reuniao => formatarHora(new Date(reuniao.data_inicio)) === hora)
+                                                .map((reuniao, reuniaoIndex) => (
                                                 <CardMettingDay
                                                     key={reuniaoIndex}
-                                                    nome={reuniao.nome}
-                                                    inicio={reuniao.inicio}
-                                                    termino={reuniao.termino}
-                                                    tipoReuniao={reuniao.tipoReuniao}
+                                                    nome={reuniao.titulo}
+                                                    inicio={reuniao.data_inicio.toString()}
+                                                    termino={reuniao.data_final.toString()}
+                                                    tipoReuniao={reuniao.tipo}
                                                 />
                                             ))}
                                         </TableCell>

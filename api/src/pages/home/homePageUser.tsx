@@ -64,7 +64,8 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
 
   // ESTADOS DO COMPONENTE
   const [modalOpen, setModalOpen] = useState(false); // MANIPULACAO MODAL
-  const [data, setData] = useState<string>(new Date().toISOString().slice(0, 10)); // ESTADO DATA INICIAL HOJE
+  const [date, setDate] = useState<Date>(new Date());
+
   const [tipoSelecionado, setTipoSelecionado] = useState('todos');  // ESTADO PARA TIPO DE REUNIAO
   const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos'); // ESTADO PARA PERIODO
 
@@ -200,8 +201,8 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
 
 
   // Função para lidar com a mudança de data
-  const handleDateChange = (date: string) => {
-    setData(date);
+  const handleDateChange = (date: Date) => {
+    setDate(date);
     console.log('Data selecionada:', date);
   };
 
@@ -331,7 +332,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           <Stack marginTop={3}>
             <Stack flexDirection={'row'} justifyContent={'space-between'} marginRight={3}>
               <Stack width="auto" margin={1}>
-                <DateInput onDateChange={handleDateChange} formatDate={periodo} initialDate={data} />
+                <DateInput onDateChange={handleDateChange} formatDate={periodo} initialDate={date} />
               </Stack>
 
               <Stack width={'20rem'}>
@@ -346,45 +347,31 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
                 {/* Visualização diária */}
                 <div style={styleDay}>
                   <VisualizacaoDiaria
-                    
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
+                    dataSelecionada={date}
                     reunioes={meetings}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
                   />
                 </div>
 
                 {/* Visualização semanal */}
                 <div style={styleWeek}>
                   <VisualizacaoSemanal
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
+                    dataSelecionada={date}
                     reunioes={meetings}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
                   />
                 </div>
 
                 {/* Visualização mensal */}
                 <div style={styleMonth}>
                   <VisualizacaoMensal
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
+                    dataSelecionada={date}
                     reunioes={meetings}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
                   />
                 </div>
 
                 {/* Visualização mensal */}
                 <div style={styleAll}>
                   <VisualizacaoAll
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
                     reunioes={meetings}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
                   />
                 </div>
 
