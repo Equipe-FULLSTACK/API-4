@@ -43,6 +43,8 @@ const HomePageAdminRooms: React.FC = () => {
   const [salaEditada, setSalaEditada] = useState(null);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+  const [allRooms, setAllRooms] = useState<Room[]>([]);
+  const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
 
   console.log(eadmin);
 
@@ -50,22 +52,41 @@ const HomePageAdminRooms: React.FC = () => {
     const fetchRooms = async () => {
       try {
         const response = await axios.get<Room[]>(`${API_URL}/salapresencial`);
-        setRooms(response.data);
+        setAllRooms(response.data);
+        // Ao buscar os quartos, defina os quartos filtrados inicialmente como todos os quartos
+        setFilteredRooms(response.data);
+        setSelectedRoomId(
+          response.data.length > 0 ? response.data[0].id_sala_presencial : null
+        );
+        console.log("Salas:", response.data);
       } catch (error) {
         console.error("Error fetching rooms:", error);
       }
     };
-
+  
     fetchRooms();
   }, []);
+  
 
-  const handleSearch = async (text: string) => {
-    // A FAZER
-  };
+  const handleSearch = async (text: string) => {};
 
-  const handleTipoChange = (novoTipo: string) => {
-    // A FAZER
+  const handleTipoChange = async (novoTipo: string) => {
+    setTipoSelecionado(novoTipo);
+    try {
+      let response;
+      if (novoTipo === "todos") {
+        // Se todos os tipos de permissão devem ser exibidos, defina os quartos filtrados como todos os quartos
+        setFilteredRooms(allRooms);
+      } else {
+        // Se um tipo de permissão específico foi selecionado, filtre os quartos pelo tipo de permissão
+        const filtered = allRooms.filter((room) => room.permissao_sala === novoTipo);
+        setFilteredRooms(filtered);
+      }
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
   };
+  
 
   const handleDeleteRoom = async (roomId: number) => {
     try {
@@ -83,8 +104,9 @@ const HomePageAdminRooms: React.FC = () => {
       const response = await axios.get<Room>(
         `${API_URL}/salapresencial/${roomId}`
       );
-      setSalaEditada(response.data); // Define a sala editada com base na resposta da API
-      setSelectedRoomId(response.data.id); // Define o ID da sala selecionada
+      console.log("Dados da sala recebidos:", response.data);
+      console.log("ID da sala selecionada:", response.data.id_sala_presencial);
+      setSalaEditada(response.data); // Define a sala editada com os dados da sala selecionada
       setModalOpen(true); // Abre o modal para edição
     } catch (error) {
       console.error("Error fetching room for edit:", error);
@@ -135,9 +157,9 @@ const HomePageAdminRooms: React.FC = () => {
                       width={5}
                       height={27}
                       sx={{
-                        background: 'linear-gradient(to top, #cfd30b, #d1d50c)',
-                        borderTopLeftRadius: 4, 
-                        borderBottomLeftRadius: 4, 
+                        background: "linear-gradient(to top, #cfd30b, #d1d50c)",
+                        borderTopLeftRadius: 4,
+                        borderBottomLeftRadius: 4,
                       }}
                     ></Box>
                     <Typography fontSize="35px">Lista de salas</Typography>
@@ -151,7 +173,7 @@ const HomePageAdminRooms: React.FC = () => {
                 </Stack>
                 <Stack>
                   <RoomTable
-                    rooms={rooms}
+                    rooms={filteredRooms}
                     setRooms={setRooms}
                     onDeleteRoom={handleDeleteRoom}
                     onEditPermission={handleEditPermission}
@@ -165,11 +187,14 @@ const HomePageAdminRooms: React.FC = () => {
             onClose={() => setModalOpen(false)}
             sala={salaEditada}
             adicionarSala={(novaSala) => setRooms([...rooms, novaSala])}
-            onUpdateRoom={(id, salaAtualizada) =>
+            onUpdateRoom={(salaAtualizada) =>
               setRooms(
-                rooms.map((sala) => (sala.id === id ? salaAtualizada : sala))
+                rooms.map((sala) =>
+                  sala.id === salaAtualizada.id ? salaAtualizada : sala
+                )
               )
             }
+            selectedRoomId={selectedRoomId}
           />
         </ThemeProvider>
       ) : (

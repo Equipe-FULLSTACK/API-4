@@ -16,6 +16,7 @@ import CustomizedSnackbars from "../snackbar/Snackbar";
 
 interface FormData {
   id: number | null;
+  id_sala_presencial?: number;
   nome: string;
   permissao_sala: string;
   tipo_sala: string;
@@ -29,9 +30,9 @@ const RoomCRUD = ({
   onClose,
   sala,
   adicionarSala,
-  atualizarSala,
   onUpdateRoom,
   onDeleteRoom,
+  selectedRoomId, // Recebe o ID da sala selecionada
 }) => {
   const [formData, setFormData] = useState<FormData>({
     id: sala?.id || null,
@@ -120,7 +121,6 @@ const RoomCRUD = ({
         setSnackbarMessage("Sala adicionada com sucesso!");
         console.log("Sala:", response.data);
         if (nomeSala) {
-          adicionarSala(formData);
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -140,25 +140,30 @@ const RoomCRUD = ({
   };
 
   const handleUpdate = async () => {
-    const { id, nome, permissao_sala, vagas_sala, tamanho_sala } = formData;
-
-    console.log(id);
-
+    const { id_sala_presencial, nome, permissao_sala, vagas_sala, tamanho_sala } = formData;
+  
+    console.log("ID recebido em handleUpdate:", id_sala_presencial);
+  
+    if (!id_sala_presencial) {
+      alert("ID não encontrado. Verifique os dados do formulário.");
+      return;
+    }
+  
     try {
-      let url = `http://localhost:3000/salapresencial/${id}`;
-
+      let url = `http://localhost:3000/salapresencial/${id_sala_presencial}`;
+  
       let response = await axios.put(url, {
         nome: nome,
         tamanho: tamanho_sala,
         vagas: vagas_sala,
         permissao_sala: permissao_sala,
       });
-
+  
       console.log(`API ${url} response:`, response.data);
-
+  
       if (response.data) {
         setSnackbarMessage("Sala atualizada com sucesso!");
-        onUpdateRoom(id, formData); // Atualiza a sala na lista
+        onUpdateRoom(response.data); // Atualiza a sala na lista
         onClose();
       } else {
         throw new Error("Nenhuma resposta recebida do servidor");
@@ -168,6 +173,7 @@ const RoomCRUD = ({
       alert(`${error}`);
     }
   };
+  
 
   return (
     <>

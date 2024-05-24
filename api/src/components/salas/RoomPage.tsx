@@ -249,7 +249,7 @@ const RoomTable: React.FC<RoomTableProps> = ({
                     <Box
                       display="flex"
                       alignItems="center"
-                      width="8vw"
+                      width="11vw"
                       bgcolor={
                         room.permissao_sala
                           ? getColorByPermission(room.permissao_sala).color
