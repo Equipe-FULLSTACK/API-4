@@ -15,3 +15,11 @@ export interface User {
     email: string;
     password: string;
   }
+
+  export interface UserStatus {
+    id: number;
+    valid: boolean;
+    username: string;
+    admin: boolean;
+    role: string;
+}

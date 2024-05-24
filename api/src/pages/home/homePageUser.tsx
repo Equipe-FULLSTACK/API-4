@@ -25,7 +25,7 @@ import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 
 // Importar todas as interfaces
-import { User } from '../../types/userTypes';
+import { User, UserStatus } from '../../types/userTypes';
 import { Credentials } from '../../types/userTypes';
 import { Meeting } from '../../types/MeetingTypes';
 import { SalaPresencial } from '../../types/roomPresencialTypes';
@@ -42,6 +42,7 @@ import DataTable from '../../components/DataTable';
 
 interface dataHomePageUser {
   name: string;
+  userLogged: UserStatus;
 }
 
 // Função principal para a HomePageUser
