@@ -15,13 +15,7 @@ const LoginPage: React.FC = () => {
 
     try {
       const { loggedId, loggedIn, isAdmin } = await authenticateUser({ email, password });
-
-/* 
-      console.log('Verifica o usuário retorno do authenticator: ' + loggedId)
-      console.log('Verifica o usuário retorno do loggedIn: ' + loggedIn)
-      console.log('Verifica o usuário retorno do isAdmin: ' + isAdmin)
- */
-
+      
       if (loggedIn) {
         setIsLoggedIn(true);
         setIsAdmin(isAdmin);
