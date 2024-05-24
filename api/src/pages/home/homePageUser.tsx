@@ -154,7 +154,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
         } else {
           navigate('/')
         }
-        console.log(res)
+        /* console.log(res) */
       })
       .catch(err => console.log(err))
   }, [navigate])
@@ -188,7 +188,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
 
   // Função para imprimir os dados no console
   useEffect(() => {
-    console.log('Reuniões:', meetings);
+    /* console.log('Reuniões:', meetings); */
   }, [meetings]);
 
 
@@ -196,7 +196,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   // Função para lidar com a mudança de período
   const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
-    console.log(`Período selecionado: ${newPeriodo}`);
+    /* console.log(`Período selecionado: ${newPeriodo}`); */
   };
 
 
@@ -238,7 +238,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Função para lidar com a pesquisa
   const handleSearch = (text: string) => {
-    console.log(`Texto pesquisado: ${text}`);
+    /* console.log(`Texto pesquisado: ${text}`); */
 
 
     if (text.trim() === '') {
@@ -261,10 +261,9 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
 
   // Função para lidar com a mudança de tipo selecionado
   const handleTipoChange = (novoTipo: string) => {
-    console.log(`Tipo selecionado: ${novoTipo}`);
+    /* console.log(`Tipo selecionado: ${novoTipo}`); */
     let reunioesParaFiltrar = startMeetings;
     if (novoTipo !== 'todos') {
-      console.log(`novoTipo = ${novoTipo} e tipo exemplo para comparacao = ${reunioesParaFiltrar.map((r) => r.tipo)}`)
       reunioesParaFiltrar = startMeetings.filter((meetings: { tipo: string; }) => meetings.tipo.toUpperCase() === novoTipo.toUpperCase());
     }
     setMeetings(reunioesParaFiltrar);
