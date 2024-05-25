@@ -167,17 +167,17 @@ module.exports = router;
 
 
 
-/*  PROGRAMA ORIGINAL CASO PRECISE RESTAURAR PARA RODAR //// 
+
 
 global.token = "";
 
 
-app.get("/auth", (req, res) => {
+router.get("/authenticate", (req, res) => {
 	res.redirect("https://zoom.us/oauth/authorize?client_id=" + process.env.ZOOM_API_KEY + "&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Ftoken")
 });
 
 
-app.get('/token', async (req, res) => {
+router.get('/token', async (req, res) => {
 	const code = req.query.code;
 
 	try {
@@ -199,6 +199,7 @@ app.get('/token', async (req, res) => {
 		global.token = response.data.access_token;
 		console.log(`Valor do Token de Acesso: ${global.token} \n`);
 		res.send(response.data.access_token);
+        res.redirect(`http://localhost:5173/admin`)
 	} catch (error) {
 		console.log('Erro', error);
 		res.send('ERRO');
@@ -207,6 +208,7 @@ app.get('/token', async (req, res) => {
 });
 
 
+/*
 async function createMeeting(topic, start_time, type, duration, timezone, agenda) {
 	try {
 		const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
@@ -300,4 +302,5 @@ async function getMeetings() {
 		throw error; // Rethrow the error to handle it in the route handler
 	}
 }
- */
+ 
+*/
