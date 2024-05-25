@@ -7,7 +7,6 @@ import {
   Divider,
   CircularProgress,
   Typography,
-  Container,
   createTheme,
 } from '@mui/material';
 import NovoEventoButton from '../../components/botoes/btnNovoEvento';
@@ -38,7 +37,7 @@ import { NotificacaoReuniao } from '../../types/NotificacaoReuniaoTypes';
 
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import BtnSIATT from '../../components/botoes/btnSIATTLogo';
-import DataTable from '../../components/DataTable';
+import CrudReuniao from '../../components/meeting/crudMeeting/MeetingCRUD';
 
 interface dataHomePageUser {
   name: string;
@@ -174,6 +173,18 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
       )
     );
   };
+////// DELETAR ////////
+  const atualizarReuniao1 = (reuniaoAtualizada: Meeting) => {
+    setMeetings((reunioesAnteriores) =>
+      reunioesAnteriores.map((reuniao) =>
+        reuniao.id_reuniao === reuniaoAtualizada.id_reuniao ? { ...reuniao, ...reuniaoAtualizada } : reuniao
+      )
+    );
+  };
+////// DELETAR ////////
+  
+
+
 
   const removerReuniao = (id: number) => {
     setMeetings((reunioesAnteriores) =>
@@ -332,7 +343,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           <Stack marginTop={3}>
             <Stack flexDirection={'row'} justifyContent={'space-between'} marginRight={3}>
               <Stack width="auto" margin={1}>
-                <DateInput onDateChange={handleDateChange} formatDate={periodo} initialDate={date} />
+                <DateInput onDateChange={handleDateChange} initialDate={date} />
               </Stack>
 
               <Stack width={'20rem'}>
@@ -383,6 +394,20 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           </Stack>
         </Stack>
       </Stack>
+
+      <CrudReuniao
+        open={modalOpen}
+        onClose={handleModalClose}
+        reuniao={meetingEdit}
+        reunioes={meetings}
+        adicionarReuniao={adicionarReuniao}
+        removerReuniao={removerReuniao}
+        atualizarReuniao={atualizarReuniao1}
+        salasOnline={salasOnline}
+        salasPresenciais={salasPresenciais}
+      >
+      </CrudReuniao>
+{/* 
       <ReuniaoModal
         open={modalOpen}
         onClose={handleModalClose}
@@ -390,7 +415,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
         adicionarReuniao={adicionarReuniao}
         atualizarReuniao={atualizarReuniao}
         removerReuniao={removerReuniao}
-      />
+      /> */}
     </ThemeProvider>
   );
 };

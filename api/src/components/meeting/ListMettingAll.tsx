@@ -6,10 +6,17 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 interface VisualizacaoAllProps {
-  reunioes: Meeting[];
+    reunioes: Meeting[];
 }
 
 const VisualizacaoAll: React.FC<VisualizacaoAllProps> = ({ reunioes }) => {
+
+    // Formata a data para 'dd/MM/yyyy'
+    const formatarData = (date: Date): string => format(date, 'dd/MM/yyyy', { locale: ptBR });
+
+    // Formata a hora para 'HH:mm'
+    const formatarHora = (date: Date): string => format(date, 'HH:mm', { locale: ptBR });
+    
     return (
         <div>
             <Table>
@@ -23,19 +30,16 @@ const VisualizacaoAll: React.FC<VisualizacaoAllProps> = ({ reunioes }) => {
                 <TableBody>
                     {/* Exibe todas as reuniões sem filtrar */}
                     {reunioes.map((reuniao, index) => {
-                        const dataInicio = new Date(reuniao.data_inicio);
-                        const dataFinal = new Date(reuniao.data_final);
-
                         return (
                             <TableRow key={index}>
-                                <TableCell>{format(dataInicio, 'dd/MM/yyyy', { locale: ptBR })}</TableCell>
-                                <TableCell>{format(dataInicio, 'HH:mm', { locale: ptBR })}</TableCell>
+                                <TableCell>{formatarData(reuniao.data_inicio)}</TableCell>
+                                <TableCell>{formatarHora(reuniao.data_final)}</TableCell>
                                 <TableCell>
                                     {/* Exibe o componente CardMettingDay para a reunião */}
                                     <CardMettingDay
                                         nome={reuniao.titulo}
-                                        inicio={dataInicio.toString()}
-                                        termino={dataFinal.toString()}
+                                        inicio={formatarHora(reuniao.data_inicio)}
+                                        termino={formatarHora(reuniao.data_final)}
                                         tipoReuniao={reuniao.tipo}
                                     />
                                 </TableCell>

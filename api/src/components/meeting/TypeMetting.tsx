@@ -5,6 +5,7 @@ import { MeetingRoom, LaptopMac, SyncAlt } from '@mui/icons-material';
 interface TypeMeetingProps {
     tipoSelecionado: string;
     onTipoChange: (tipo: string) => void;
+    
 }
 
 const TypeMeeting: React.FC<TypeMeetingProps> = ({ tipoSelecionado, onTipoChange }) => {

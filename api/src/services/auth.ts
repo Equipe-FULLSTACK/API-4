@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Credentials } from '../types/userTypes';
+import { UserStatus } from '../types/userTypes';
+
 const API_URL = 'http://localhost:3000'; // Rota da API
 interface LoginResponse {
   id: number;
@@ -12,7 +14,7 @@ interface LoginResponse {
 
 export let eadmin: boolean = localStorage.getItem('eadmin') === 'true';
 
-export const authenticateUser = async ({ email, password }: Credentials): Promise<{ loggedId: number, loggedIn: boolean, isAdmin: boolean }> => {
+export const authenticateUser = async ({ email, password }: Credentials, setUserStatus: (status: UserStatus | null) => void): Promise<{ loggedId: number, loggedIn: boolean, isAdmin: boolean }> => {
   try {
     const response = await axios.post<LoginResponse>(`${API_URL}/login`, { email, password });
 
@@ -22,6 +24,15 @@ export const authenticateUser = async ({ email, password }: Credentials): Promis
     const loggedIn = login;
     const loggedId = id;
     const isAdmin = admin === 1;
+
+    // ATUALIZA CONTEXTO
+    setUserStatus({
+      id: response.data.id,
+      valid: response.data.login,
+      username: response.data.username,
+      admin: response.data.admin === 1,
+      role: response.data.role
+    });
 
     if (isAdmin && !eadmin) {
       eadmin = true;

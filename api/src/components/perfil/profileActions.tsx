@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Menu,
@@ -6,6 +6,8 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
+  CircularProgress,
+  Typography,
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -15,6 +17,18 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../contexts/UserContext';
+
+interface User {
+  id_usuario: number;
+  nome_usuario: string;
+  email_usuario: string;
+  senha_usuario: string;
+  diretoria_usuario: number;
+  permissao_usuario: string;
+  admin_usuario: number;
+  userPhoto: string;
+}
 
 interface ProfileActionsProps {
   onEditProfile?: () => void;
@@ -24,7 +38,25 @@ interface ProfileActionsProps {
 
 const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettings, onNotifications }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userData, setUserData] = useState<User | null>(null);
   const navigate = useNavigate();
+  const { userStatus, setUserStatus } = useUser();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get<User>(`http://localhost:3000/us/${userStatus.id}`);
+        setUserData(response.data)
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -35,9 +67,17 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
   };
 
   const handleLogout = () => {
-    axios.post('http://localhost:3000/logout') // Fazendo a requisição POST para o endpoint /logout
+    axios.post('http://localhost:3000/logout')
       .then(() => {
-        // Redirecionando para a página inicial após o logout
+        // ATUALIZA CONTEXTO DEFAULT PARA INICIALIZAÇÃO DOS PARÂMETROS
+        setUserStatus({
+          id: 0,
+          valid: false,
+          username: '',
+          admin: false,
+          role: '0'
+        });
+
         navigate('/');
       })
       .catch(error => {
@@ -47,13 +87,18 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
 
   const isOpen = Boolean(anchorEl);
 
+  if (loading) {
+    return <CircularProgress />;
+  }
+
   return (
     <div>
-      <Tooltip title="Ações de perfil" placement="bottom">
+      <Tooltip title={userData?.nome_usuario} placement="bottom">
         <Avatar
-          alt="Foto de perfil"
+          alt={userData?.nome_usuario || "Foto de perfil"}
+          src={userData?.userPhoto}
           onClick={handleAvatarClick}
-          sx={{ cursor: 'pointer' }}
+          sx={{ cursor: 'pointer', width: 56, height: 56 }}
         />
       </Tooltip>
 

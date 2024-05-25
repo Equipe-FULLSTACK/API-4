@@ -19,20 +19,23 @@ const calcularDiasDaSemana = (dataSelecionada: Date): Date[] => {
 };
 
 interface VisualizacaoSemanalProps {
-  dataSelecionada: Date;
-  reunioes: Meeting[];
+    dataSelecionada: Date;
+    reunioes: Meeting[];
 }
 
 const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSelecionada, reunioes }) => {
-    // Calcula os dias da semana com base na data selecionada
+
     const diasDaSemana = calcularDiasDaSemana(dataSelecionada);
-    // Nomes dos dias da semana
+
     const nomesDiasDaSemana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
     // Agrupa reuniões por dia
     const reunioesPorDia = diasDaSemana.map(dia => {
         return reunioes.filter(reuniao => isSameDay(new Date(reuniao.data_inicio), dia));
     });
+
+    // Formata a data para 'dd/MM/yyyy'
+    const formatarData = (date: Date): string => format(date, 'dd/MM/yyyy', { locale: ptBR });
 
     // Formata a hora para 'HH:mm'
     const formatarHora = (date: Date): string => format(date, 'HH:mm', { locale: ptBR });
@@ -57,7 +60,7 @@ const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSeleciona
                         const hora = `${String(indexHora).padStart(2, '0')}:00`;
 
                         // Verifica se há reuniões nesta hora para qualquer dia da semana
-                        const temReunioesNestaHora = reunioesPorDia.some(reunioesNesteDia => 
+                        const temReunioesNestaHora = reunioesPorDia.some(reunioesNesteDia =>
                             reunioesNesteDia.some(reuniao => formatarHora(new Date(reuniao.data_inicio)) === hora)
                         );
 
@@ -72,14 +75,14 @@ const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSeleciona
                                             {reunioesNesteDia
                                                 .filter(reuniao => formatarHora(new Date(reuniao.data_inicio)) === hora)
                                                 .map((reuniao, reuniaoIndex) => (
-                                                <CardMettingDay
-                                                    key={reuniaoIndex}
-                                                    nome={reuniao.titulo}
-                                                    inicio={reuniao.data_inicio.toString()}
-                                                    termino={reuniao.data_final.toString()}
-                                                    tipoReuniao={reuniao.tipo}
-                                                />
-                                            ))}
+                                                    <CardMettingDay
+                                                        key={reuniaoIndex}
+                                                        nome={reuniao.titulo}
+                                                        inicio={formatarHora(reuniao.data_inicio)}
+                                                        termino={formatarHora(reuniao.data_final)}
+                                                        tipoReuniao={reuniao.tipo}
+                                                    />
+                                                ))}
                                         </TableCell>
                                     ))}
                                 </TableRow>
