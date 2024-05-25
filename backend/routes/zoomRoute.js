@@ -5,42 +5,51 @@ const router = express.Router();
 let globalToken = ""; // Definindo a variável global
 
 router.get("/auth", (req, res) => {
-    console.log('Route token')
-   /*  const redirectUri = encodeURIComponent("http://localhost:3000/zoom/token"); */
-    /* const redirectUri = encodeURIComponent("http://localhost:3000/zoom/token");
-    res.redirect(`https://zoom.us/oauth/authorize?client_id=${process.env.ZOOM_API_KEY}&response_type=code&redirect_uri=${redirectUri}`); */
-
-    res.redirect("https://zoom.us/oauth/authorize?client_id=" + process.env.ZOOM_API_KEY + "&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Ftoken")
+    console.log('Route token');
+    const redirectUri = encodeURIComponent("http://localhost:3000/zoom/token");
+    res.redirect(`https://zoom.us/oauth/authorize?client_id=${process.env.ZOOM_API_KEY}&response_type=code&redirect_uri=${redirectUri}`);
 });
 
 router.get('/token', async (req, res) => {
     const code = req.query.code;
-    console.log('Route token')
+
+    console.log('Código de autorização recebido:', code);
+
+    if (!code) {
+        return res.status(400).send('Código de autorização não fornecido');
+    }
+
     try {
+        const params = new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: "http://localhost:3000/zoom/token"
+        }).toString();
+
+        console.log('Parâmetros para solicitação de token:', params);
+
         const response = await axios.post(
             'https://zoom.us/oauth/token',
-            null,
+            params,
             {
-                params: {
-                    grant_type: 'authorization_code',
-                    code: code,
-                    redirect_uri: process.env.REDIRECT_URI
-                },
                 headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     'Authorization': `Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`
                 }
             }
         );
 
-        globalToken = response.data.access_token; // Atualizando a variável global
-        console.log(`Valor do Token de Acesso: ${globalToken} \n`);
-        res.send(response.data.access_token);
-    } catch (error) {
-        console.log('Erro', error);
-        res.send('ERRO');
-    }
+        global.token = response.data.access_token;
+        console.log(`Valor do Token de Acesso: ${global.token} \n`);
 
+        // Redireciona após obter o token de acesso
+        res.redirect(`http://localhost:5173/admin`);
+    } catch (error) {
+        console.log('Erro ao obter o token de acesso', error.response ? error.response.data : error.message);
+        res.status(500).send('Erro ao obter o token de acesso');
+    }
 });
+
 
 router.post('/meetings', async (req, res) => {
     console.log('Request body:', req.body); // Log the request body
@@ -171,6 +180,7 @@ module.exports = router;
 
 global.token = "";
 
+/*
 
 router.get("/authenticate", (req, res) => {
 	res.redirect("https://zoom.us/oauth/authorize?client_id=" + process.env.ZOOM_API_KEY + "&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Ftoken")
@@ -207,6 +217,7 @@ router.get('/token', async (req, res) => {
 
 });
 
+*/
 
 /*
 async function createMeeting(topic, start_time, type, duration, timezone, agenda) {

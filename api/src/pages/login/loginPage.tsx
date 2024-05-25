@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Snackbar, Alert, Stack } from '@mui/material';
 import { authenticateUser } from '../../services/auth';
 import LoginForm from '../../components/form/LoginForm';
-import { Navigate } from 'react-router-dom';
+import { Navigate, redirect } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 
 const LoginPage: React.FC = () => {
@@ -56,16 +56,8 @@ const LoginPage: React.FC = () => {
     }
   }, [isLoggedIn]);
 
-  if (loading) {
-    return <div>Carregando...</div>; 
-  }
-
   if (isLoggedIn) {
-    if (isAdmin) {
-      return <Navigate to="/admin"/>;
-    } else {
-      return <Navigate to="/user" />;
-    }
+          window.location.href = 'http://localhost:3000/zoom/auth';
   }
 
   return (
