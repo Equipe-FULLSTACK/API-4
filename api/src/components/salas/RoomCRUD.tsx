@@ -37,6 +37,7 @@ const RoomCRUD = ({
   const [formData, setFormData] = useState<FormData>({
     id: sala?.id || null,
     nome: sala?.nome || "",
+    id_sala_presencial: selectedRoomId, 
     permissao_sala: sala?.permissao_sala || "",
     tipo_sala: sala?.tipo_sala || "",
     link_sala: sala?.link_sala || "",
@@ -48,6 +49,7 @@ const RoomCRUD = ({
   const [categoria, setCategoria] = useState<string>(formData.tipo_sala);
   const [snackbarMessage, setSnackbarMessage] = React.useState("");
   const [tamanhoSala, setTamanhoSala] = useState<string>(formData.tamanho_sala);
+
 
   useEffect(() => {
     setFormData({
@@ -61,6 +63,15 @@ const RoomCRUD = ({
     });
     setCategoria(sala?.tipo_sala || "");
   }, [sala]);
+
+  useEffect(() => {
+    if (selectedRoomId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        id_sala_presencial: selectedRoomId,
+      }));
+    }
+  }, [selectedRoomId]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -141,30 +152,31 @@ const RoomCRUD = ({
 
   const handleUpdate = async () => {
     const { id_sala_presencial, nome, permissao_sala, vagas_sala, tamanho_sala } = formData;
-  
+
     console.log("ID recebido em handleUpdate:", id_sala_presencial);
-  
+
     if (!id_sala_presencial) {
       alert("ID não encontrado. Verifique os dados do formulário.");
       return;
     }
-  
+
     try {
       let url = `http://localhost:3000/salapresencial/${id_sala_presencial}`;
-  
+
       let response = await axios.put(url, {
         nome: nome,
         tamanho: tamanho_sala,
         vagas: vagas_sala,
         permissao_sala: permissao_sala,
       });
-  
+
       console.log(`API ${url} response:`, response.data);
-  
+
       if (response.data) {
         setSnackbarMessage("Sala atualizada com sucesso!");
         onUpdateRoom(response.data); // Atualiza a sala na lista
         onClose();
+        window.location.reload()
       } else {
         throw new Error("Nenhuma resposta recebida do servidor");
       }
@@ -287,14 +299,14 @@ const RoomCRUD = ({
             >
               Salvar
             </Button>
-            {/* <Button
+            <Button
               variant="contained"
               color="primary"
               onClick={handleUpdate}
               disabled={!isFormComplete}
             >
               Atualizar
-            </Button> */}
+            </Button>
             <Button variant="text" color="secondary" onClick={onClose}>
               Cancelar
             </Button>

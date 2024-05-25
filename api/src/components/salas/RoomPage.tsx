@@ -124,14 +124,22 @@ const RoomTable: React.FC<RoomTableProps> = ({
   };
 
   const handleUpdateRoom = (roomId: number) => {
-    const roomToUpdate = rooms.find(
-      (room) => room.id_sala_presencial === roomId
-    );
+    console.log(roomId)
+    const roomToUpdate = sala.find((room) => room.id_sala_presencial !== null && room.id_sala_presencial === roomId);
     if (roomToUpdate) {
       setSelectedRoomForEdit(roomToUpdate);
       setIsEditModalOpen(true);
     }
   };
+
+  const handleUpdateRoomSuccess = (updatedRoom) => {
+    setRooms((prevRooms) =>
+      prevRooms.map((room) =>
+        room.id_sala_presencial === updatedRoom.id_sala_presencial ? updatedRoom : room
+      )
+    );
+  };
+  
 
   return (
     <>
@@ -318,7 +326,8 @@ const RoomTable: React.FC<RoomTableProps> = ({
           open={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
           sala={selectedRoomForEdit}
-          onUpdateRoom={handleUpdateRoom}
+          onUpdateRoom={handleUpdateRoomSuccess}
+          selectedRoomId={selectedRoomForEdit?.id_sala_presencial}
         />
       </TableContainer>
       {snackbarMessage && (
