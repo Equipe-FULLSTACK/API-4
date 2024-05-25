@@ -240,7 +240,7 @@ const HomePageAdmin: React.FC = () => {
             width="auto"
           >
             <BtnSIATT />
-            <NovoEventoButton onClick={handleNovoEventoClick} />
+            <NovoEventoButton title="Novo Evento" onClick={handleNovoEventoClick} />
             <SelecionarPeriodo onPeriodoChange={handlePeriodChange} />
             <SearchButton onSearch={handleSearch} />
             <PrintButton />

@@ -4,11 +4,12 @@ import { CalendarToday } from '@mui/icons-material';
 
 interface NovoEventoButtonProps {
   onClick: () => void;
+  title: string; // Adicionando a prop title
 }
 
-const NovoEventoButton: React.FC<NovoEventoButtonProps> = ({ onClick }) => {
+const NovoEventoButton: React.FC<NovoEventoButtonProps> = ({ onClick, title }) => {
   return (
-    <Tooltip title="Novo Evento" placement="bottom">
+    <Tooltip title={title} placement="bottom">
       <Button
         variant="contained"
         color="primary"
@@ -17,7 +18,7 @@ const NovoEventoButton: React.FC<NovoEventoButtonProps> = ({ onClick }) => {
         sx={{ width: 200 }}
         size='large'
       >
-        <Typography variant="body2" color="initial" paddingRight={2}> Novo evento </Typography>
+        <Typography variant="body2" color="initial" paddingRight={2}> {title} </Typography>
       </Button>
     </Tooltip>
   );

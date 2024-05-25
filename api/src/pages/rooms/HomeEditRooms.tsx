@@ -134,7 +134,7 @@ const HomePageAdminRooms: React.FC = () => {
               >
                 <Box display="flex" gap="40px">
                   <BtnSIATT />
-                  <NovoEventoButton onClick={() => setModalOpen(true)} />
+                  <NovoEventoButton title="Criar sala" onClick={() => setModalOpen(true)} />
                   <SearchButton onSearch={handleSearch} />
                   <PrintButton />
                 </Box>
