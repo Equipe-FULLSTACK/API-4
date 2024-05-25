@@ -1,27 +1,25 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Snackbar, Alert, Stack } from '@mui/material';
 import { authenticateUser } from '../../services/auth';
 import LoginForm from '../../components/form/LoginForm';
 import { Navigate } from 'react-router-dom';
+import { useUser } from '../../contexts/UserContext';
 
 const LoginPage: React.FC = () => {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { setUserStatus } = useUser()
 
   const handleLogin = async (email: string, password: string) => {
     console.log('Dados recebidos do formulário:', email, password);
 
     try {
-      const { loggedId, loggedIn, isAdmin } = await authenticateUser({ email, password });
-
-/* 
-      console.log('Verifica o usuário retorno do authenticator: ' + loggedId)
-      console.log('Verifica o usuário retorno do loggedIn: ' + loggedIn)
-      console.log('Verifica o usuário retorno do isAdmin: ' + isAdmin)
- */
-
+      setLoading(true);
+      const { loggedId, loggedIn, isAdmin } = await authenticateUser({ email, password }, setUserStatus);
+      
       if (loggedIn) {
         setIsLoggedIn(true);
         setIsAdmin(isAdmin);
@@ -31,8 +29,36 @@ const LoginPage: React.FC = () => {
     } catch (error) {
       console.error('Erro durante a autenticação:', error);
       setLoginError('Falha na autenticação');
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/ck');
+        const userData = response.data;
+
+        // Verificar se o usuário é administrador e redirecionar de acordo
+        if (userData.isAdmin) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserData();
+    }
+  }, [isLoggedIn]);
+
+  if (loading) {
+    return <div>Carregando...</div>; 
+  }
 
   if (isLoggedIn) {
     if (isAdmin) {

@@ -56,11 +56,11 @@ const initialInserts = {
     reunioesHibridas:`
         INSERT INTO reuniao (titulo, descricao, data_inicio, data_final, tipo, sala_presencial_id, sala_online_id, organizador_id)
             VALUES
-            ('Reunião Híbrida 1', 'Discussão sobre o novo projeto', '2024-05-21 09:00:00', '2024-05-21 11:00:00', 'Híbrida', 1, 1, 1),
-            ('Reunião Híbrida 2', 'Apresentação de resultados do trimestre', '2024-05-23 14:00:00', '2024-05-23 16:00:00', 'Híbrida', 2, 2, 2),
-            ('Reunião Híbrida 3', 'Planejamento estratégico para o próximo ano', '2024-05-26 10:00:00', '2024-05-26 12:00:00', 'Híbrida', 3, 3, 3),
-            ('Reunião Híbrida 4', 'Avaliação de desempenho dos colaboradores', '2024-05-29 15:00:00', '2024-05-29 17:00:00', 'Híbrida', 4, 4, 4),
-            ('Reunião Híbrida 5', 'Brainstorming de ideias para campanha de marketing', '2024-05-31 11:00:00', '2024-05-31 13:00:00', 'Híbrida', 5, 5, 5);
+            ('Reunião Hibrido 1', 'Discussão sobre o novo projeto', '2024-05-21 09:00:00', '2024-05-21 11:00:00', 'Hibrido', 1, 1, 1),
+            ('Reunião Hibrido 2', 'Apresentação de resultados do trimestre', '2024-05-23 14:00:00', '2024-05-23 16:00:00', 'Hibrido', 2, 2, 2),
+            ('Reunião Hibrido 3', 'Planejamento estratégico para o próximo ano', '2024-05-26 10:00:00', '2024-05-26 12:00:00', 'Hibrido', 3, 3, 3),
+            ('Reunião Hibrido 4', 'Avaliação de desempenho dos colaboradores', '2024-05-29 15:00:00', '2024-05-29 17:00:00', 'Hibrido', 4, 4, 4),
+            ('Reunião Hibrido 5', 'Brainstorming de ideias para campanha de marketing', '2024-05-31 11:00:00', '2024-05-31 13:00:00', 'Hibrido', 5, 5, 5);
         `
         ,
 

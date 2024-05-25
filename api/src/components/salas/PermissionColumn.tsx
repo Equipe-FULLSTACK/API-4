@@ -1,7 +1,7 @@
 // PermissionColumn.tsx
 import React, { useState } from 'react';
 import { TableCell, Button, Typography } from '@mui/material';
-import { Room } from '../../types/RoomTypes';
+import { Room } from '../../types/roomTypes';
 
 type PermissionColumnProps = {
   rooms: Room[];

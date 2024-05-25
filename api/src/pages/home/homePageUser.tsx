@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import {
   ThemeProvider,
-  createTheme,
   Stack,
   Divider,
+  CircularProgress,
+  Typography,
+  Container,
+  createTheme,
 } from '@mui/material';
 import NovoEventoButton from '../../components/botoes/btnNovoEvento';
 import SelecionarPeriodo from '../../components/botoes/btnDia';
@@ -21,30 +24,121 @@ import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
 import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 
-import reunioesIniciais from '../../components/meeting/dbReunioes' /* SUBSTITUIR PELO API */
+// Importar todas as interfaces
+import { User, UserStatus } from '../../types/userTypes';
+import { Credentials } from '../../types/userTypes';
+import { Meeting } from '../../types/MeetingTypes';
+import { SalaPresencial } from '../../types/roomPresencialTypes';
+import { SalaOnline } from '../../types/roomOnlineTypes';
+import { Anexo } from '../../types/AnexoTypes';
+import { Observacao } from '../../types/ObservacaoTypes';
+import { ParticipanteReuniao } from '../../types/ParticipanteReuniaoTypes';
+import { NotificacaoReuniao } from '../../types/NotificacaoReuniaoTypes';
+
+
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import BtnSIATT from '../../components/botoes/btnSIATTLogo';
-
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#3f51b5',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-});
+import DataTable from '../../components/DataTable';
 
 interface dataHomePageUser {
   name: string;
+  userLogged: UserStatus;
 }
 
 // Função principal para a HomePageUser
 const HomePageUser: React.FC<dataHomePageUser> = () => {
-  // Estado para armazenar o período selecionado (Dia, Semana ou Mes)
-  const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos');
+
+  // INTEGRAÇÃO SISTEMA REUNIÃO COM DB
+  const [users, setUsers] = useState<User[]>([]);
+  const [credentials, setCredentials] = useState<Credentials[]>([]);
+  const [startMeetings, setStartMeetings] = useState<Meeting[]>([]);
+  const [meetingEdit, setMeetingEdit] = useState<Meeting>();
+  const [meetings, setMeetings] = useState<Meeting[]>([]);
+  const [salasPresenciais, setSalasPresenciais] = useState<SalaPresencial[]>([]);
+  const [salasOnline, setSalasOnline] = useState<SalaOnline[]>([]);
+  const [anexos, setAnexos] = useState<Anexo[]>([]);
+  const [observacoes, setObservacoes] = useState<Observacao[]>([]);
+  const [participantesReuniao, setParticipantesReuniao] = useState<ParticipanteReuniao[]>([]);
+  const [notificacoesReuniao, setNotificacoesReuniao] = useState<NotificacaoReuniao[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // ESTADOS DO COMPONENTE
+  const [modalOpen, setModalOpen] = useState(false); // MANIPULACAO MODAL
+  const [date, setDate] = useState<Date>(new Date());
+
+  const [tipoSelecionado, setTipoSelecionado] = useState('todos');  // ESTADO PARA TIPO DE REUNIAO
+  const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos'); // ESTADO PARA PERIODO
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// theme /////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#3f51b5',
+      },
+      secondary: {
+        main: '#f50057',
+      },
+    },
+  });
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// CARREGAMENTO DOS DADOS BACKEND ////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [
+          usersResponse,
+          meetingsResponse,
+          salasPresenciaisResponse,
+          salasOnlineResponse,
+          anexosResponse,
+          observacoesResponse,
+          participantesReuniaoResponse,
+          notificacoesReuniaoResponse,
+        ] = await Promise.all([
+          axios.get('http://localhost:3000/us'),
+          axios.get('http://localhost:3000/reuniao'),
+          axios.get('http://localhost:3000/salapresencial'),
+          axios.get('http://localhost:3000/salaonline'),
+          axios.get('http://localhost:3000/anexo'),
+          axios.get('http://localhost:3000/observacao'),
+          axios.get('http://localhost:3000/participante'),
+          axios.get('http://localhost:3000/notificacao'),
+        ]);
+
+        // Simulando atraso para teste do loading
+        setTimeout(() => {
+          setUsers(usersResponse.data);
+          setMeetings(meetingsResponse.data);
+          setStartMeetings(meetingsResponse.data);
+          setSalasPresenciais(salasPresenciaisResponse.data);
+          setSalasOnline(salasOnlineResponse.data);
+          setAnexos(anexosResponse.data);
+          setObservacoes(observacoesResponse.data);
+          setParticipantesReuniao(participantesReuniaoResponse.data);
+          setNotificacoesReuniao(notificacoesReuniaoResponse.data);
+          setIsLoading(false); // SETA DADOS CARREGADOS
+        }, 2000); // INSERIDO ATRASO PARA VER ANIMACAO LOADING
+      } catch (error) {
+        setError('Error fetching data');
+        console.error('Error fetching data', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   // Função para checkar os dados dos cookies de sessão do usuário
   const [name, setName] = useState('')
@@ -52,119 +146,77 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   const navigate = useNavigate()
 
   axios.defaults.withCredentials = true;
-  useEffect(() =>{
-      axios.get('http://localhost:3000/ck')
-      .then( res => {
-          if(res.data.valid) {
-              setName(res.data.username);
-              setSelectedRole(res.data.role)
-          } else {
-              navigate('/')
-                  }
-          console.log(res)
+  useEffect(() => {
+    axios.get('http://localhost:3000/ck')
+      .then(res => {
+        if (res.data.valid) {
+          setName(res.data.username);
+          setSelectedRole(res.data.role)
+        } else {
+          navigate('/')
+        }
+        /* console.log(res) */
       })
-        .catch(err => console.log(err))
-  },[])
+      .catch(err => console.log(err))
+  }, [navigate])
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // Manipulações CRUD Reuniões // 
-  const [reunioes, setReunioes] = useState(reunioesIniciais);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [reuniaoEditada, setReuniaoEditada] = useState(null);
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// CRUD REUNIOES ///////////////////////////////
+  //////////////////////////////////////////////////////
 
-  // Função para adicionar uma nova reunião
-  const adicionarReuniao = (novaReuniao) => {
-    setReunioes((reunioesAnteriores) => [...reunioesAnteriores, novaReuniao]);
+  const adicionarReuniao = (novaReuniao: Meeting) => {
+    setMeetings((reunioesAnteriores) => [...reunioesAnteriores, novaReuniao]);
   };
 
-  // Função para ler as reuniões (no caso, retornamos o estado local)
-  const lerReunioes = () => {
-    return reunioes;
-  };
-
-  // Função para atualizar uma reunião existente
-  const atualizarReuniao = (id, reuniaoAtualizada) => {
-    setReunioes((reunioesAnteriores) =>
+  const atualizarReuniao = (id: number, reuniaoAtualizada: Meeting) => {
+    setMeetings((reunioesAnteriores) =>
       reunioesAnteriores.map((reuniao) =>
-        reuniao.id === id ? { ...reuniao, ...reuniaoAtualizada } : reuniao
+        reuniao.id_reuniao === id ? { ...reuniao, ...reuniaoAtualizada } : reuniao
       )
     );
   };
 
-  // Função para remover uma reunião
-  const removerReuniao = (id) => {
-    setReunioes((reunioesAnteriores) =>
-      reunioesAnteriores.filter((reuniao) => reuniao.id !== id)
+  const removerReuniao = (id: number) => {
+    setMeetings((reunioesAnteriores) =>
+      reunioesAnteriores.filter((reuniao) => reuniao.id_reuniao !== id)
     );
   };
 
+  //////////////////////////////////////////////////////
+  //////// CRUD REUNIOES ///////////////////////////////
+  //////////////////////////////////////////////////////
+
+
+
   // Função para imprimir os dados no console
   useEffect(() => {
-    console.log('Reuniões:', reunioes);
-  }, [reunioes]);
+    /* console.log('Reuniões:', meetings); */
+  }, [meetings]);
 
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-  // Estado para armazenar a data selecionada
-  const [data, setData] = useState<string>(new Date().toISOString().slice(0, 10)); // Define data de hoje como padrão
-
-  // Estado para armazenar o tipo selecionado
-  const [tipoSelecionado, setTipoSelecionado] = useState('todos');
 
   // Função para lidar com a mudança de período
   const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
-    console.log(`Período selecionado: ${newPeriodo}`);
+    /* console.log(`Período selecionado: ${newPeriodo}`); */
   };
 
 
   // Função para lidar com a mudança de data
-  const handleDateChange = (date: string) => {
-    setData(date);
+  const handleDateChange = (date: Date) => {
+    setDate(date);
     console.log('Data selecionada:', date);
   };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- // Função para lidar com a pesquisa
-const handleSearch = (text: string) => {
-  console.log(`Texto pesquisado: ${text}`);
-
-  // Verifica se o campo de pesquisa está ativo
-  if (text.trim() === '') {
-      // Se o texto estiver vazio, restaure o array original de reuniões
-      setReunioes(reunioesIniciais);
-  } else {
-      // Filtrar reuniões com base no texto pesquisado
-      const reunioesFiltradas = reunioes.filter(reuniao => {
-          // Verifica se o texto pesquisado está presente em qualquer propriedade relevante da reunião
-          return (
-              reuniao.nome.toLowerCase().includes(text.toLowerCase()) ||
-              reuniao.tipoReuniao.toLowerCase().includes(text.toLowerCase()) ||
-              reuniao.data.toLowerCase().includes(text.toLowerCase()) ||
-              reuniao.inicio.toLowerCase().includes(text.toLowerCase()) ||
-              reuniao.termino.toLowerCase().includes(text.toLowerCase())
-          );
-      });
-
-      // Atualize o estado com as reuniões filtradas
-      setReunioes(reunioesFiltradas);
-  }
-};
-
-
-  //////////////////////////////////FUNÇÕES SUPORTE PARA EDIÇÃO REUNIÃO E CRIAÇÃO//////////////////////////////
 
   // Função para lidar com o clique no botão novo evento
   const handleNovoEventoClick = () => {
-    console.log('Teste BTN novo Evento!');
-    setReuniaoEditada(null); // Inicia com uma reunião vazia para adicionar uma nova reunião
-    setModalOpen(true); // Abre o modal
+    /* console.log('Teste BTN novo Evento!'); */
+    setMeetingEdit([]); // 
+    setModalOpen(true); //
   };
 
-  const handleEditarReuniaoClick = (reuniao) => {
-    setReuniaoEditada(reuniao); // Define a reunião a ser editada
+  const handleEditarReuniaoClick = (reuniao: Meeting) => {
+    setMeetingEdit(reuniao); //DEFININDO REUNIÃO PARA EDIÇÃO
     setModalOpen(true); // Abre o modal
   };
 
@@ -173,36 +225,51 @@ const handleSearch = (text: string) => {
   };
 
   // Método para editar uma reunião
-  const handleEditarClick = (reuniao) => {
+  const handleEditarClick = (reuniao: Meeting) => {
     handleEditarReuniaoClick(reuniao);
   };
 
   // Método para remover uma reunião
-  const handleRemoverClick = (id) => {
+  const handleRemoverClick = (id: number) => {
     removerReuniao(id);
   };
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
-// Função para lidar com a mudança de tipo selecionado
-const handleTipoChange = (novoTipo: string) => {
-  console.log(`Tipo selecionado: ${novoTipo}`);
 
-  // Sempre começamos com o array original de reuniões
-  let reunioesParaFiltrar = reunioesIniciais;
 
-  // Verifica se o tipo selecionado é diferente de "todos"
-  if (novoTipo !== 'todos') {
-      // Filtrar reuniões com base no tipo selecionado
-      reunioesParaFiltrar = reunioesIniciais.filter(reuniao => reuniao.tipoReuniao === novoTipo);
-  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Função para lidar com a pesquisa
+  const handleSearch = (text: string) => {
+    /* console.log(`Texto pesquisado: ${text}`); */
 
-  // Atualiza o estado com as reuniões filtradas (ou o array original se o tipo for "todos")
-  setReunioes(reunioesParaFiltrar);
 
-  // Atualiza o estado do tipo selecionado
-  setTipoSelecionado(novoTipo);
-};
+    if (text.trim() === '') {
+      setMeetings(startMeetings);
+    } else {
+      const reunioesFiltradas = meetings.filter(meetings => {
+        return (
+          meetings.titulo.toLowerCase().includes(text.toLowerCase()) ||
+          meetings.descricao.toLowerCase().includes(text.toLowerCase()) ||
+          meetings.tipo.toLowerCase().includes(text.toLowerCase()) ||
+          meetings.data_inicio.toString().toLowerCase().includes(text.toLowerCase()) ||
+          meetings.data_final.toString().toLowerCase().includes(text.toLowerCase())
+        );
+      });
+      setMeetings(reunioesFiltradas);
+    }
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Função para lidar com a mudança de tipo selecionado
+  const handleTipoChange = (novoTipo: string) => {
+    /* console.log(`Tipo selecionado: ${novoTipo}`); */
+    let reunioesParaFiltrar = startMeetings;
+    if (novoTipo !== 'todos') {
+      reunioesParaFiltrar = startMeetings.filter((meetings: { tipo: string; }) => meetings.tipo.toUpperCase() === novoTipo.toUpperCase());
+    }
+    setMeetings(reunioesParaFiltrar);
+    setTipoSelecionado(novoTipo);
+  };
 
   //////////////////////////////////RENDERIZALÇAO CONDICIONAL ////////////////////////////////////////////////
 
@@ -223,7 +290,24 @@ const handleTipoChange = (novoTipo: string) => {
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////// RENDERIZACAO DO COMPONENTE ///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Typography variant="h6" color="error">{error}</Typography>
+      </div>
+    );
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -235,7 +319,7 @@ const handleTipoChange = (novoTipo: string) => {
 
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
-            <BtnSIATT/>
+            <BtnSIATT />
             <NovoEventoButton onClick={handleNovoEventoClick} />
             <SelecionarPeriodo onPeriodoChange={handlePeriodChange} />
             <SearchButton onSearch={handleSearch} />
@@ -248,7 +332,7 @@ const handleTipoChange = (novoTipo: string) => {
           <Stack marginTop={3}>
             <Stack flexDirection={'row'} justifyContent={'space-between'} marginRight={3}>
               <Stack width="auto" margin={1}>
-                <DateInput onDateChange={handleDateChange} formatDate={periodo} data={data} />
+                <DateInput onDateChange={handleDateChange} formatDate={periodo} initialDate={date} />
               </Stack>
 
               <Stack width={'20rem'}>
@@ -258,48 +342,36 @@ const handleTipoChange = (novoTipo: string) => {
 
 
             <Stack>{/* Renderiza visualizaçã condicional */}
+
               <div>
                 {/* Visualização diária */}
                 <div style={styleDay}>
                   <VisualizacaoDiaria
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
+                    dataSelecionada={date}
+                    reunioes={meetings}
                   />
                 </div>
 
                 {/* Visualização semanal */}
                 <div style={styleWeek}>
                   <VisualizacaoSemanal
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
+                    dataSelecionada={date}
+                    reunioes={meetings}
                   />
                 </div>
 
                 {/* Visualização mensal */}
                 <div style={styleMonth}>
                   <VisualizacaoMensal
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
+                    dataSelecionada={date}
+                    reunioes={meetings}
                   />
                 </div>
-                
+
                 {/* Visualização mensal */}
                 <div style={styleAll}>
                   <VisualizacaoAll
-                    dataSelecionada={data}
-                    tipoSelecionado={tipoSelecionado}
-                    reunioes={reunioes}
-                    onEditarClick={handleEditarClick}
-                    onRemoverClick={handleRemoverClick}
+                    reunioes={meetings}
                   />
                 </div>
 
@@ -314,7 +386,7 @@ const handleTipoChange = (novoTipo: string) => {
       <ReuniaoModal
         open={modalOpen}
         onClose={handleModalClose}
-        reuniao={reuniaoEditada}
+        reuniao={meetingEdit}
         adicionarReuniao={adicionarReuniao}
         atualizarReuniao={atualizarReuniao}
         removerReuniao={removerReuniao}

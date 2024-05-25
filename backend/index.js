@@ -17,6 +17,7 @@ const reunioesRoutes = require('./routes/reuniaoRoute');
 const participanteRoutes = require('./routes/participanteRoute');
 const anexoRoutes = require('./routes/anexoRoute');
 const observacaoRoutes = require('./routes/observacaoRoute');
+const notificacaoRoutes = require('./routes/notificacaoRoute');
 const loginRoutes = require('./routes/loginRoute');
 const logoutRoutes = require('./routes/logoutRoute');
 const cookieRoutes = require('./routes/cookieRoute');
@@ -66,11 +67,11 @@ app.use('/reuniao', reunioesRoutes);
 app.use('/participante', participanteRoutes);
 app.use('/anexo', anexoRoutes);
 app.use('/observacao', observacaoRoutes);
+app.use('/notificacao', notificacaoRoutes);
 app.use('/login', loginRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/ck', cookieRoutes);
 app.use('/zoom', zoomRoutes);
 
 server.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+    console.log(`Servidor rodando na porta ${PORT}`)})

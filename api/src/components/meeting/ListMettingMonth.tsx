@@ -1,22 +1,29 @@
 import React from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Typography, Stack } from '@mui/material';
 import CardMettingMonth from './CardMettingMonth';
+import { Meeting } from '../../types/MeetingTypes';
+import { startOfMonth, endOfMonth, format, isSameDay } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 // Função para calcular os dias do mês com base na data selecionada
-const calcularDiasDoMes = (dataSelecionada) => {
-    const data = new Date(dataSelecionada);
-    const primeiroDiaDoMes = new Date(data.getFullYear(), data.getMonth(), 1);
-    const ultimoDiaDoMes = new Date(data.getFullYear(), data.getMonth() + 1, 0);
+const calcularDiasDoMes = (dataSelecionada: Date): Date[] => {
+    const primeiroDiaDoMes = startOfMonth(dataSelecionada);
+    const ultimoDiaDoMes = endOfMonth(dataSelecionada);
     const diasDoMes = [];
 
-    for (let dia = primeiroDiaDoMes.getDate(); dia <= ultimoDiaDoMes.getDate(); dia++) {
-        diasDoMes.push(new Date(data.getFullYear(), data.getMonth(), dia));
+    for (let dia = primeiroDiaDoMes; dia <= ultimoDiaDoMes; dia.setDate(dia.getDate() + 1)) {
+        diasDoMes.push(new Date(dia));
     }
 
     return diasDoMes;
 };
 
-const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
+interface VisualizacaoMensalProps {
+  dataSelecionada: Date;
+  reunioes: Meeting[];
+}
+
+const VisualizacaoMensal: React.FC<VisualizacaoMensalProps> = ({ dataSelecionada, reunioes }) => {
     // Calcula os dias do mês com base na data selecionada
     const diasDoMes = calcularDiasDoMes(dataSelecionada);
     
@@ -31,10 +38,10 @@ const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
             const indiceDia = i + j;
             if (indiceDia < diasDoMes.length) {
                 const dia = diasDoMes[indiceDia];
-                const dataFormatada = dia.toISOString().split('T')[0];
+                const dataFormatada = format(dia, 'yyyy-MM-dd');
 
                 // Filtra as reuniões para este dia
-                const reunioesNesteDia = reunioes.filter(reuniao => reuniao.data === dataFormatada);
+                const reunioesNesteDia = reunioes.filter(reuniao => isSameDay(new Date(reuniao.data_inicio), dia));
 
                 // Adiciona a célula com os cards dos eventos do dia
                 semana.push(
@@ -49,10 +56,10 @@ const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
                             {reunioesNesteDia.slice(0, 2).map((reuniao, reuniaoIndex) => (
                                 <CardMettingMonth
                                     key={reuniaoIndex}
-                                    nome={reuniao.nome}
-                                    inicio={reuniao.inicio}
-                                    termino={reuniao.termino}
-                                    tipoReuniao={reuniao.tipoReuniao}
+                                    nome={reuniao.titulo}
+                                    inicio={reuniao.data_inicio.toString()}
+                                    termino={reuniao.data_final.toString()}
+                                    tipoReuniao={reuniao.tipo}
                                 />
                             ))}
 

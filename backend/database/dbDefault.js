@@ -34,7 +34,7 @@ const createTableQueries = {
             descricao TEXT,
             data_inicio DATETIME NOT NULL,
             data_final DATETIME,
-            tipo ENUM('Presencial', 'Híbrida', 'Online') NOT NULL DEFAULT 'Presencial', 
+            tipo ENUM('Presencial', 'Hibrido', 'Online') NOT NULL DEFAULT 'Presencial', 
             sala_presencial_id INT,
             sala_online_id INT,
             organizador_id INT,

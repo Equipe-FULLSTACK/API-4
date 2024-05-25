@@ -1,37 +1,22 @@
-import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Stack } from '@mui/material';
-import { Check, Close } from '@mui/icons-material';
+import * as React from 'react';
+import { useUser } from '../contexts/UserContext';
 
-interface BoolFilterProps {
-    value: boolean;
-    onValueChange: (value: boolean) => void;
+export default function TestComponent() {
+  const { userStatus } = useUser();
+
+  return (
+    <div>
+      <h1>Profile Page</h1>
+      {userStatus ? (
+        <div>
+          <p>ID: {userStatus.id}</p>
+          <p>Username: {userStatus.username}</p>
+          <p>Admin: {userStatus.admin ? 'Yes' : 'No'}</p>
+          <p>Role: {userStatus.role}</p>
+        </div>
+      ) : (
+        <p>User not logged in</p>
+      )}
+    </div>
+  );
 }
-
-const testComponent: React.FC<BoolFilterProps> = ({ value, onValueChange }) => {
-    return (
-        <FormControl margin="normal" fullWidth>
-            <InputLabel id="bool-filter-label">Filtrar por Valor</InputLabel>
-            <Select
-                labelId="bool-filter-label"
-                id="bool-filter-select"
-                value={value.toString()} // Converte o valor booleano para string
-                onChange={(e) => onValueChange(e.target.value === 'true')} // Converte o valor de string para booleano
-            >
-                {/* Renderiza as opções de seleção */}
-                {[true, false].map(boolValue => (
-                    <MenuItem key={boolValue.toString()} value={boolValue.toString()}>
-
-                        <Stack direction="row" alignItems="center" spacing={1}>
-                            <span style={{ color: boolValue ? 'green' : 'red' }}>
-                                {boolValue ? <Check /> : <Close />}
-                            </span>
-                            <span>{boolValue ? 'Sim' : 'Não'}</span>
-                        </Stack>
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
-    );
-};
-
-export default testComponent;
