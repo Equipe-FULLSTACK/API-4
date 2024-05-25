@@ -182,7 +182,9 @@ const RoomCRUD = ({
         setSnackbarMessage("Sala atualizada com sucesso!");
         onUpdateRoom(response.data); // Atualiza a sala na lista
         onClose();
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1300);
       } else {
         throw new Error("Nenhuma resposta recebida do servidor");
       }
