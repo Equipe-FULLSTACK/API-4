@@ -73,8 +73,12 @@ const RoomTable: React.FC<RoomTableProps> = ({
         };
       case "3":
         return { color: "#f44336", icon: <LockIcon />, description: "Admin" };
-        case "4":
-        return { color: "#333333", icon: <PersonIcon />, description: "Super admin" };
+      case "4":
+        return {
+          color: "#333333",
+          icon: <PersonIcon />,
+          description: "Super admin",
+        };
       default:
         return {
           color: "primary",
@@ -123,23 +127,29 @@ const RoomTable: React.FC<RoomTableProps> = ({
     }
   };
 
+  const [isUpdating, setIsUpdating] = useState(false);
   const handleUpdateRoom = (roomId: number) => {
-    console.log(roomId)
-    const roomToUpdate = sala.find((room) => room.id_sala_presencial !== null && room.id_sala_presencial === roomId);
+    console.log(roomId);
+    const roomToUpdate = sala.find(
+      (room) =>
+        room.id_sala_presencial !== null && room.id_sala_presencial === roomId
+    );
     if (roomToUpdate) {
       setSelectedRoomForEdit(roomToUpdate);
       setIsEditModalOpen(true);
+      setIsUpdating(true);
     }
   };
 
   const handleUpdateRoomSuccess = (updatedRoom) => {
     setRooms((prevRooms) =>
       prevRooms.map((room) =>
-        room.id_sala_presencial === updatedRoom.id_sala_presencial ? updatedRoom : room
+        room.id_sala_presencial === updatedRoom.id_sala_presencial
+          ? updatedRoom
+          : room
       )
     );
   };
-  
 
   return (
     <>
@@ -184,7 +194,7 @@ const RoomTable: React.FC<RoomTableProps> = ({
             {rooms.map((room) => (
               <TableRow key={room.id_sala}>
                 <TableCell
-                   /* sx={{
+                /* sx={{
                     borderLeft: `4px solid ${
                       room.permissao_sala ? getColorByPermission(room.permissao_sala).color : '#f44336'
                     }`,
@@ -201,7 +211,11 @@ const RoomTable: React.FC<RoomTableProps> = ({
                         width={10}
                         height={10}
                         borderRadius="50%"
-                        sx={{ backgroundColor: room.permissao_sala ? getColorByPermission(room.permissao_sala).color : '#f44336' }} 
+                        sx={{
+                          backgroundColor: room.permissao_sala
+                            ? getColorByPermission(room.permissao_sala).color
+                            : "#f44336",
+                        }}
                         display="inline-block"
                         mr={1}
                       />
@@ -328,6 +342,7 @@ const RoomTable: React.FC<RoomTableProps> = ({
           sala={selectedRoomForEdit}
           onUpdateRoom={handleUpdateRoomSuccess}
           selectedRoomId={selectedRoomForEdit?.id_sala_presencial}
+          isUpdating={isUpdating}
         />
       </TableContainer>
       {snackbarMessage && (
