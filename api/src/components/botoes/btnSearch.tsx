@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Stack, Tooltip } from '@mui/material';
+import { Button, Input, Stack, Tooltip, styled } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
 interface SearchButtonProps {
   onSearch: (text: string) => void; // Função de retorno de chamada que recebe o texto digitado
 }
+
+const CenteredButton = styled(Button)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: "10px"
+});
 
 const SearchButton: React.FC<SearchButtonProps> = ({ onSearch }) => {
   // Estados locais
@@ -36,14 +43,14 @@ const SearchButton: React.FC<SearchButtonProps> = ({ onSearch }) => {
     <Stack direction="row" spacing={1} alignItems="center">
       {/* Envolva o botão com um Tooltip */}
       <Tooltip title="Pesquisar" placement="bottom">
-        <Button
+        <CenteredButton
           variant="contained"
           color="primary"
           startIcon={<Search />}
           onClick={handleButtonClick}
         >
           {/* Botão com ícone de pesquisa */}
-        </Button>
+        </CenteredButton>
       </Tooltip>
       
       {/* Exibe o input de texto apenas se isInputVisible for verdadeiro */}
