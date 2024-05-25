@@ -10,11 +10,14 @@ interface VisualizacaoDiariaProps {
   reunioes: Meeting[];
 }
 
-const VisualizacaoDiaria: React.FC<VisualizacaoDiariaProps> = ({ dataSelecionada, reunioes }) => {
+const VisualizacaoDiaria: React.FC<VisualizacaoDiariaProps> = ({
+  dataSelecionada,
+  reunioes,
+}) => {
   // Função para filtrar reuniões por data selecionada
   const filtrarReunioesPorDia = (date: Date): Meeting[] => {
     return reunioes
-      .filter(reuniao => isSameDay(new Date(reuniao.data_inicio), date))
+      .filter((reuniao) => isSameDay(reuniao.data_inicio, date))
       .sort((a, b) => new Date(a.data_inicio).getTime() - new Date(b.data_inicio).getTime());
   };
 
@@ -41,14 +44,14 @@ const VisualizacaoDiaria: React.FC<VisualizacaoDiariaProps> = ({ dataSelecionada
           {/* Exibe as reuniões filtradas */}
           {reunioesFiltradas.map((reuniao, index) => (
             <TableRow key={index}>
-              <TableCell>{formatarData(new Date(reuniao.data_inicio))}</TableCell>
-              <TableCell>{formatarHora(new Date(reuniao.data_inicio))}</TableCell>
+              <TableCell>{formatarData(reuniao.data_inicio)}</TableCell>
+              <TableCell>{formatarHora(reuniao.data_inicio)}</TableCell>
               <TableCell>
                 {/* Exibe o componente CardMettingDay para a reunião */}
                 <CardMettingDay
                   nome={reuniao.titulo}
-                  inicio={reuniao.data_inicio.toString()}
-                  termino={reuniao.data_final.toString()}
+                  inicio={formatarHora(reuniao.data_inicio)}
+                  termino={formatarHora(reuniao.data_final)}
                   tipoReuniao={reuniao.tipo}
                 />
               </TableCell>

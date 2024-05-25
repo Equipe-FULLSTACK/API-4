@@ -7,9 +7,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
 interface DateInputProps {
-    onDateChange: (date: string) => void;
-    initialDate: string;
-    label: string;
+    onDateChange: (date: Date) => void;
+    initialDate: Date;
 }
 
 const darkTheme = createTheme({
@@ -24,13 +23,13 @@ const darkTheme = createTheme({
     },
   });
 
-const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, label }) => {
+const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate }) => {
   const [selectedDate, setSelectedDate] = React.useState<dayjs.Dayjs | null>(dayjs(initialDate));
 
   const handleDateChange = (date: dayjs.Dayjs | null) => {
     setSelectedDate(date);
     if (date) {
-      onDateChange(date.format('YYYY-MM-DD'));
+      onDateChange(date.toDate());
     }
   };
 
@@ -38,7 +37,6 @@ const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate, label 
     <ThemeProvider theme={darkTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
         <DatePicker
-          label={label}
           value={selectedDate}
           onChange={handleDateChange}
         />
