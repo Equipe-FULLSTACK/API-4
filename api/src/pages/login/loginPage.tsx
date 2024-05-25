@@ -38,6 +38,7 @@ const LoginPage: React.FC = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/ck');
+        console.log(response);
         const userData = response.data;
 
         // Verificar se o usuário é administrador e redirecionar de acordo
@@ -46,6 +47,12 @@ const LoginPage: React.FC = () => {
         } else {
           setIsAdmin(false);
         }
+
+        if (isLoggedIn) {
+          
+          window.location.href = 'http://localhost:3000/zoom/auth';
+  };
+
       } catch (error) {
         console.error('Erro ao buscar dados do usuário:', error);
       }
@@ -56,9 +63,7 @@ const LoginPage: React.FC = () => {
     }
   }, [isLoggedIn]);
 
-  if (isLoggedIn) {
-          window.location.href = 'http://localhost:3000/zoom/auth';
-  }
+  
 
   return (
     <Stack width={400} margin={'auto'}>
