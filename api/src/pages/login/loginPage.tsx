@@ -56,8 +56,16 @@ const LoginPage: React.FC = () => {
     }
   }, [isLoggedIn]);
 
+  if (loading) {
+    return <div>Carregando...</div>; 
+  }
+
   if (isLoggedIn) {
-      return <Navigate to="http://localhost:3000/authenticate" />;  
+    if (isAdmin) {
+      return <Navigate to="/admin"/>;
+    } else {
+      return <Navigate to="/user" />;
+    }
   }
 
   return (
