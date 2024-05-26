@@ -1,4 +1,4 @@
-const reunioesIniciais = [
+const reunioesIniciais = [/* 
     {
         id: 1,
         nome: 'Reunião de Desenvolvimento',
@@ -142,7 +142,7 @@ const reunioesIniciais = [
         termino: '11:00',
         tipoReuniao: 'Hibrido',
         data: '2024-04-23'
-    }
+    } */
 ];
 
 

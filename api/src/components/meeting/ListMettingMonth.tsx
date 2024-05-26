@@ -1,27 +1,51 @@
 import React from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Typography, Stack } from '@mui/material';
 import CardMettingMonth from './CardMettingMonth';
+import { Meeting } from '../../types/MeetingTypes';
+import { startOfMonth, endOfMonth, format, isSameDay, addDays, subDays } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 // Função para calcular os dias do mês com base na data selecionada
-const calcularDiasDoMes = (dataSelecionada) => {
-    const data = new Date(dataSelecionada);
-    const primeiroDiaDoMes = new Date(data.getFullYear(), data.getMonth(), 1);
-    const ultimoDiaDoMes = new Date(data.getFullYear(), data.getMonth() + 1, 0);
+const calcularDiasDoMes = (dataSelecionada: Date): Date[] => {
+    const primeiroDiaDoMes = startOfMonth(dataSelecionada);
+    const ultimoDiaDoMes = endOfMonth(dataSelecionada);
     const diasDoMes = [];
 
-    for (let dia = primeiroDiaDoMes.getDate(); dia <= ultimoDiaDoMes.getDate(); dia++) {
-        diasDoMes.push(new Date(data.getFullYear(), data.getMonth(), dia));
+    // Adiciona dias do mês anterior para preencher a primeira semana
+    for (let dia = subDays(primeiroDiaDoMes, primeiroDiaDoMes.getDay()); dia < primeiroDiaDoMes; dia.setDate(dia.getDate() + 1)) {
+        diasDoMes.push(new Date(dia));
+    }
+
+    // Adiciona os dias do mês atual
+    for (let dia = primeiroDiaDoMes; dia <= ultimoDiaDoMes; dia.setDate(dia.getDate() + 1)) {
+        diasDoMes.push(new Date(dia));
+    }
+
+    // Adiciona dias do próximo mês para preencher a última semana
+    for (let dia = addDays(ultimoDiaDoMes, 1); dia.getDay() !== 0; dia.setDate(dia.getDate() + 1)) {
+        diasDoMes.push(new Date(dia));
     }
 
     return diasDoMes;
 };
 
-const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
+interface VisualizacaoMensalProps {
+    dataSelecionada: Date;
+    reunioes: Meeting[];
+}
+
+const VisualizacaoMensal: React.FC<VisualizacaoMensalProps> = ({ dataSelecionada, reunioes }) => {
     // Calcula os dias do mês com base na data selecionada
     const diasDoMes = calcularDiasDoMes(dataSelecionada);
-    
+
     // Cria uma matriz para armazenar as linhas da tabela (semanas)
     const linhas = [];
+
+    // Formata a data para 'dd/MM/yyyy'
+    const formatarData = (date: Date): string => format(date, 'dd/MM/yyyy', { locale: ptBR });
+
+    // Formata a hora para 'HH:mm'
+    const formatarHora = (date: Date): string => format(date, 'HH:mm', { locale: ptBR });
 
     // Preenche cada linha (semana) com células (dias)
     for (let i = 0; i < diasDoMes.length; i += 7) {
@@ -31,10 +55,9 @@ const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
             const indiceDia = i + j;
             if (indiceDia < diasDoMes.length) {
                 const dia = diasDoMes[indiceDia];
-                const dataFormatada = dia.toISOString().split('T')[0];
 
                 // Filtra as reuniões para este dia
-                const reunioesNesteDia = reunioes.filter(reuniao => reuniao.data === dataFormatada);
+                const reunioesNesteDia = reunioes.filter(reuniao => isSameDay(new Date(reuniao.data_inicio), dia));
 
                 // Adiciona a célula com os cards dos eventos do dia
                 semana.push(
@@ -49,10 +72,10 @@ const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
                             {reunioesNesteDia.slice(0, 2).map((reuniao, reuniaoIndex) => (
                                 <CardMettingMonth
                                     key={reuniaoIndex}
-                                    nome={reuniao.nome}
-                                    inicio={reuniao.inicio}
-                                    termino={reuniao.termino}
-                                    tipoReuniao={reuniao.tipoReuniao}
+                                    nome={reuniao.titulo}
+                                    inicio={formatarHora(reuniao.data_inicio)}
+                                    termino={formatarHora(reuniao.data_final)}
+                                    tipoReuniao={reuniao.tipo}
                                 />
                             ))}
 
@@ -70,7 +93,7 @@ const VisualizacaoMensal = ({ dataSelecionada, reunioes }) => {
                 semana.push(<TableCell key={j} />);
             }
         }
-        
+
         // Adiciona a semana (linha) à matriz de linhas
         linhas.push(<TableRow key={i}>{semana}</TableRow>);
     }

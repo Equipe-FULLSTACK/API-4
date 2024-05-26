@@ -15,7 +15,7 @@ const createTableQueries = {
         CREATE TABLE salaPresencial (
             id_sala_presencial INT PRIMARY KEY AUTO_INCREMENT,
             nome VARCHAR(100) NOT NULL,
-            tamanho INT,
+            tamanho ENUM('Pequena', 'Média', 'Grande','Auditório') NOT NULL DEFAULT 'Pequena', 
             vagas INT,
             permissao_sala VARCHAR(1) NOT NULL DEFAULT '1'
         );
@@ -34,7 +34,7 @@ const createTableQueries = {
             descricao TEXT,
             data_inicio DATETIME NOT NULL,
             data_final DATETIME,
-            tipo ENUM('Presencial', 'Híbrida', 'Online') NOT NULL DEFAULT 'Presencial', 
+            tipo ENUM('Presencial', 'Hibrido', 'Online') NOT NULL DEFAULT 'Presencial', 
             sala_presencial_id INT,
             sala_online_id INT,
             organizador_id INT,
@@ -75,6 +75,7 @@ const createTableQueries = {
     notificacao_reuniao: `
         CREATE TABLE notificacao_reuniao (
             id_notificacao INT PRIMARY KEY AUTO_INCREMENT,
+            mensagem VARCHAR(256),
             usuario_id INT,
             reuniao_id INT,
             lida BOOLEAN DEFAULT FALSE,

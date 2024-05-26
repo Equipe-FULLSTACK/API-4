@@ -32,6 +32,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/usuario/:id', async (req, res) => {
+    try {
+        const reunioes = await reuniaoController.getReunioesByUserId(req.params.id);
+        res.json(reunioes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         const updatedReuniao = await reuniaoController.updateReuniaoById(req.params.id, req.body);

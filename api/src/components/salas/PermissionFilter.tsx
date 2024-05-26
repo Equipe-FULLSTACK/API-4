@@ -17,8 +17,10 @@ const PermissionFilter: React.FC<PermissionFilterProps> = ({ permissionSelected,
                 return { color: '#2196f3', icon: <SupervisedUserCircle />, description: 'Super usuário' };
             case '3':
                 return { color: '#f44336', icon: <Lock />, description: 'Admin' };
+            case '4':
+                return { color: '#121212', icon: <Person />, description: 'Super admin' };
             default:
-                return { color: 'primary', icon: <Person />, description: 'Super admin' };
+                return { color: 'white', icon: <Person />, description: 'Super admin' };
         }
     };
 
