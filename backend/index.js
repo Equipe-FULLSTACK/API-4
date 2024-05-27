@@ -8,6 +8,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require("path");
 const http = require('http');
+var nodemailer = require('nodemailer');
 
 // IMPORTAÇÕES DE ROTAS DO BACKEND
 const userRoutes = require('./routes/userRoute');
@@ -22,6 +23,7 @@ const loginRoutes = require('./routes/loginRoute');
 const logoutRoutes = require('./routes/logoutRoute');
 const cookieRoutes = require('./routes/cookieRoute');
 const zoomRoutes = require('./routes/zoomRoute');
+const emailRoutes = require('./routes/zoomRoute');
 
 // Configurações do servidor
 const app = express();
@@ -72,6 +74,7 @@ app.use('/login', loginRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/ck', cookieRoutes);
 app.use('/zoom', zoomRoutes);
+app.use('/email', emailRoutes);
 
 server.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)})
