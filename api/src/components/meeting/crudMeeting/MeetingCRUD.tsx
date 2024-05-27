@@ -18,6 +18,7 @@ interface MeetingCRUDProps {
     salasOnline: SalaOnline[];
 }
 
+axios.defaults.withCredentials = true;
 const MeetingCRUD: React.FC<MeetingCRUDProps> = ({ open, onClose, reuniao, adicionarReuniao, atualizarReuniao, removerReuniao, salasPresenciais, salasOnline }) => {
     const [formData, setFormData] = useState<Meeting>({
         id_reuniao: 0,
@@ -44,13 +45,14 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({ open, onClose, reuniao, adici
             
             console.log('Dados enviados para salvar reunião:', dataToSend);
             if (formData.id_reuniao) {
-                await axios.put(`http://localhost:3000/reunioes/${formData.id_reuniao}`, dataToSend);
+                await axios.put(`http://localhost:3000/zoom/meetings/:${formData.id_reuniao}`, dataToSend);
                 console.log('Reunião atualizada:', formData);
                 atualizarReuniao(formData);
             } else {
-                const response = await axios.post('http://localhost:3000/reunioes', dataToSend);
+                const response = await axios.post('http://localhost:3000/zoom/meetings', dataToSend);
                 console.log('Reunião criada:', response.data);
                 adicionarReuniao(response.data);
+                alert("Reunião criada com sucesso!");
             }
             onClose();
         } catch (error) {
@@ -62,7 +64,7 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({ open, onClose, reuniao, adici
         try {
             if (formData.id_reuniao) {
                 console.log('Removendo reunião com ID:', formData.id_reuniao);
-                await axios.delete(`http://localhost:3000/reunioes/${formData.id_reuniao}`);
+                await axios.delete(`http://localhost:3000/zoom/meeting/:${formData.id_reuniao}`);
                 removerReuniao(formData.id_reuniao);
                 onClose();
             }

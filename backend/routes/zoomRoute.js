@@ -39,7 +39,20 @@ router.get('/token', async (req, res) => {
         globalToken = response.data.access_token;
 
         // Redireciona após obter o token de acesso
-        res.redirect(`http://localhost:5173/admin`);
+        axios.get('http://localhost:3000/ck')
+        .then(response => {
+            if (response.data.valid) {
+                if (response.data.role == '1') {
+                    res.redirect(`http://localhost:5173/admin`);
+                }
+            } else{
+                res.redirect(`http://localhost:5173/user`);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao verificar a rota', error);
+            res.redirect(`http://localhost:5173/`);
+        });
     } catch (error) {
         console.log('Erro ao obter o token de acesso', error.response ? error.response.data : error.message);
         res.status(500).send('Erro ao obter o token de acesso');

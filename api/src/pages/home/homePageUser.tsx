@@ -43,7 +43,7 @@ interface dataHomePageUser {
   name: string;
   userLogged: UserStatus;
 }
-
+axios.defaults.withCredentials = true;
 // Função principal para a HomePageUser
 const HomePageUser: React.FC<dataHomePageUser> = () => {
 
@@ -103,7 +103,6 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           participantesReuniaoResponse,
           notificacoesReuniaoResponse,
         ] = await Promise.all([
-          axios.get('http://localhost:3000/ck'),
           axios.get('http://localhost:3000/us'),
           axios.get('http://localhost:3000/reuniao'),
           axios.get('http://localhost:3000/salapresencial'),
@@ -151,7 +150,12 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
       .then(res => {
         if (res.data.valid) {
           setName(res.data.username);
-          setSelectedRole(res.data.role)
+          setSelectedRole(res.data.admin)
+
+          if (res.data.admin == "1") {
+            navigate('/admin')
+          }
+
         } else {
           navigate('/')
         }

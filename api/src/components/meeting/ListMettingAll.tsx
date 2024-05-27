@@ -12,11 +12,17 @@ interface VisualizacaoAllProps {
 const VisualizacaoAll: React.FC<VisualizacaoAllProps> = ({ reunioes }) => {
 
     // Formata a data para 'dd/MM/yyyy'
-    const formatarData = (date: Date): string => format(date, 'dd/MM/yyyy', { locale: ptBR });
-
-    // Formata a hora para 'HH:mm'
-    const formatarHora = (date: Date): string => format(date, 'HH:mm', { locale: ptBR });
+    const formatarData = (date: Date | null | undefined): string => {
+        if (!date) return ''; // Retorna uma string vazia se a data for nula ou indefinida
+        return format(date, 'dd/MM/yyyy', { locale: ptBR });
+    };
     
+    // Formata a hora para 'HH:mm'
+    const formatarHora = (date: Date | null | undefined): string => {
+        if (!date) return ''; // Retorna uma string vazia se a data for nula ou indefinida
+        return format(date, 'HH:mm', { locale: ptBR });
+    };
+
     return (
         <div>
             <Table>

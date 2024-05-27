@@ -9,7 +9,7 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  var [isAdmin, setIsAdmin] = useState(false);
   const pages = ["/admin", "/admin/rooms", "/admin/user", "/settings", "/notifications", "/help"];
   const navigate = useNavigate(); 
 
@@ -17,8 +17,11 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
   useEffect(() => {
     axios.get('http://localhost:3000/ck')
       .then(res => {
-        if (res.data.valid && res.data.admin) {
+        if (res.data.valid && res.data.admin == '1') {
           setIsAdmin(true);
+          isAdmin = true;
+        } else if ( res.data.admin == '0') {
+          setIsAdmin(false);
         }
       })
       .catch(err => console.log(err));
