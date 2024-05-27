@@ -73,7 +73,6 @@ app.use('/login', loginRoutes);
 app.use('/logout', logoutRoutes);
 app.use('/ck', cookieRoutes);
 app.use('/zoom', zoomRoutes);
-app.use('/email', emailRoutes);
 
 server.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`)})
