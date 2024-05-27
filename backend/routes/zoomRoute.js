@@ -61,129 +61,101 @@ router.get('/token', async (req, res) => {
 
 
 router.post('/meetings', async (req, res) => {
-    const { topic, start_time, duration, agenda } = req.body; // Renomeado para corresponder ao frontend
-    const timezone = 'UTC-3';
-    const type = 2;
-  
-    try {
-      const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
-        topic: topic, // Renomeado para corresponder ao frontend
-        type,
-        start_time: start_time, // Renomeado para corresponder ao frontend
-        duration: duration, // Renomeado para corresponder ao frontend
-        timezone,
-        agenda: agenda, // Renomeado para corresponder ao frontend
-        settings: {
-          host_video: true,
-          participant_video: true,
-          join_before_host: true,
-          mute_upon_entry: true,
-          watermark: false,
-          use_pmi: false,
-          approval_type: 0,
-          audio: 'both',
-          auto_recording: 'none'
-        }
-      }, {
-        headers: {
-          'Authorization': `Bearer ${globalToken}`
-        }
-      });
-  
-      const createdMeeting = response.data;
-      console.log('Meeting created:', createdMeeting);
-  
-      res.status(200).json({ success: true, meeting: createdMeeting });
-    } catch (error) {
-      console.error('Error creating meeting:', error);
-      res.status(500).json({ success: false, error: 'Error creating meeting' });
-    }
-  });
-
-
-router.delete('/meetings/:meetingId', async (req, res) => {
-    const meetingId = req.params.meetingId;
-
-    try {
-        const response = await axios.delete(`https://api.zoom.us/v2/meetings/${meetingId}`, {
-            headers: {
-                'Authorization': `Bearer ${globalToken}` // Usando a variável global
-            }
-        });
-
-        // Send a success response to the frontend
-        res.status(200).json({ success: true, message: 'Meeting deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting meeting:', error);
-
-        // Send an error response to the frontend
-        res.status(500).json({ success: false, error: 'Error deleting meeting' });
-    }
-});
-
-router.put('/meetings/:meetingId', async (req, res) => {
-    const meetingId = req.params.meetingId;
     const { topic, start_time, duration, agenda } = req.body;
-    const timezone = 'UTC';
-    const type = 2;
+    const timezone = 'America/Sao_Paulo'; // Fuso horário do Brasil (GMT-3 com DST)
+
+    if (!globalToken) {
+        return res.status(401).json({ message: 'Token de acesso não disponível' });
+    }
 
     try {
-        const response = await axios.put(`https://api.zoom.us/v2/meetings/${meetingId}`, {
-            topic,
-            type,
-            start_time,
-            duration,
-            timezone,
-            agenda,
-            settings: {
-                host_video: true,
-                participant_video: true,
-                join_before_host: true,
-                mute_upon_entry: true,
-                watermark: false,
-                use_pmi: false,
-                approval_type: 0,
-                audio: 'both',
-                auto_recording: 'none'
+        const response = await axios.post(
+            'https://api.zoom.us/v2/users/me/meetings',
+            {
+                topic,
+                type: 2, // Tipo 2 indica uma reunião agendada
+                start_time,
+                duration,
+                timezone,
+                agenda
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${globalToken}`,
+                    'Content-Type': 'application/json'
+                }
             }
-        }, {
-            headers: {
-                'Authorization': `Bearer ${globalToken}` // Usando a variável global
-            }
-        });
+        );
 
-        // Send a success response to the frontend
-        res.status(200).json({ success: true, message: 'Meeting updated successfully' });
+        res.status(201).json({ meeting: response.data });
     } catch (error) {
-        console.error('Error updating meeting:', error);
-
-        // Send an error response to the frontend
-        res.status(500).json({ success: false, error: 'Error updating meeting' });
+        console.error('Erro ao criar reunião:', error.response ? error.response.data : error.message);
+        res.status(500).json({ message: 'Erro ao criar reunião' });
     }
 });
 
-async function getMeetings() {
-    try {
-        const response = await axios.get('https://api.zoom.us/v2/users/me/meetings', {
-            headers: {
-                'Authorization': `Bearer ${globalToken}` // Usando a variável global
-            }
-        });
-        const data = response.data;
-        return data;
-    } catch (error) {
-        console.error('Error fetching meetings:', error);
-        throw error; // Rethrow the error to handle it in the route handler
+// Atualização de uma reunião existente
+router.put('/meetings/:id', async (req, res) => {
+    const meetingId = req.params.id;
+    const { topic, start_time, duration, timezone, agenda } = req.body;
+    
+
+    if (!globalToken) {
+        return res.status(401).json({ message: 'Token de acesso não disponível' });
     }
-}
+
+    try {
+        const response = await axios.patch(
+            `https://api.zoom.us/v2/meetings/${meetingId}`,
+            {
+                topic,
+                type: 2, // Tipo 2 indica uma reunião agendada
+                start_time,
+                duration,
+                timezone,
+                agenda
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${globalToken}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        res.status(200).json({ meeting: response.data });
+    } catch (error) {
+        console.error('Erro ao atualizar reunião:', error.response ? error.response.data : error.message);
+        res.status(500).json({ message: 'Erro ao atualizar reunião' });
+    }
+});
+
+// Exclusão de uma reunião
+router.delete('/meetings/:id', async (req, res) => {
+    const meetingId = req.params.id;
+
+    if (!globalToken) {
+        return res.status(401).json({ message: 'Token de acesso não disponível' });
+    }
+
+    try {
+        await axios.delete(
+            `https://api.zoom.us/v2/meetings/${meetingId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${globalToken}`
+                }
+            }
+        );
+
+        res.status(204).send();
+    } catch (error) {
+        console.error('Erro ao excluir reunião:', error.response ? error.response.data : error.message);
+        res.status(500).json({ message: 'Erro ao excluir reunião' });
+    }
+});
 
 module.exports = router;
-
-
-
-
-
-global.token = "";
 
 /*
 
