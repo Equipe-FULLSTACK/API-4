@@ -18,7 +18,6 @@ import { Room } from "../../types/RoomTypes";
 import axios from "axios";
 import RoomTable from "../../components/salas/RoomPage";
 import RoomCRUD from "../../components/salas/RoomCRUD";
-import { authenticateUser } from "../../services/auth";
 import { eadmin } from "../../services/auth";
 import TelaSalaUsuarios from "../users/TelaSalaUsuarios";
 import BtnSIATT from "../../components/botoes/btnSIATTLogo";

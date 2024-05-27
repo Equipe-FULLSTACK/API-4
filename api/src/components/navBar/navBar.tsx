@@ -13,6 +13,7 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
   const pages = ["/admin", "/admin/rooms", "/admin/user", "/settings", "/notifications", "/help"];
   const navigate = useNavigate(); 
 
+ 
   useEffect(() => {
     axios.get('http://localhost:3000/ck')
       .then(res => {

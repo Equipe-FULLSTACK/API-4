@@ -43,8 +43,6 @@ export const authenticateUser = async ({ email, password }: Credentials, setUser
     }
     console.log('Usuário é administrador:', admin);
 
-    axios.get('http://localhost:3000/ck');
-
     return { loggedId, loggedIn, isAdmin };
   } catch (error) {
     console.error('Falha de autenticação do usuário:', error);

@@ -12,7 +12,6 @@ import {
   InputLabel,
 } from "@mui/material";
 import CustomizedSnackbars from "../snackbar/Snackbar";
-
 import { URI } from "../../utilities/uris/uri";
 
 const MeetingCRUD = ({
@@ -23,8 +22,7 @@ const MeetingCRUD = ({
   atualizarReuniao,
   removerReuniao,
 }) => {
-  const [snackbarMessage, setSnackbarMessage] = React.useState("");
-  // Estados locais para armazenar os dados da reunião
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [formData, setFormData] = useState({
     id: reuniao?.id || null,
     nome: reuniao?.nome || "",
@@ -34,15 +32,9 @@ const MeetingCRUD = ({
     tipoReuniao: reuniao?.tipoReuniao || "",
   });
 
-  // Define a data e hora atuais
   useEffect(() => {
     const currentDate = new Date().toISOString().split("T")[0];
     const currentTime = new Date().toTimeString().split(" ")[0].slice(0, 5);
-    const oneHourLater = new Date(new Date().getTime() + 60 * 60 * 1000)
-      .toTimeString()
-      .split(" ")[0]
-      .slice(0, 5);
-
     setFormData({
       id: reuniao?.id || null,
       nome: reuniao?.nome || "",
@@ -53,13 +45,11 @@ const MeetingCRUD = ({
     });
   }, [reuniao]);
 
-  // Manipulador de mudança de formulário
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Verifica se todos os campos foram preenchidos para habilitar o botão salvar
   const isFormComplete =
     formData.nome &&
     formData.data &&
@@ -69,59 +59,48 @@ const MeetingCRUD = ({
 
   const handleSave = async () => {
     const { nome, data, inicio, termino, tipoReuniao } = formData;
+    console.log("Tentando salvar a reunião com os seguintes dados:", formData);
 
-    // Verifica se a reunião não é presencial antes de prosseguir com a criação da reunião via API
     if (tipoReuniao !== "Presencial") {
-      // Format the date and time
       const start_time = `${data}T${inicio}:00`;
-      const duration = parseInt(termino); // Assuming termino is in minutes
+      const duration = parseInt(termino);
 
       try {
-        // Chama o endpoint de API com os dados formatados
+        console.log("Enviando dados para a API:", { topic: nome, start_time, duration, agenda: tipoReuniao });
         const response = await axios.post(
-          "http://localhost:3000/criar_reuniao",
+          "http://localhost:3000/zoom/meetings",
           {
-            topic: nome,
-            start_time: start_time,
-            duration: duration,
-            agenda: tipoReuniao,
+            titulo: nome,
+            data_inicio: start_time,
+            duracao: duration,
+            descricao: tipoReuniao,
           }
         );
 
-        console.log("API createProcess response:", response.data);
-
-        // Extrai o link de reunião (join_url) da resposta
+        console.log("Resposta da API createProcess:", response.data);
         const meeting = response.data.meeting;
-        console.log("Meeting:", meeting);
-
         if (meeting) {
-          const joinUrl = meeting.join_url;
+          const joinUrl = meeting.zoom_meeting_join_url;
           console.log("Meeting join URL:", joinUrl);
-
-          // Exibe a reunião ao usuário
           adicionarReuniao(formData);
           alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
-
-          // Abre o joinUrl em uma nova aba
           window.open(joinUrl, "_blank");
         } else {
           throw new Error("Nenhuma reunião encontrada na resposta");
         }
       } catch (error) {
         console.error("Erro ao criar reunião:", error);
-        alert(`${error}`);
+        alert(`Erro ao criar reunião: ${error}`);
       }
     } else {
-      // Se o tipo de reunião for "Presencial", não chame a API e apenas adicione a reunião
       adicionarReuniao(formData);
       setSnackbarMessage("Sala adicionada com sucesso!");
     }
-
-    // Fecha o modal
     onClose();
   };
 
   const handleRemove = () => {
+    console.log("Removendo reunião com ID:", formData.id);
     if (formData.id) {
       removerReuniao(formData.id);
     }
@@ -142,14 +121,12 @@ const MeetingCRUD = ({
             border: "1px solid #000",
             boxShadow: 24,
             padding: 4,
-            zIndex: 1300, // z-index alto para garantir que o modal fique na frente
+            zIndex: 1300,
           }}
         >
           <Typography variant="h6">
             {formData.id ? "Editar Reunião" : "Adicionar Reunião"}
           </Typography>
-
-          {/* Campo de formulário para o nome */}
           <TextField
             label="Nome"
             name="nome"
@@ -158,8 +135,6 @@ const MeetingCRUD = ({
             fullWidth
             margin="normal"
           />
-
-          {/* Campo de formulário para a data */}
           <TextField
             label="Data"
             name="data"
@@ -169,8 +144,6 @@ const MeetingCRUD = ({
             fullWidth
             margin="normal"
           />
-
-          {/* Campo de formulário para o horário de início */}
           <TextField
             label="Início"
             name="inicio"
@@ -180,8 +153,6 @@ const MeetingCRUD = ({
             fullWidth
             margin="normal"
           />
-
-          {/* Campo de formulário para o horário de término */}
           <TextField
             label="Duração"
             name="termino"
@@ -191,8 +162,6 @@ const MeetingCRUD = ({
             fullWidth
             margin="normal"
           />
-
-          {/* Campo de formulário para o tipo de reunião como lista suspensa */}
           <FormControl fullWidth margin="normal">
             <InputLabel id="tipo-reuniao-label">Tipo de Reunião</InputLabel>
             <Select
@@ -208,8 +177,6 @@ const MeetingCRUD = ({
               <MenuItem value="Hibrido">Híbrido</MenuItem>
             </Select>
           </FormControl>
-
-          {/* Botões para remover, salvar ou cancelar */}
           <Box display="flex" justifyContent="space-between" mt={3}>
             {formData.id && (
               <Button
@@ -224,7 +191,7 @@ const MeetingCRUD = ({
               variant="contained"
               color="primary"
               onClick={handleSave}
-              disabled={!isFormComplete} // Desabilita o botão salvar se o formulário não estiver completo
+              disabled={!isFormComplete}
             >
               Salvar
             </Button>

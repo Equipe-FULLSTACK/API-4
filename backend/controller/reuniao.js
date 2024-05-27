@@ -1,13 +1,65 @@
 const con = require('../database/dbConnection');
+const axios = require('axios');
 
-// Funções CRUD para reuniões
+let globalToken = ""; // Certifique-se de que este token seja atualizado conforme necessário
+
+async function createZoomMeeting(meetingData) {
+    const { titulo: topic, data_inicio: start_time, descricao: agenda, duracao } = meetingData;
+    const timezone = 'UTC';
+    const type = 2;
+
+    try {
+        console.log('Dados da reunião enviados para o Zoom:', meetingData);
+        const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
+            topic,
+            type,
+            start_time,
+            duration: duracao,
+            timezone,
+            agenda,
+            settings: {
+                host_video: true,
+                participant_video: true,
+                join_before_host: true,
+                mute_upon_entry: true,
+                watermark: false,
+                use_pmi: false,
+                approval_type: 0,
+                audio: 'both',
+                auto_recording: 'none'
+            }
+        }, {
+            headers: {
+                'Authorization': `Bearer ${globalToken}`
+            }
+        });
+        console.log('Resposta do Zoom:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao criar reunião no Zoom:', error.response ? error.response.data : error.message);
+        throw new Error('Error creating Zoom meeting: ' + (error.response ? error.response.data : error.message));
+    }
+}
 
 exports.createReuniao = async (reuniaoData) => {
     try {
+        console.log('Dados recebidos para criar reunião:', reuniaoData);
+        const zoomMeeting = await createZoomMeeting(reuniaoData);
+        console.log('Reunião criada no Zoom:', zoomMeeting);
+
+        const newReuniaoData = {
+            ...reuniaoData,
+            zoom_meeting_id: zoomMeeting.id,
+            zoom_meeting_join_url: zoomMeeting.join_url,
+            zoom_meeting_start_url: zoomMeeting.start_url
+        };
+
         const query = 'INSERT INTO reuniao SET ?';
-        const [result] = await con.promise().query(query, reuniaoData);
-        return result;
+        const [result] = await con.promise().query(query, newReuniaoData);
+        console.log('Reunião inserida no banco de dados:', result);
+        return { meeting: newReuniaoData };
     } catch (error) {
+        console.error('Erro ao criar reunião:', error.message);
         throw new Error(error.message);
     }
 };

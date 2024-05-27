@@ -10,7 +10,6 @@ import { Room } from "../../types/RoomTypes";
 import axios from "axios";
 import RoomTable from "../../components/salas/RoomPage";
 import RoomCRUD from "../../components/salas/RoomCRUD";
-import { authenticateUser } from "../../services/auth";
 
 const darkTheme = createTheme({
     palette: {

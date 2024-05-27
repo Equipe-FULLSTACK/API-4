@@ -103,6 +103,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           participantesReuniaoResponse,
           notificacoesReuniaoResponse,
         ] = await Promise.all([
+          axios.get('http://localhost:3000/ck'),
           axios.get('http://localhost:3000/us'),
           axios.get('http://localhost:3000/reuniao'),
           axios.get('http://localhost:3000/salapresencial'),

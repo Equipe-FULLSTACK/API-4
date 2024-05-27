@@ -34,7 +34,24 @@ const LoginPage: React.FC = () => {
     }
   };
 
+  const [name, setName] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+
+  axios.defaults.withCredentials = true;
   useEffect(() => {
+
+    axios
+      .get("http://localhost:3000/ck")
+      .then((res) => {
+        if (res.data.valid) {
+          setName(res.data.username);
+          setSelectedRole(res.data.role);
+        }
+         console.log(res);
+      })
+      .catch((err) => console.log(err));
+
+
     const fetchUserData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/ck');

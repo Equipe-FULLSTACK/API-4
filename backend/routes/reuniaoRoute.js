@@ -2,14 +2,13 @@ const express = require('express');
 const router = express.Router();
 const reuniaoController = require('../controller/reuniao');
 
-// Rotas CRUD para reuniões
-
 router.post('/', async (req, res) => {
     try {
+        console.log('Recebendo dados para criação de reunião:', req.body);
         const newReuniao = await reuniaoController.createReuniao(req.body);
         res.status(201).json(newReuniao);
-        console.log(`Reuniao criada com sucesso, dados: ${req.body.json}`);
     } catch (error) {
+        console.error('Erro ao criar reunião:', error.message);
         res.status(500).json({ error: error.message });
     }
 });
@@ -45,7 +44,6 @@ router.put('/:id', async (req, res) => {
     try {
         const updatedReuniao = await reuniaoController.updateReuniaoById(req.params.id, req.body);
         res.json(updatedReuniao);
-        console.log(`Reuniao ${req.params.id} ATUALIZADA com sucesso.`);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -55,7 +53,6 @@ router.delete('/:id', async (req, res) => {
     try {
         const result = await reuniaoController.deleteReuniaoById(req.params.id);
         res.json(result);
-        console.log(`Reuniao ${req.params.id} DELETADA com sucesso.`);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

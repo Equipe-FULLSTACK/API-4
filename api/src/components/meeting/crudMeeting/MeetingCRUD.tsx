@@ -6,7 +6,6 @@ import { SalaOnline } from '../../../types/roomOnlineTypes';
 import { SalaPresencial } from '../../../types/roomPresencialTypes';
 import DateInput from './DateTimeInputField';
 
-
 interface MeetingCRUDProps {
     open: boolean;
     onClose: () => void;
@@ -40,11 +39,17 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({ open, onClose, reuniao, adici
 
     const handleSave = async () => {
         try {
+            const duration = Math.floor((new Date(formData.data_final).getTime() - new Date(formData.data_inicio).getTime()) / 60000); // Calcula a duração em minutos
+            const dataToSend = { ...formData, duracao: duration };
+            
+            console.log('Dados enviados para salvar reunião:', dataToSend);
             if (formData.id_reuniao) {
-                await axios.put(`http://localhost:3000/reunioes/${formData.id_reuniao}`, formData);
+                await axios.put(`http://localhost:3000/reunioes/${formData.id_reuniao}`, dataToSend);
+                console.log('Reunião atualizada:', formData);
                 atualizarReuniao(formData);
             } else {
-                const response = await axios.post('http://localhost:3000/reunioes', formData);
+                const response = await axios.post('http://localhost:3000/reunioes', dataToSend);
+                console.log('Reunião criada:', response.data);
                 adicionarReuniao(response.data);
             }
             onClose();
@@ -56,6 +61,7 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({ open, onClose, reuniao, adici
     const handleRemove = async () => {
         try {
             if (formData.id_reuniao) {
+                console.log('Removendo reunião com ID:', formData.id_reuniao);
                 await axios.delete(`http://localhost:3000/reunioes/${formData.id_reuniao}`);
                 removerReuniao(formData.id_reuniao);
                 onClose();

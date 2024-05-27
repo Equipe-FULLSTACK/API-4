@@ -13,8 +13,6 @@ router.get("/auth", (req, res) => {
 router.get('/token', async (req, res) => {
     const code = req.query.code;
 
-    console.log('Código de autorização recebido:', code);
-
     if (!code) {
         return res.status(400).send('Código de autorização não fornecido');
     }
@@ -25,8 +23,6 @@ router.get('/token', async (req, res) => {
             code: code,
             redirect_uri: "http://localhost:3000/zoom/token"
         }).toString();
-
-        console.log('Parâmetros para solicitação de token:', params);
 
         const response = await axios.post(
             'https://zoom.us/oauth/token',
@@ -39,8 +35,8 @@ router.get('/token', async (req, res) => {
             }
         );
 
-        global.token = response.data.access_token;
-        console.log(`Valor do Token de Acesso: ${global.token} \n`);
+        // Atualizar o token de acesso global
+        globalToken = response.data.access_token;
 
         // Redireciona após obter o token de acesso
         res.redirect(`http://localhost:5173/admin`);
@@ -52,8 +48,6 @@ router.get('/token', async (req, res) => {
 
 
 router.post('/meetings', async (req, res) => {
-    console.log('Request body:', req.body); // Log the request body
-
     const { topic, start_time, duration, agenda } = req.body;
     const timezone = 'UTC';
     const type = 2;
@@ -79,7 +73,7 @@ router.post('/meetings', async (req, res) => {
             }
         }, {
             headers: {
-                'Authorization': `Bearer ${globalToken}` // Usando a variável global
+                'Authorization': `Bearer ${globalToken}` // Usando a variável global atualizada
             }
         });
 
@@ -95,6 +89,7 @@ router.post('/meetings', async (req, res) => {
         res.status(500).json({ success: false, error: 'Error creating meeting' });
     }
 });
+
 
 router.delete('/meetings/:meetingId', async (req, res) => {
     const meetingId = req.params.meetingId;
