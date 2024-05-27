@@ -45,9 +45,8 @@ Ao longo da Sprint, foi feito um levantamento de requisitos e implementadas nova
 
 ### <p align = "center">Gráfico de Burndown
 
-
  <br>
-  <div align="center"> <img src="/readme/BurndownSprint3-4sem.png "width="640" height="360"> </div>
+  <div align="center"> <img src="documentacao/master/sprint3/BurndownSprint3-4sem.png "width="640" height="360"> </div>
   <br><br>
   <h1><div align="center">Nossa Equipe</div></h1>
 
