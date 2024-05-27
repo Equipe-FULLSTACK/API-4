@@ -8,6 +8,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require("path");
 const http = require('http');
+var nodemailer = require('nodemailer');
 
 // IMPORTAÇÕES DE ROTAS DO BACKEND
 const userRoutes = require('./routes/userRoute');
