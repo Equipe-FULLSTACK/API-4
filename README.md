@@ -5,7 +5,7 @@
 <h1><div align="center"> Equipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
 <h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
-  #### <div align="center"> Estado do Projeto ao final da Segunda Sprint: </div>
+  #### <div align="center"> Estado do Projeto ao final da terceira Sprint: </div>
  
 ![login](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/46f04ee0-016f-4506-a19f-46cf2ee9afcf)
 <br>
