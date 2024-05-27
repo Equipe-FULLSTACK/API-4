@@ -1,107 +1,54 @@
-# <div align="center"> Escopo do Projeto </div>
-
-  #### <p align="center">
+ Terceira Sprint - 26/05/2024
+  ============================
+  ****************************
    <span id="topo">
-     
- 
-O escopo geral do projeto consiste em criar uma plataforma web de Agendamento de Reuniões abrangente, projetado para atender às necessidades específicas da empresa parceira. Este portal será uma solução integrada que visa otimizar o agendamento de reuniões em um ambiente onde as equipes se tornaram maiores e mais dispersas.
-
-O portal terá a capacidade de centralizar informações de diferentes fontes, integrando dados de calendários, agendas e sistemas de comunicação em um banco de dados unificado e sempre atualizado. Isso proporcionará uma visão holística dos horários e disponibilidades, facilitando o processo de agendamento para todos os colaboradores.
-
-Além disso, a plataforma permitirá o agendamento de reuniões de diferentes categorias, incluindo presenciais, online e híbridas, com diferentes níveis de permissão para cada tipo de encontro. Um layout amigável e intuitivo será apresentado, garantindo que cada colaborador possa visualizar facilmente os horários e locais ideais para suas reuniões, levando em consideração a disponibilidade das salas físicas ou virtuais.
-  #### <p align="center">
-  
-  <h1><div align="center"> Euipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
+<h1><div align="center"> Equipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
 <h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
-<h1><div align="center">Equipe-FULLSTACK </div></h1>
-<div align="center"> <img src="/readme/fullstack.png" width="200" height="200"> </div>
-
-
-  #### <div align="center"> Sprint Review 1 </div>
-  <div align="center">
-  
-  [<img src="https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/e3081eac-03de-4276-86ef-d63aded5be19" width="700" height="400" />](https://www.youtube.com/watch?v=IOb_bTfLFQE&t=1s)
-
-  </div>
-
-  <div align="center">
-  <img src="/readme/api01.jpg" width="640" height="360"><br>
-  <img src="/readme/api02.jpg" width="640" height="360"><br>
-  <img src="/readme/api03.jpg" width="640" height="360"><br>
-  <img src="/readme/api04.jpg" width="640" height="360"><br>
-  </div>
+  #### <div align="center"> Estado do Projeto ao final da terceira Sprint: </div>
  
-  
+![login](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/46f04ee0-016f-4506-a19f-46cf2ee9afcf)
 <br>
+
+![users1](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/0652e4a0-8401-4781-a275-8791dd6df4e8)
+<br>
+
+ ![Users](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/af972abc-fa51-4e6d-9d48-9312a2426a3a) 
+ <br>
+
+ 
+A Sprint teve inicio na data de 15/04/2024. Foram criadas as telas home, cadastro de salas e usuarios  e tela de agendamento. assim como implementada a integração com o banco de dados entre o front-end e o back-end da aplicação.
+
+
+
+
+
+
+Ao longo da Sprint, foi feito um levantamento de requisitos e implementadas novas funções para o projeto, como:
+
+
+- Página "home"
+- Página "cadastro salas"						
+- Página "cadastrousuario"
+- Página "Agendamento"
+- Design da interface "Agendamento" (complemento)						
+- Backend - Integração API com Backend - CRUD Usuários						
+- Integração API com Backend - CRUD Salas						
+- Integração API com Backend - CRUD Agendamentos 						
+- Integração API com Backend -  Select geral 						
+- integração Back com Banco de Dados (CRUD: Usuário, Salas, Agendamentos)						
+- CRUD Zoom 						
+- Atualização Banco de Dados						
+- Sessão de Login integrado com a interface ADM/Usuário						
+- Criar documentação técnica/Operacional								
   
-<h1> <p align="center">Requisitos do Projeto</p> </h1>
-  
-  ## <p align="center">Requisitos Funcionais
- *Criação de reuniões*
-- RF1: Os usuários devem poder criar reuniões, definindo a sala, horário e dia.
-- RF2: A plataforma deve permitir a personalização das etapas e a ordem de execução de acordo com as necessidades da equipe.
-- RF3: Deve ser possível atribuir prioridades aos agendamentos de salas.
 
-*Acompanhamento em Tempo Real*
-- RF4: A plataforma deve fornecer um painel de controle para visualização em tempo real do status das salas.
-- RF5: Os usuários devem poder filtrar as salas com base em diferentes critérios, como data, responsável ou estado.
+### <p align = "center">Gráfico de Burndown
 
-*Segurança e Controle de Acesso*
-- RF12: Deve ser implementado um sistema de autenticação seguro para garantir o acesso somente a usuários autorizados.
-- RF13: A plataforma deve suportar diferentes níveis de permissão de acesso, incluindo administradores e usuários regulares.
 
-*Personalização e Configuração*
-- RF14: A personalização dos fluxos de trabalho deve incluir a adição, remoção ou reordenação de reuniões.
-
-*Integração de Dados*
-- RF15: A plataforma deve permitir a integração com sistemas externos através de APIs para facilitar a troca de informações.
-    
-  #
-    
-  ## <p align="center">Requisitos Não Funcionais
-    *Desempenho*
-- RNF2: O tempo de resposta para carregar o painel de controle não deve exceder X segundos mesmo em momentos de pico de uso.
-
-*Disponibilidade*
-- RNF5: A plataforma deve estar disponível para uso 24 horas por dia, 7 dias por semana, exceto durante manutenções programadas.
-
-*Usabilidade*
-- RNF7: A interface do usuário deve ser intuitiva, com uma curva de aprendizado mínima para que os usuários possam interagir sem dificuldades.
-- RNF8: O design responsivo deve garantir que a plataforma seja facilmente utilizável em dispositivos desktop e móveis.
-
-#
-
-## <p align="center">Requisitos de Interface
-
-*Layout e Navegação*
-- RI1: A interface deve ter um layout limpo e organizado, com uma navegação intuitiva para permitir fácil acesso às funcionalidades.
-
-*Painel de Controle*
-
-*Detalhes do Processo*
-
-*Formulários e Entrada de Dados*
-
-*Notificações e Alertas*
-
-  #
-  
-  <br>
-
- # <p align="center">Product Backlog
-  
-<div align="center">
-
-<br><br>
-    <img src="documentacao/po/ProductBacklogTotal.png" width="720" height="380"><br>
-<h1> Diagrama Conceitual do Banco de Dados </h1>
-<br><br>
-    <img src="documentacao/db/sprint3/ConceitualSprint3.jpg" width="720" height="380"><br>
-<h1> Diagrama Logico do Banco de Dados </h1>
-<br><br>
-    <img src="documentacao/db/sprint3/LogicoSprint3.png" width="720" height="380"><br>
-</div>
+ <br>
+  <div align="center"> <img src="/readme/BurndownSprint3-4sem.png "width="640" height="360"> </div>
+  <br><br>
   <h1><div align="center">Nossa Equipe</div></h1>
 
 <div align="center">
@@ -172,30 +119,19 @@ Além disso, a plataforma permitirá o agendamento de reuniões de diferentes ca
 </table>
 <br>
 </div>
-  
- 
 
-     
   
   
-# <p align="center">SPRINTS
+  # <p align="center">SPRINTS
 
-
-
-[SPRINT 1](https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1)
-
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1" onclick="window.open(this.href,'_blank');return false;">Primeira Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-1">Primeira Sprint</a>
   ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-2" onclick="window.open(this.href,'_blank');return false;">Segunda Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-2">Segunda Sprint</a>
   ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-3" onclick="window.open(this.href,'_blank');return false;">Terceira Sprint</a>
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-3">Terceira Sprint</a>
   ## <br>
-  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-4" onclick="window.open(this.href,'_blank');return false;">Quarta Sprint</a>
-</p>
-
-### → [Voltar ao topo](#topo)
-
-
+  ## <a href="https://github.com/Equipe-FULLSTACK/API-4/tree/SPRINT-4">Quarta Sprint</a>
+  <br><br>
   
-
+→ [Voltar ao topo](#topo)
   
