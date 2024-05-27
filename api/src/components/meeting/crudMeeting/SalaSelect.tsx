@@ -9,7 +9,6 @@ import SearchIcon from '@mui/icons-material/Search'; // Ícone para pesquisa
 interface SalaSelectProps {
   salasPresenciais: SalaPresencial[];
   reunioes: Meeting[];
-  onCheckAvailability: (dataInicio: Date, dataFim: Date) => void;
   onChange: (selectedSala: number) => void;
 }
 

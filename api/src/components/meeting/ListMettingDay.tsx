@@ -8,12 +8,10 @@ import { ptBR } from 'date-fns/locale';
 interface VisualizacaoDiariaProps {
   dataSelecionada: Date;
   reunioes: Meeting[];
+  onSelectReuniao: (reuniao: Meeting) => void; // Nova prop para seleção de reunião
 }
 
-const VisualizacaoDiaria: React.FC<VisualizacaoDiariaProps> = ({
-  dataSelecionada,
-  reunioes,
-}) => {
+const VisualizacaoDiaria: React.FC<VisualizacaoDiariaProps> = ({ dataSelecionada, reunioes, onSelectReuniao }) => {
   // Função para filtrar reuniões por data selecionada
   const filtrarReunioesPorDia = (date: Date): Meeting[] => {
     return reunioes
@@ -43,7 +41,7 @@ const VisualizacaoDiaria: React.FC<VisualizacaoDiariaProps> = ({
         <TableBody>
           {/* Exibe as reuniões filtradas */}
           {reunioesFiltradas.map((reuniao, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} onClick={() => onSelectReuniao(reuniao)} sx={{ cursor: 'pointer', '&:hover': { border: '1px solid #3f51b5' } }}>
               <TableCell>{formatarData(reuniao.data_inicio)}</TableCell>
               <TableCell>{formatarHora(reuniao.data_inicio)}</TableCell>
               <TableCell>

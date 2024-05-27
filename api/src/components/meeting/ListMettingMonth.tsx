@@ -32,9 +32,10 @@ const calcularDiasDoMes = (dataSelecionada: Date): Date[] => {
 interface VisualizacaoMensalProps {
     dataSelecionada: Date;
     reunioes: Meeting[];
+    onSelectReuniao: (reuniao: Meeting) => void; // Nova prop para seleção de reunião
 }
 
-const VisualizacaoMensal: React.FC<VisualizacaoMensalProps> = ({ dataSelecionada, reunioes }) => {
+const VisualizacaoMensal: React.FC<VisualizacaoMensalProps> = ({ dataSelecionada, reunioes, onSelectReuniao }) => {
     // Calcula os dias do mês com base na data selecionada
     const diasDoMes = calcularDiasDoMes(dataSelecionada);
 
@@ -70,13 +71,14 @@ const VisualizacaoMensal: React.FC<VisualizacaoMensalProps> = ({ dataSelecionada
 
                             {/* Exibe as reuniões deste dia */}
                             {reunioesNesteDia.slice(0, 2).map((reuniao, reuniaoIndex) => (
-                                <CardMettingMonth
-                                    key={reuniaoIndex}
-                                    nome={reuniao.titulo}
-                                    inicio={formatarHora(reuniao.data_inicio)}
-                                    termino={formatarHora(reuniao.data_final)}
-                                    tipoReuniao={reuniao.tipo}
-                                />
+                                <div key={reuniaoIndex} onClick={() => onSelectReuniao(reuniao)} style={{ cursor: 'pointer', border: '1px solid transparent' }} onMouseOver={(e) => e.currentTarget.style.border = '1px solid #3f51b5'} onMouseOut={(e) => e.currentTarget.style.border = '1px solid transparent'}>
+                                    <CardMettingMonth
+                                        nome={reuniao.titulo}
+                                        inicio={formatarHora(reuniao.data_inicio)}
+                                        termino={formatarHora(reuniao.data_final)}
+                                        tipoReuniao={reuniao.tipo}
+                                    />
+                                </div>
                             ))}
 
                             {/* Exibe reticências se houver mais de duas reuniões */}

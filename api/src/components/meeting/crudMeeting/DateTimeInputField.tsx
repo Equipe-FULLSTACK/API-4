@@ -1,48 +1,76 @@
 import * as React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { TextField, Grid } from '@mui/material';
 import ptBRLocale from 'dayjs/locale/pt-br';
 
 // Configura o idioma globalmente para o dayjs
 dayjs.locale(ptBRLocale);
 
 interface DateInputProps {
-    onDateChange: (date: Date) => void;
+    onDateChange: (dataInicio: Date, dataFinal: Date) => void;
     initialDate?: Date;
 }
 
 const DateInput: React.FC<DateInputProps> = ({ onDateChange, initialDate }) => {
-    const [value, setValue] = React.useState<Dayjs>(dayjs(initialDate || '2022-04-17T15:30'));
+    const [date, setDate] = useState<Dayjs>(dayjs(initialDate || new Date()));
+    const [time, setTime] = useState<Dayjs>(dayjs(initialDate || new Date()));
+    const [duration, setDuration] = useState<number>(60); // Default duration to 60 minutes
 
-    const logSelectedValue = (newValue: Dayjs) => {
-        if (newValue) {
-            console.log('Valor selecionado:', newValue.format('DD/MM/YYYY HH:mm'));
-        } else {
-            console.log('Nenhum valor selecionado');
-        }
+    const logSelectedValue = (dataInicio: Date, dataFinal: Date) => {
+       /*  console.log('Data Início:', dayjs(dataInicio).format('DD/MM/YYYY HH:mm'));
+        console.log('Data Final:', dayjs(dataFinal).format('DD/MM/YYYY HH:mm')); */
     };
 
     useEffect(() => {
-        logSelectedValue(value);
-    }, [value]);
+        const combinedDate = date
+            .hour(time.hour())
+            .minute(time.minute());
+        const dataInicio = combinedDate.toDate();
+        const dataFinal = dayjs(combinedDate).add(duration, 'minute').toDate();
+        onDateChange(dataInicio, dataFinal);
+        logSelectedValue(dataInicio, dataFinal);
+    }, [date, time, duration]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-                label="Controlled picker"
-                value={value}
-                format='DD/MM/YYYY HH:mm'
-                onChange={(newValue) => {
-                    if (newValue) {
-                        setValue(newValue);
-                        logSelectedValue(newValue);
-                        onDateChange(newValue.toDate());
-                    }
-                }}
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={4}>
+                    <DatePicker
+                        label="Data de Início"
+                        value={date}
+                        onChange={(newValue) => {
+                            if (newValue) {
+                                setDate(newValue);
+                            }
+                        }}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TimePicker
+                        label="Hora de Início"
+                        value={time}
+                        onChange={(newValue) => {
+                            if (newValue) {
+                                setTime(newValue);
+                            }
+                        }}
+                    />
+                </Grid>
+                <Grid item xs={4}>
+                    <TextField
+                        label="Duração (minutos)"
+                        type="number"
+                        value={duration}
+                        onChange={(e) => setDuration(parseInt(e.target.value, 10))}
+                        fullWidth
+                    />
+                </Grid>
+            </Grid>
         </LocalizationProvider>
     );
 };

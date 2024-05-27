@@ -21,9 +21,10 @@ const calcularDiasDaSemana = (dataSelecionada: Date): Date[] => {
 interface VisualizacaoSemanalProps {
     dataSelecionada: Date;
     reunioes: Meeting[];
+    onSelectReuniao: (reuniao: Meeting) => void; // Nova prop para seleção de reunião
 }
 
-const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSelecionada, reunioes }) => {
+const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSelecionada, reunioes, onSelectReuniao }) => {
 
     const diasDaSemana = calcularDiasDaSemana(dataSelecionada);
 
@@ -75,13 +76,14 @@ const VisualizacaoSemanal: React.FC<VisualizacaoSemanalProps> = ({ dataSeleciona
                                             {reunioesNesteDia
                                                 .filter(reuniao => formatarHora(new Date(reuniao.data_inicio)) === hora)
                                                 .map((reuniao, reuniaoIndex) => (
-                                                    <CardMettingDay
-                                                        key={reuniaoIndex}
-                                                        nome={reuniao.titulo}
-                                                        inicio={formatarHora(reuniao.data_inicio)}
-                                                        termino={formatarHora(reuniao.data_final)}
-                                                        tipoReuniao={reuniao.tipo}
-                                                    />
+                                                    <div key={reuniaoIndex} onClick={() => onSelectReuniao(reuniao)} style={{ cursor: 'pointer', border: '1px solid transparent' }} onMouseOver={(e) => e.currentTarget.style.border = '1px solid #3f51b5'} onMouseOut={(e) => e.currentTarget.style.border = '1px solid transparent'}>
+                                                        <CardMettingDay
+                                                            nome={reuniao.titulo}
+                                                            inicio={formatarHora(reuniao.data_inicio)}
+                                                            termino={formatarHora(reuniao.data_final)}
+                                                            tipoReuniao={reuniao.tipo}
+                                                        />
+                                                    </div>
                                                 ))}
                                         </TableCell>
                                     ))}

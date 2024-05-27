@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import {
@@ -22,7 +22,6 @@ import VisualizacaoSemanal from '../../components/meeting/ListMettingWeek';
 import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
 import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
-
 // Importar todas as interfaces
 import { User, UserStatus } from '../../types/userTypes';
 import { Credentials } from '../../types/userTypes';
@@ -34,7 +33,6 @@ import { Observacao } from '../../types/ObservacaoTypes';
 import { ParticipanteReuniao } from '../../types/ParticipanteReuniaoTypes';
 import { NotificacaoReuniao } from '../../types/NotificacaoReuniaoTypes';
 
-
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import BtnSIATT from '../../components/botoes/btnSIATTLogo';
 import CrudReuniao from '../../components/meeting/crudMeeting/MeetingCRUD';
@@ -44,14 +42,13 @@ interface dataHomePageUser {
   userLogged: UserStatus;
 }
 axios.defaults.withCredentials = true;
-// Função principal para a HomePageUser
-const HomePageUser: React.FC<dataHomePageUser> = () => {
 
+const HomePageUser: React.FC<dataHomePageUser> = () => {
   // INTEGRAÇÃO SISTEMA REUNIÃO COM DB
   const [users, setUsers] = useState<User[]>([]);
   const [credentials, setCredentials] = useState<Credentials[]>([]);
   const [startMeetings, setStartMeetings] = useState<Meeting[]>([]);
-  const [meetingEdit, setMeetingEdit] = useState<Meeting>();
+  const [meetingEdit, setMeetingEdit] = useState<Meeting | null>(null);
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [salasPresenciais, setSalasPresenciais] = useState<SalaPresencial[]>([]);
   const [salasOnline, setSalasOnline] = useState<SalaOnline[]>([]);
@@ -65,16 +62,10 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   // ESTADOS DO COMPONENTE
   const [modalOpen, setModalOpen] = useState(false); // MANIPULACAO MODAL
   const [date, setDate] = useState<Date>(new Date());
-
-  const [tipoSelecionado, setTipoSelecionado] = useState('todos');  // ESTADO PARA TIPO DE REUNIAO
+  const [tipoSelecionado, setTipoSelecionado] = useState('todos'); // ESTADO PARA TIPO DE REUNIAO
   const [periodo, setPeriodo] = useState<'Dia' | 'Semana' | 'Mes' | 'Todos'>('Todos'); // ESTADO PARA PERIODO
 
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////// theme /////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+  // Theme
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -87,9 +78,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
     },
   });
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////// CARREGAMENTO DOS DADOS BACKEND ////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Carregamento dos dados do backend
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -136,37 +125,29 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
     fetchData();
   }, []);
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
   // Função para checkar os dados dos cookies de sessão do usuário
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  axios.defaults.withCredentials = true;
   useEffect(() => {
     axios.get('http://localhost:3000/ck')
       .then(res => {
         if (res.data.valid) {
           setName(res.data.username);
-          setSelectedRole(res.data.admin)
+          setSelectedRole(res.data.admin);
 
           if (res.data.admin == "1") {
-            navigate('/admin')
+            navigate('/admin');
           }
-
         } else {
-          navigate('/')
+          navigate('/');
         }
-        /* console.log(res) */
       })
-      .catch(err => console.log(err))
-  }, [navigate])
+      .catch(err => console.log(err));
+  }, [navigate]);
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// CRUD REUNIOES ///////////////////////////////
-  //////////////////////////////////////////////////////
-
+  // CRUD Reuniões
   const adicionarReuniao = (novaReuniao: Meeting) => {
     setMeetings((reunioesAnteriores) => [...reunioesAnteriores, novaReuniao]);
   };
@@ -178,7 +159,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
       )
     );
   };
-////// DELETAR ////////
+
   const atualizarReuniao1 = (reuniaoAtualizada: Meeting) => {
     setMeetings((reunioesAnteriores) =>
       reunioesAnteriores.map((reuniao) =>
@@ -186,10 +167,6 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
       )
     );
   };
-////// DELETAR ////////
-  
-
-
 
   const removerReuniao = (id: number) => {
     setMeetings((reunioesAnteriores) =>
@@ -197,98 +174,62 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
     );
   };
 
-  //////////////////////////////////////////////////////
-  //////// CRUD REUNIOES ///////////////////////////////
-  //////////////////////////////////////////////////////
-
-
-
-  // Função para imprimir os dados no console
-  useEffect(() => {
-    /* console.log('Reuniões:', meetings); */
-  }, [meetings]);
-
-
-
   // Função para lidar com a mudança de período
   const handlePeriodChange = (newPeriodo: 'Dia' | 'Semana' | 'Mes' | 'Todos') => {
     setPeriodo(newPeriodo);
-    /* console.log(`Período selecionado: ${newPeriodo}`); */
   };
-
 
   // Função para lidar com a mudança de data
   const handleDateChange = (date: Date) => {
     setDate(date);
-    console.log('Data selecionada:', date);
   };
-
 
   // Função para lidar com o clique no botão novo evento
   const handleNovoEventoClick = () => {
-    /* console.log('Teste BTN novo Evento!'); */
-    setMeetingEdit([]); // 
-    setModalOpen(true); //
+    setMeetingEdit(null); // Iniciar uma nova reunião
+    setModalOpen(true); // Abre o modal
   };
 
+  // Função para lidar com a edição de uma reunião
   const handleEditarReuniaoClick = (reuniao: Meeting) => {
-    setMeetingEdit(reuniao); //DEFININDO REUNIÃO PARA EDIÇÃO
+    setMeetingEdit(reuniao); // Define a reunião para edição
     setModalOpen(true); // Abre o modal
   };
 
   const handleModalClose = () => {
     setModalOpen(false); // Fecha o modal
+    setMeetingEdit(null); // Reseta a reunião em edição
   };
 
-  // Método para editar uma reunião
-  const handleEditarClick = (reuniao: Meeting) => {
-    handleEditarReuniaoClick(reuniao);
-  };
-
-  // Método para remover uma reunião
-  const handleRemoverClick = (id: number) => {
-    removerReuniao(id);
-  };
-
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Função para lidar com a pesquisa
   const handleSearch = (text: string) => {
-    /* console.log(`Texto pesquisado: ${text}`); */
-
-
     if (text.trim() === '') {
       setMeetings(startMeetings);
     } else {
-      const reunioesFiltradas = meetings.filter(meetings => {
+      const reunioesFiltradas = meetings.filter(meeting => {
         return (
-          meetings.titulo.toLowerCase().includes(text.toLowerCase()) ||
-          meetings.descricao.toLowerCase().includes(text.toLowerCase()) ||
-          meetings.tipo.toLowerCase().includes(text.toLowerCase()) ||
-          meetings.data_inicio.toString().toLowerCase().includes(text.toLowerCase()) ||
-          meetings.data_final.toString().toLowerCase().includes(text.toLowerCase())
+          meeting.titulo.toLowerCase().includes(text.toLowerCase()) ||
+          meeting.descricao.toLowerCase().includes(text.toLowerCase()) ||
+          meeting.tipo.toLowerCase().includes(text.toLowerCase()) ||
+          meeting.data_inicio.toString().toLowerCase().includes(text.toLowerCase()) ||
+          meeting.data_final.toString().toLowerCase().includes(text.toLowerCase())
         );
       });
       setMeetings(reunioesFiltradas);
     }
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   // Função para lidar com a mudança de tipo selecionado
   const handleTipoChange = (novoTipo: string) => {
-    /* console.log(`Tipo selecionado: ${novoTipo}`); */
     let reunioesParaFiltrar = startMeetings;
     if (novoTipo !== 'todos') {
-      reunioesParaFiltrar = startMeetings.filter((meetings: { tipo: string; }) => meetings.tipo.toUpperCase() === novoTipo.toUpperCase());
+      reunioesParaFiltrar = startMeetings.filter((meeting) => meeting.tipo.toUpperCase() === novoTipo.toUpperCase());
     }
     setMeetings(reunioesParaFiltrar);
     setTipoSelecionado(novoTipo);
   };
 
-  //////////////////////////////////RENDERIZALÇAO CONDICIONAL ////////////////////////////////////////////////
-
+  // Renderização condicional
   const styleDay = {
     display: periodo === 'Dia' ? 'block' : 'none',
   };
@@ -305,10 +246,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
     display: periodo === 'Todos' ? 'block' : 'none',
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////// RENDERIZACAO DO COMPONENTE ///////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  // Renderização do componente
   if (isLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -336,7 +274,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
             <BtnSIATT />
-            <NovoEventoButton onClick={handleNovoEventoClick} />
+            <NovoEventoButton title='Novo Evento' onClick={handleNovoEventoClick} />
             <SelecionarPeriodo onPeriodoChange={handlePeriodChange} />
             <SearchButton onSearch={handleSearch} />
             <PrintButton />
@@ -356,45 +294,39 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
               </Stack>
             </Stack>
 
-
-            <Stack>{/* Renderiza visualizaçã condicional */}
-
+            <Stack>
               <div>
-                {/* Visualização diária */}
                 <div style={styleDay}>
                   <VisualizacaoDiaria
                     dataSelecionada={date}
                     reunioes={meetings}
+                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
                   />
                 </div>
 
-                {/* Visualização semanal */}
                 <div style={styleWeek}>
                   <VisualizacaoSemanal
                     dataSelecionada={date}
                     reunioes={meetings}
+                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
                   />
                 </div>
 
-                {/* Visualização mensal */}
                 <div style={styleMonth}>
                   <VisualizacaoMensal
                     dataSelecionada={date}
                     reunioes={meetings}
+                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
                   />
                 </div>
 
-                {/* Visualização mensal */}
                 <div style={styleAll}>
                   <VisualizacaoAll
                     reunioes={meetings}
+                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
                   />
                 </div>
-
               </div>
-
-
-
             </Stack>
           </Stack>
         </Stack>
@@ -403,6 +335,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
       <CrudReuniao
         open={modalOpen}
         onClose={handleModalClose}
+        users={users}
         reuniao={meetingEdit}
         reunioes={meetings}
         adicionarReuniao={adicionarReuniao}
@@ -410,17 +343,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
         atualizarReuniao={atualizarReuniao1}
         salasOnline={salasOnline}
         salasPresenciais={salasPresenciais}
-      >
-      </CrudReuniao>
-{/* 
-      <ReuniaoModal
-        open={modalOpen}
-        onClose={handleModalClose}
-        reuniao={meetingEdit}
-        adicionarReuniao={adicionarReuniao}
-        atualizarReuniao={atualizarReuniao}
-        removerReuniao={removerReuniao}
-      /> */}
+      />
     </ThemeProvider>
   );
 };

@@ -4,7 +4,7 @@ export interface Meeting {
   descricao: string; 
   data_inicio: Date;
   data_final: Date;
-  timezone: string;
+  timezone?: string;
   tipo: 'Presencial' | 'Hibrido' | 'Online';
   sala_presencial_id: number;
   sala_online_id: number; 
