@@ -65,6 +65,7 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({ open, onClose, reuniao, adici
                 
 
                 `);
+                window.open(response.data.meeting.join_url);
             }
             onClose();
         } catch (error) {
