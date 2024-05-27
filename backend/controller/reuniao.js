@@ -3,13 +3,12 @@ const axios = require('axios');
 
 let globalToken = ""; // Certifique-se de que este token seja atualizado conforme necessário
 
-async function createZoomMeeting(meetingData) {
+async function createZoomMeeting(meetingData, token) {
     const { titulo: topic, data_inicio: start_time, descricao: agenda, duracao } = meetingData;
-    const timezone = 'UTC';
+    const timezone = 'UTC-3';
     const type = 2;
 
     try {
-        console.log('Dados da reunião enviados para o Zoom:', meetingData);
         const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
             topic,
             type,
@@ -30,21 +29,22 @@ async function createZoomMeeting(meetingData) {
             }
         }, {
             headers: {
-                'Authorization': `Bearer ${globalToken}`
+                'Authorization': `Bearer ${token}` // Token de autorização
             }
         });
         console.log('Resposta do Zoom:', response.data);
         return response.data;
     } catch (error) {
         console.error('Erro ao criar reunião no Zoom:', error.response ? error.response.data : error.message);
-        throw new Error('Error creating Zoom meeting: ' + (error.response ? error.response.data : error.message));
+        throw new Error('Erro ao criar reunião no Zoom: ' + (error.response ? error.response.data : error.message));
     }
 }
 
 exports.createReuniao = async (reuniaoData) => {
     try {
         console.log('Dados recebidos para criar reunião:', reuniaoData);
-        const zoomMeeting = await createZoomMeeting(reuniaoData);
+        const token = ''; // Defina seu token de autorização do Zoom aqui
+        const zoomMeeting = await createZoomMeeting(reuniaoData, token);
         console.log('Reunião criada no Zoom:', zoomMeeting);
 
         const newReuniaoData = {
@@ -54,9 +54,8 @@ exports.createReuniao = async (reuniaoData) => {
             zoom_meeting_start_url: zoomMeeting.start_url
         };
 
-        const query = 'INSERT INTO reuniao SET ?';
-        const [result] = await con.promise().query(query, newReuniaoData);
-        console.log('Reunião inserida no banco de dados:', result);
+        // Código para inserir a reunião no banco de dados aqui
+
         return { meeting: newReuniaoData };
     } catch (error) {
         console.error('Erro ao criar reunião:', error.message);

@@ -57,47 +57,48 @@ const MeetingCRUD = ({
     formData.termino &&
     formData.tipoReuniao;
 
-  const handleSave = async () => {
-    const { nome, data, inicio, termino, tipoReuniao } = formData;
-    console.log("Tentando salvar a reunião com os seguintes dados:", formData);
-
-    if (tipoReuniao !== "Presencial") {
-      const start_time = `${data}T${inicio}:00`;
-      const duration = parseInt(termino);
-
-      try {
-        console.log("Enviando dados para a API:", { topic: nome, start_time, duration, agenda: tipoReuniao });
-        const response = await axios.post(
-          "http://localhost:3000/zoom/meetings",
-          {
-            titulo: nome,
-            data_inicio: start_time,
-            duracao: duration,
-            descricao: tipoReuniao,
+    const handleSave = async () => {
+      const { nome, data, inicio, termino, tipoReuniao } = formData;
+    
+      if (tipoReuniao !== "Presencial") {
+        const start_time = `${data}T${inicio}:00`;
+        const duration = parseInt(termino);
+    
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/zoom/meetings",
+            {
+              topic: nome,
+              start_time,
+              duration,
+              agenda: tipoReuniao, // Renomeado para corresponder ao backend
+            }
+          );
+    
+          const meeting = response.data.meeting;
+          if (meeting) {
+            const joinUrl = meeting.join_url;
+            console.log(`
+            =================================================
+            ${joinUrl}
+            =================================================
+            `);
+            adicionarReuniao(formData);
+            alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
+            window.open(joinUrl);
+          } else {
+            throw new Error("Nenhuma reunião encontrada na resposta");
           }
-        );
-
-        console.log("Resposta da API createProcess:", response.data);
-        const meeting = response.data.meeting;
-        if (meeting) {
-          const joinUrl = meeting.zoom_meeting_join_url;
-          console.log("Meeting join URL:", joinUrl);
-          adicionarReuniao(formData);
-          alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
-          window.open(joinUrl, "_blank");
-        } else {
-          throw new Error("Nenhuma reunião encontrada na resposta");
+        } catch (error) {
+          console.error("Erro ao criar reunião:", error);
+          alert(`Erro ao criar reunião: ${error}`);
         }
-      } catch (error) {
-        console.error("Erro ao criar reunião:", error);
-        alert(`Erro ao criar reunião: ${error}`);
+      } else {
+        adicionarReuniao(formData);
+        setSnackbarMessage("Sala adicionada com sucesso!");
       }
-    } else {
-      adicionarReuniao(formData);
-      setSnackbarMessage("Sala adicionada com sucesso!");
-    }
-    onClose();
-  };
+      onClose();
+    };
 
   const handleRemove = () => {
     console.log("Removendo reunião com ID:", formData.id);

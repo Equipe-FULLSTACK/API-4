@@ -48,47 +48,44 @@ router.get('/token', async (req, res) => {
 
 
 router.post('/meetings', async (req, res) => {
-    const { topic, start_time, duration, agenda } = req.body;
-    const timezone = 'UTC';
+    const { topic, start_time, duration, agenda } = req.body; // Renomeado para corresponder ao frontend
+    const timezone = 'UTC-3';
     const type = 2;
-
+  
     try {
-        const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
-            topic,
-            type,
-            start_time,
-            duration,
-            timezone,
-            agenda,
-            settings: {
-                host_video: true,
-                participant_video: true,
-                join_before_host: true,
-                mute_upon_entry: true,
-                watermark: false,
-                use_pmi: false,
-                approval_type: 0,
-                audio: 'both',
-                auto_recording: 'none'
-            }
-        }, {
-            headers: {
-                'Authorization': `Bearer ${globalToken}` // Usando a variável global atualizada
-            }
-        });
-
-        const createdMeeting = response.data;
-        console.log('Meeting created:', createdMeeting);
-
-        // Send a success response to the frontend
-        res.status(200).json({ success: true, meeting: createdMeeting });
+      const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
+        topic: topic, // Renomeado para corresponder ao frontend
+        type,
+        start_time: start_time, // Renomeado para corresponder ao frontend
+        duration: duration, // Renomeado para corresponder ao frontend
+        timezone,
+        agenda: agenda, // Renomeado para corresponder ao frontend
+        settings: {
+          host_video: true,
+          participant_video: true,
+          join_before_host: true,
+          mute_upon_entry: true,
+          watermark: false,
+          use_pmi: false,
+          approval_type: 0,
+          audio: 'both',
+          auto_recording: 'none'
+        }
+      }, {
+        headers: {
+          'Authorization': `Bearer ${globalToken}`
+        }
+      });
+  
+      const createdMeeting = response.data;
+      console.log('Meeting created:', createdMeeting);
+  
+      res.status(200).json({ success: true, meeting: createdMeeting });
     } catch (error) {
-        console.error('Error creating meeting:', error);
-
-        // Send an error response to the frontend
-        res.status(500).json({ success: false, error: 'Error creating meeting' });
+      console.error('Error creating meeting:', error);
+      res.status(500).json({ success: false, error: 'Error creating meeting' });
     }
-});
+  });
 
 
 router.delete('/meetings/:meetingId', async (req, res) => {
