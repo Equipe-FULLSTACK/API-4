@@ -23,7 +23,6 @@ const loginRoutes = require('./routes/loginRoute');
 const logoutRoutes = require('./routes/logoutRoute');
 const cookieRoutes = require('./routes/cookieRoute');
 const zoomRoutes = require('./routes/zoomRoute');
-const emailRoutes = require('./routes/zoomRoute');
 
 // Configurações do servidor
 const app = express();
