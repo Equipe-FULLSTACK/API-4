@@ -38,6 +38,7 @@ import { NotificacaoReuniao } from '../../types/NotificacaoReuniaoTypes';
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import BtnSIATT from '../../components/botoes/btnSIATTLogo';
 import CrudReuniao from '../../components/meeting/crudMeeting/MeetingCRUD';
+import { useUser } from '../../contexts/UserContext';
 
 
 interface dataHomePageUser {
@@ -62,6 +63,7 @@ const HomePageAdmin: React.FC<dataHomePageUser> = () => {
   const [notificacoesReuniao, setNotificacoesReuniao] = useState<NotificacaoReuniao[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { userStatus } = useUser();
 
   // ESTADOS DO COMPONENTE
   const [modalOpen, setModalOpen] = useState(false); // MANIPULACAO MODAL
@@ -105,7 +107,8 @@ const HomePageAdmin: React.FC<dataHomePageUser> = () => {
           notificacoesReuniaoResponse,
         ] = await Promise.all([
           axios.get('http://localhost:3000/us'),
-          axios.get('http://localhost:3000/reuniao'),
+          /* axios.get('http://localhost:3000/reuniao'), */
+          axios.get(`http://localhost:3000/reuniao1/usuario/${userStatus.id}`),
           axios.get('http://localhost:3000/salapresencial'),
           axios.get('http://localhost:3000/salaonline'),
           axios.get('http://localhost:3000/anexo'),
@@ -338,7 +341,7 @@ const HomePageAdmin: React.FC<dataHomePageUser> = () => {
         <Stack width="100%">
           <Stack flexDirection="row" height={40} padding={1} margin="1rem 3rem 1rem 0rem" justifyContent="space-between" width="auto">
             <BtnSIATT />
-            <NovoEventoButton onClick={handleNovoEventoClick} />
+            {/* <NovoEventoButton onClick={handleNovoEventoClick} /> */}
             <SelecionarPeriodo onPeriodoChange={handlePeriodChange} />
             <SearchButton onSearch={handleSearch} />
             <PrintButton />

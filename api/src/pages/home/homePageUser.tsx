@@ -36,6 +36,7 @@ import { NotificacaoReuniao } from '../../types/NotificacaoReuniaoTypes';
 import VisualizacaoAll from '../../components/meeting/ListMettingAll';
 import BtnSIATT from '../../components/botoes/btnSIATTLogo';
 import CrudReuniao from '../../components/meeting/crudMeeting/MeetingCRUD';
+import { useUser } from '../../contexts/UserContext';
 
 interface dataHomePageUser {
   name: string;
@@ -58,6 +59,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   const [notificacoesReuniao, setNotificacoesReuniao] = useState<NotificacaoReuniao[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { userStatus } = useUser();
 
   // ESTADOS DO COMPONENTE
   const [modalOpen, setModalOpen] = useState(false); // MANIPULACAO MODAL
@@ -81,6 +83,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
   // Carregamento dos dados do backend
   useEffect(() => {
     const fetchData = async () => {
+      console.log(userStatus?.id)
       try {
         const [
           usersResponse,
@@ -93,7 +96,8 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           notificacoesReuniaoResponse,
         ] = await Promise.all([
           axios.get('http://localhost:3000/us'),
-          axios.get('http://localhost:3000/reuniao'),
+          /* axios.get(`http://localhost:3000/reuniao1`), */
+          axios.get(`http://localhost:3000/reuniao1/usuario/${userStatus.id}`),
           axios.get('http://localhost:3000/salapresencial'),
           axios.get('http://localhost:3000/salaonline'),
           axios.get('http://localhost:3000/anexo'),
@@ -113,8 +117,8 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
           setObservacoes(observacoesResponse.data);
           setParticipantesReuniao(participantesReuniaoResponse.data);
           setNotificacoesReuniao(notificacoesReuniaoResponse.data);
-          setIsLoading(false); // SETA DADOS CARREGADOS
-        }, 2000); // INSERIDO ATRASO PARA VER ANIMACAO LOADING
+          setIsLoading(false);
+        }, 1000);
       } catch (error) {
         setError('Error fetching data');
         console.error('Error fetching data', error);
@@ -300,7 +304,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
                   <VisualizacaoDiaria
                     dataSelecionada={date}
                     reunioes={meetings}
-                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
+                    onSelectReuniao={handleEditarReuniaoClick}
                   />
                 </div>
 
@@ -308,7 +312,7 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
                   <VisualizacaoSemanal
                     dataSelecionada={date}
                     reunioes={meetings}
-                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
+                    onSelectReuniao={handleEditarReuniaoClick}
                   />
                 </div>
 
@@ -316,14 +320,14 @@ const HomePageUser: React.FC<dataHomePageUser> = () => {
                   <VisualizacaoMensal
                     dataSelecionada={date}
                     reunioes={meetings}
-                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
+                    onSelectReuniao={handleEditarReuniaoClick}
                   />
                 </div>
 
                 <div style={styleAll}>
                   <VisualizacaoAll
                     reunioes={meetings}
-                    onSelectReuniao={handleEditarReuniaoClick} // Passa a função de edição
+                    onSelectReuniao={handleEditarReuniaoClick}
                   />
                 </div>
               </div>

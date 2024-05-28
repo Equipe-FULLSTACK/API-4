@@ -62,6 +62,8 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
       ...meeting,
       data_inicio: formatDateToSQL(meeting.data_inicio),
       data_final: formatDateToSQL(meeting.data_final),
+      id_reuniao: null,
+      sala_online_id: null
     };
 
     const response = await axios.post(BASE_URL, formattedMeeting);
