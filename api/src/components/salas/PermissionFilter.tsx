@@ -12,15 +12,13 @@ const PermissionFilter: React.FC<PermissionFilterProps> = ({ permissionSelected,
     const getColorByPermission = (permissionLevel: string) => {
         switch (permissionLevel) {
             case '1':
-                return { color: '#4caf50', icon: <Person />, description: 'Usuário padrão' };
+                return { color: '#4caf50', icon: <Person />, description: 'Nível 1' };
             case '2':
-                return { color: '#2196f3', icon: <SupervisedUserCircle />, description: 'Super usuário' };
+                return { color: '#2196f3', icon: <SupervisedUserCircle />, description: 'Nível 2' };
             case '3':
-                return { color: '#f44336', icon: <Lock />, description: 'Admin' };
-            case '4':
-                return { color: '#121212', icon: <Person />, description: 'Super admin' };
+                return { color: '#f44336', icon: <Lock />, description: 'Nível 3' };
             default:
-                return { color: 'white', icon: <Person />, description: 'Super admin' };
+                return { color: 'white', icon: <Person />, description: 'Nível 1' };
         }
     };
 
@@ -35,7 +33,7 @@ const PermissionFilter: React.FC<PermissionFilterProps> = ({ permissionSelected,
                 onChange={(e) => onPermissionChange(e.target.value)}
             >
                 {/* Renderiza as opções de seleção com ícones */}
-                {['todos', '1', '2', '3', '4'].map(permission => (
+                {['todos', '1', '2', '3'].map(permission => (
                     <MenuItem key={permission} value={permission}>
                         {/* Renderiza o ícone ao lado do tipo de permissão */}
                         <Stack direction="row" alignItems="center" spacing={1}>

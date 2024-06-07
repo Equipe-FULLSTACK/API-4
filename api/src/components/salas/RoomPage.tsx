@@ -64,27 +64,21 @@ const RoomTable: React.FC<RoomTableProps> = ({
         return {
           color: "#4caf50",
           icon: <PersonIcon />,
-          description: "Usuário padrão",
+          description: "Nível 1",
         };
       case "2":
         return {
           color: "#2196f3",
           icon: <SupervisedUserCircleIcon />,
-          description: "Super usuário",
+          description: "Nível 2",
         };
       case "3":
-        return { color: "#f44336", icon: <LockIcon />, description: "Admin" };
-      case "4":
-        return {
-          color: "#333333",
-          icon: <PersonIcon />,
-          description: "Super admin",
-        };
+        return { color: "#f44336", icon: <LockIcon />, description: "Nível 3" };
       default:
         return {
           color: "primary",
           icon: <PersonIcon />,
-          description: "Super admin",
+          description: "Nível 1",
         };
     }
   };
