@@ -34,6 +34,7 @@ import PermissaoColumn from "./PermissionColumn";
 import SnackbarDelete from "../snackbar/SnackbarDelete";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import OnlineRoom from "./Online";
 import DiretoriaColumn from "./TypeColumn";
 import RoomCRUD from "./RoomCRUD";
 import { Room } from "../../types/RoomTypes";
@@ -189,11 +190,11 @@ const RoomTable: React.FC<RoomTableProps> = ({
             {rooms.map((room) => (
               <TableRow key={room.id_sala}>
                 <TableCell
-                /* sx={{
+                 sx={{
                     borderLeft: `4px solid ${
                       room.permissao_sala ? getColorByPermission(room.permissao_sala).color : '#f44336'
                     }`,
-                  }}  */
+                  }}  
                 ></TableCell>
 
                 <TableCell>
@@ -206,11 +207,11 @@ const RoomTable: React.FC<RoomTableProps> = ({
                         width={10}
                         height={10}
                         borderRadius="50%"
-                        sx={{
+                       /*  sx={{
                           backgroundColor: room.permissao_sala
                             ? getColorByPermission(room.permissao_sala).color
                             : "#f44336",
-                        }}
+                        }} */
                         display="inline-block"
                         mr={1}
                       />
