@@ -1,14 +1,13 @@
-import axios from 'axios'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import {
-  ThemeProvider,
-  Stack,
-  Divider,
-  CircularProgress,
-  Typography,
-  createTheme,
-} from '@mui/material';
+import { ThemeProvider } from '@mui/material';
+import { Stack } from '@mui/material';
+import { Divider } from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import { Typography } from '@mui/material';
+import { createTheme } from '@mui/material';
+
 import NovoEventoButton from '../../components/botoes/btnNovoEvento';
 import SelecionarPeriodo from '../../components/botoes/btnDia';
 import SearchButton from '../../components/botoes/btnSearch';
@@ -20,10 +19,10 @@ import VisualizacaoDiaria from '../../components/meeting/ListMettingDay';
 import TypeMeeting from '../../components/meeting/TypeMetting';
 import VisualizacaoSemanal from '../../components/meeting/ListMettingWeek';
 import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
-import ReuniaoModal from '../../components/meeting/MeetingCRUD';
+import VisualizacaoAll from '../../components/meeting/ListMettingAll';
+import BtnSIATT from '../../components/botoes/btnSIATTLogo';
+import CrudReuniao from '../../components/meeting/crudMeeting/MeetingCRUD';
 
-
-// Importar todas as interfaces
 import { User, UserStatus } from '../../types/userTypes';
 import { Credentials } from '../../types/userTypes';
 import { Meeting } from '../../types/MeetingTypes';
@@ -34,10 +33,6 @@ import { Observacao } from '../../types/ObservacaoTypes';
 import { ParticipanteReuniao } from '../../types/ParticipanteReuniaoTypes';
 import { NotificacaoReuniao } from '../../types/NotificacaoReuniaoTypes';
 
-
-import VisualizacaoAll from '../../components/meeting/ListMettingAll';
-import BtnSIATT from '../../components/botoes/btnSIATTLogo';
-import CrudReuniao from '../../components/meeting/crudMeeting/MeetingCRUD';
 import { useUser } from '../../contexts/UserContext';
 
 
