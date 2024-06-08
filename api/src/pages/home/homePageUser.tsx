@@ -20,7 +20,6 @@ import VisualizacaoDiaria from '../../components/meeting/ListMettingDay';
 import TypeMeeting from '../../components/meeting/TypeMetting';
 import VisualizacaoSemanal from '../../components/meeting/ListMettingWeek';
 import VisualizacaoMensal from '../../components/meeting/ListMettingMonth';
-import ReuniaoModal from '../../components/meeting/MeetingCRUD';
 
 // Importar todas as interfaces
 import { User, UserStatus } from '../../types/userTypes';

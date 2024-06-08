@@ -5,7 +5,7 @@ import SearchButton from "../../components/botoes/btnSearch";
 import PrintButton from "../../components/botoes/btnPrint";
 import ProfileActions from "../../components/perfil/profileActions";
 import NavBar from "../../components/navBar/navBar";
-import UserPage from "../../components/user/userPage";
+import UserPage from "../../components/user/UserPage";
 import PermissionFilter from "../../components/user/PermissionFilter";
 import { User } from "../../types/userTypes";
 import axios from "axios";

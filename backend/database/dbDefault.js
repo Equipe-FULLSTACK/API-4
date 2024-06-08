@@ -42,7 +42,6 @@ const createTableQueries = {
             FOREIGN KEY (sala_online_id) REFERENCES salaOnline(id_sala_online),
             FOREIGN KEY (organizador_id) REFERENCES usuario(id_usuario)
         );
-    
     `,
     anexo: `
         CREATE TABLE anexo (
@@ -51,8 +50,7 @@ const createTableQueries = {
             anexo VARCHAR(256),
             FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
         );
-    `
-    ,
+    `,
     observacao: `
         CREATE TABLE observacao (
             id_observacao INT PRIMARY KEY AUTO_INCREMENT,
@@ -60,8 +58,7 @@ const createTableQueries = {
             observacao TEXT,
             FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
         );
-    `
-    ,
+    `,
     participante_reuniao: `
         CREATE TABLE participante_reuniao (
             id_participante INT PRIMARY KEY AUTO_INCREMENT,
@@ -70,21 +67,17 @@ const createTableQueries = {
             FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario),
             FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
         );
-    `
-    ,
+    `,
     notificacao_reuniao: `
         CREATE TABLE notificacao_reuniao (
             id_notificacao INT PRIMARY KEY AUTO_INCREMENT,
             mensagem VARCHAR(256),
-            usuario_id INT,
             reuniao_id INT,
             lida BOOLEAN DEFAULT FALSE,
             data_notificacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario),
             FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
         );
-    `
-    ,
+    `,
     preferencias_usuario: `
         CREATE TABLE preferencias_usuario (
             id_preferencias INT PRIMARY KEY AUTO_INCREMENT,
@@ -97,6 +90,15 @@ const createTableQueries = {
             notificacoes_whatsapp BOOLEAN DEFAULT FALSE,
             FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario)
         );
+    `,
+    triggerAfterReuniaoInsert: `
+    CREATE TRIGGER after_reuniao_insert
+    AFTER INSERT ON reuniao
+    FOR EACH ROW
+        BEGIN
+            INSERT INTO notificacao_reuniao (mensagem, reuniao_id, lida)
+            VALUES (CONCAT('Nova reunião agendada: ', NEW.titulo), NEW.id_reuniao, FALSE);
+        END 
     `
 };
 
