@@ -4,9 +4,9 @@ import {
   createTheme,
   Stack,
   Divider,
-
   Box,
   Typography,
+  Button,
 } from "@mui/material";
 import NovoEventoButton from "../../components/botoes/btnNovoEvento";
 import SearchButton from "../../components/botoes/btnSearch";
@@ -21,8 +21,9 @@ import RoomCRUD from "../../components/salas/RoomCRUD";
 import { eadmin } from "../../services/auth";
 import TelaSalaUsuarios from "../users/TelaSalaUsuarios";
 import BtnSIATT from "../../components/botoes/btnSIATTLogo";
+import OnlineRoom from "../../components/salas/Online";
+import RoomTypeFilter from "../../components/salas/TypeRoomFilter";
 import DateInput from "../../components/calendar/CalendarComponent";
-
 
 const darkTheme = createTheme({
   palette: {
@@ -46,6 +47,8 @@ const HomePageAdminRooms: React.FC = () => {
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
   const [allRooms, setAllRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
+  const [onlineRooms, setOnlineRooms] = useState<Room[]>([]);
+  const [showOnlineRooms, setShowOnlineRooms] = useState(false);
 
   console.log(eadmin);
 
@@ -64,10 +67,9 @@ const HomePageAdminRooms: React.FC = () => {
         console.error("Error fetching rooms:", error);
       }
     };
-  
+
     fetchRooms();
   }, []);
-  
 
   const handleSearch = async (text: string) => {};
 
@@ -80,14 +82,15 @@ const HomePageAdminRooms: React.FC = () => {
         setFilteredRooms(allRooms);
       } else {
         // Se um tipo de permissão específico foi selecionado, filtre os quartos pelo tipo de permissão
-        const filtered = allRooms.filter((room) => room.permissao_sala === novoTipo);
+        const filtered = allRooms.filter(
+          (room) => room.permissao_sala === novoTipo
+        );
         setFilteredRooms(filtered);
       }
     } catch (error) {
       console.error("Error fetching rooms:", error);
     }
   };
-  
 
   const handleDeleteRoom = async (roomId: number) => {
     try {
@@ -114,6 +117,20 @@ const HomePageAdminRooms: React.FC = () => {
     }
   };
 
+  const handleViewOnlineRooms = async () => {
+    try {
+      const response = await axios.get<Room[]>(`${API_URL}/salaonline`);
+      setOnlineRooms(response.data);
+      setShowOnlineRooms(true);
+    } catch (error) {
+      console.error("Error fetching online rooms:", error);
+    }
+  };
+
+  const handleBackToRooms = () => {
+    setShowOnlineRooms(false);
+  };
+
   return (
     <>
       {eadmin ? (
@@ -135,7 +152,10 @@ const HomePageAdminRooms: React.FC = () => {
               >
                 <Box display="flex" gap="40px">
                   <BtnSIATT />
-                  <NovoEventoButton title="Criar sala" onClick={() => setModalOpen(true)} />
+                  <NovoEventoButton
+                    title="Criar sala"
+                    onClick={() => setModalOpen(true)}
+                  />
                   <SearchButton onSearch={handleSearch} />
                   <PrintButton />
                 </Box>
@@ -165,20 +185,71 @@ const HomePageAdminRooms: React.FC = () => {
                     ></Box>
                     <Typography fontSize="35px">Lista de salas</Typography>
                   </Box>
-                  <Stack width={"20rem"}>
-                    <PermissionFilter
-                      permissionSelected={tipoSelecionado}
-                      onPermissionChange={handleTipoChange}
-                    />
-                  </Stack>
+                  <Box display="flex" gap="20px" alignItems="center">
+                    <Stack width={"20rem"}>
+                      <PermissionFilter
+                        permissionSelected={tipoSelecionado}
+                        onPermissionChange={handleTipoChange}
+                      />
+                    </Stack>
+                    <Box>
+                      {showOnlineRooms ? (
+                        <Button
+                          onClick={handleBackToRooms}
+                          sx={{
+                            minWidth: 0,
+                            margin: 0,
+                            height: "60px",
+                            transition: "border-color 0.3s",
+                            border: "1px solid #D0D40B",
+                            color: "#D0D40B",
+                            padding: "15px",
+                            "&:hover": {
+                              background: "none",
+                              boxShadow:
+                                "0px 2px 7px 0px rgba(255, 213, 79, 0.7)",
+                              transition: ".3s",
+                            },
+                          }}
+                        >
+                          Voltar
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={handleViewOnlineRooms}
+                          sx={{
+                            minWidth: 0,
+                            margin: 0,
+                            height: "60px",
+                            transition: "border-color 0.3s",
+                            border: "1px solid #D0D40B",
+                            color: "#D0D40B",
+                            padding: "15px",
+                            "&:hover": {
+                              background: "none",
+                              boxShadow:
+                                "0px 2px 7px 0px rgba(255, 213, 79, 0.7)",
+                              transition: ".3s",
+                            },
+                          }}
+                        >
+                          Ver salas online
+                        </Button>
+                      )}
+                    </Box>
+                  </Box>
                 </Stack>
                 <Stack>
-                  <RoomTable
-                    rooms={filteredRooms}
-                    setRooms={setRooms}
-                    onDeleteRoom={handleDeleteRoom}
-                    onEditPermission={handleEditPermission}
-                  />
+                  {showOnlineRooms ? (
+                    <OnlineRoom />
+                  ) : (
+                    <RoomTable
+                      rooms={filteredRooms}
+                      setRooms={setRooms}
+                      onDeleteRoom={handleDeleteRoom}
+                      onEditPermission={handleEditPermission}
+                    />
+                  )}
                 </Stack>
               </Stack>
             </Stack>

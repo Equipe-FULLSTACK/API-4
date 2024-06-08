@@ -226,8 +226,7 @@ const RoomCRUD = ({
               label="Tipo de Reunião"
             >
               <MenuItem value="Presencial">Presencial</MenuItem>
-              <MenuItem value="Online">Virtual</MenuItem>
-              <MenuItem value="Hibrido">Híbrido</MenuItem>
+              <MenuItem value="Online">Online</MenuItem>
             </Select>
           </FormControl>
 
