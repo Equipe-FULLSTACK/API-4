@@ -75,7 +75,9 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
         usuario_id: usuario.id_usuario,
         reuniao_id: insertId
       });
-    }));
+    
+      }));
+    alert("Reunião Criada com Sucesso!")  
 
     return insertId;
   } catch (error) {
@@ -114,6 +116,7 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
       });
     }
 
+    alert("Reunião Atualizada com Sucesso!") 
     return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar reunião com ID ${id}:`, error);
@@ -131,6 +134,7 @@ export const deleteReuniao = async (id: number): Promise<void> => {
     }
     // Depois, remove a reunião
     await axios.delete(`${BASE_URL}/${id}`);
+    alert("Reunião Deletada com Sucesso!") 
   } catch (error) {
     console.error(`Erro ao deletar reunião com ID ${id}:`, error);
     throw error;

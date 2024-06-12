@@ -40,7 +40,9 @@ const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }
                 const response = await axios.post('http://localhost:3000/us', formData);
                 onAddUser(response.data);
             }
+
             onClose();
+            alert("Usuário Salvo com Sucesso!") 
         } catch (error) {
             console.error('Erro ao salvar usuário:', error);
         }
@@ -54,6 +56,7 @@ const UserCRUD = ({ open, onClose, user, onAddUser, onUpdateUser, onRemoveUser }
                 onRemoveUser(formData.id_usuario);
                 onClose();
             }
+            alert("Usuário Removido com Sucesso!") 
         } catch (error) {
             console.error('Erro ao remover usuário:', error);
         }

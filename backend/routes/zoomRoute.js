@@ -62,7 +62,7 @@ router.get('/token', async (req, res) => {
 
 router.post('/meetings', async (req, res) => {
     const { topic, start_time, duration, agenda } = req.body;
-    const timezone = 'America/Sao_Paulo'; // Fuso horário do Brasil (GMT-3 com DST)
+    const timezone = 'America/Sao_Paulo'; // Fuso horário do Brasil (GMT-3)
 
     if (!globalToken) {
         return res.status(401).json({ message: 'Token de acesso não disponível' });
