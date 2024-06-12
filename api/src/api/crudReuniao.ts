@@ -59,6 +59,7 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
     console.log('id_reuniao ', meeting.id_reuniao);
     console.log('meeting.data_inicio :', meeting.data_inicio);
     console.log('meeting.data_final', meeting.data_final);
+    console.log('meeting.duracao', meeting.duracao);
     console.log('meeting.titulo', meeting.titulo);
     console.log('meeting.tipo', meeting.tipo);
     console.log('meeting.descricao', meeting.descricao);
