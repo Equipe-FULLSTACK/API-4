@@ -8,6 +8,7 @@ export interface Meeting {
   descricao: string; 
   data_inicio: Date;
   data_final: Date;
+  duracao: number;
   tipo: 'Presencial' | 'Hibrido' | 'Online';
   sala_presencial_id: number;
   sala_online_id: number; 
@@ -19,11 +20,14 @@ export interface User {
   nome: string;
 }
 
+//======================= FORMAT DATE TO SQL FORMAT =======================//
 const formatDateToSQL = (date: Date): string => {
   const pad = (n: number) => (n < 10 ? '0' : '') + n;
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 };
+//----------------------------------------------------------------------------//
 
+//============================== GET REUNIOES ==================================//
 export const getReunioes = async (): Promise<Meeting[]> => {
   try {
     console.log('Chamando getReunioes');
@@ -34,7 +38,9 @@ export const getReunioes = async (): Promise<Meeting[]> => {
     throw error;
   }
 };
+//----------------------------------------------------------------------------//
 
+//============================ GET BY ID ==================================//
 export const getReuniaoById = async (id: number): Promise<Meeting> => {
   try {
     console.log(`Chamando getReuniaoById com id: ${id}`);
@@ -45,7 +51,9 @@ export const getReuniaoById = async (id: number): Promise<Meeting> => {
     throw error;
   }
 };
+//----------------------------------------------------------------------------//
 
+// ==================================== CREATE REUNIAO ==================================== //
 export const createReuniao = async (meeting: Meeting, participantes: User[]): Promise<number> => {
   try {
     console.log('id_reuniao ', meeting.id_reuniao);
@@ -66,8 +74,38 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
       sala_online_id: null
     };
 
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/zoom/meetings",
+        {
+          topic: meeting.titulo,
+          start_time: formattedMeeting.data_inicio,
+          duration: meeting.duracao,
+          agenda: meeting.descricao, // Renomeado para corresponder ao backend
+        }
+      );
+
+      const meetingurl = response.data.meeting;
+      if (meetingurl) {
+        const joinUrl = meetingurl.join_url;
+        console.log(`
+        =================================================
+        ${joinUrl}
+        =================================================
+        `);
+        alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
+        window.open(joinUrl);
+      } else {
+        throw new Error("Nenhuma reunião encontrada na resposta");
+      }
+    } catch (error) {
+      console.error("Erro ao criar reunião:", error);
+      alert(`Erro ao criar reunião: ${error}`);
+    }
+
     const response = await axios.post(BASE_URL, formattedMeeting);
     const insertId = response.data.insertId;
+
 
     // ADD PARTICIPANTES
     await Promise.all(participantes.map(async (usuario) => {
@@ -85,7 +123,9 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
     throw error;
   }
 };
+//----------------------------------------------------------------------------//
 
+// ========================== UPDATE DA REUNIAO ============================ //
 export const updateReuniao = async (id: number, meeting: Partial<Meeting>, participantes: User[]): Promise<Meeting> => {
   try {
     console.log(`Chamando updateReuniao com id: ${id} e meeting:`, meeting);
@@ -123,7 +163,9 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
     throw error;
   }
 };
+//----------------------------------------------------------------------------//
 
+//========================== DELETE REUNIAO ==============================//
 export const deleteReuniao = async (id: number): Promise<void> => {
   try {
     console.log(`Chamando deleteReuniao com id: ${id}`);
@@ -140,3 +182,4 @@ export const deleteReuniao = async (id: number): Promise<void> => {
     throw error;
   }
 };
+//----------------------------------------------------------------------------//

@@ -45,6 +45,7 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
     descricao: '',
     data_inicio: new Date(),
     data_final: new Date(),
+    duracao: 60,
     tipo: 'Presencial',
     sala_presencial_id: 0,
     sala_online_id: 0,
@@ -79,11 +80,16 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
     }
   }, [open, reuniao, salasPresenciais]);
 
+
+//=================================== SALAS DISPONIVEIS ===============================//
   useEffect(() => {
     const availableSalas = generateSalaAvailable(salasPresenciais, reunioes, formData.data_inicio, formData.data_final);
     setSalaAvailable(availableSalas);
   }, [salasPresenciais, reunioes, formData.data_inicio, formData.data_final]);
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== BUSCA PARTICIPANTES ===============================//
   const fetchParticipantes = async (reuniaoId: number) => {
     console.log('fetchParticipantes', reuniaoId);
     if (reuniaoId > 0) {
@@ -97,7 +103,10 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
       }
     }
   };
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== SALVA REUNIAO ===============================//
   const handleSave = async () => {
     try {
       console.log('Dados do formulário ao salvar:', formData);
@@ -114,7 +123,10 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
       console.error('Erro ao salvar reunião:', error);
     }
   };
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== REMOVE REUNIAO ===================================//
   const handleRemove = async () => {
     try {
       if (formData.id_reuniao) {
@@ -127,33 +139,48 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
       console.error('Erro ao remover reunião:', error);
     }
   };
+//--------------------------------------------------------------------------------------------//
 
-  const handleDateChange = (dataInicio: Date, dataFinal: Date) => {
+
+//=================================== MUDA O VALOR DAS DATAS ===================================//
+  const handleDateChange = (dataInicio: Date, dataFinal: Date, duracao: number) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       data_inicio: dataInicio,
       data_final: dataFinal,
+      duracao: duracao,
     }));
   };
 
+
+//=================================== SELECAO DE USUARIOS ===================================//
   const handleUserChange = (newSelectedUsers: User[]) => {
     setSelectedUsers(newSelectedUsers);
     setUserOrganizador();
     console.log('Usuários selecionados:', newSelectedUsers);
   };
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== FECHA MODAL ===================================//
   const handleModalClose = () => {
     setModalOpen(false);
   };
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== DESELECIONA SALA ===================================//
   const handleDeselectSala = () => {
-    setSalaSelecionada(null);
+    setSalaSelecionada(null); // DEIXA O VALOR DA SALA NULO
     setFormData((prevFormData) => ({
       ...prevFormData,
       sala_presencial_id: 0
     }));
   };
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== USUARIO QUE CRIOU A REUNIAO ===================================//
   const setUserOrganizador = () => {
     if (userStatus !== null) {
       setFormData((prevFormData) => ({
@@ -167,7 +194,10 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
       }));
     }
   };
+//--------------------------------------------------------------------------------------------//
 
+
+// =================================== SELECAO DE SALA ===================================//
   const onSalaSelect = (idSala: number) => {
     const selectedSala = salaAvailable.find(sala => sala.id_sala_presencial === idSala);
     if (selectedSala) {
@@ -179,7 +209,10 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
       setModalOpen(false);
     }
   };
+//--------------------------------------------------------------------------------------------//
 
+
+//=================================== SELECAO TIPO DE SALA ===================================//
   const handleTipoChange = (novoTipo: string) => {
     if (['Presencial', 'Hibrido', 'Online'].includes(novoTipo)) {
       setTipoSelecionado(novoTipo as 'Presencial' | 'Hibrido' | 'Online');
@@ -189,6 +222,8 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
       }));
     }
   };
+//--------------------------------------------------------------------------------------------//
+
 
   return (
     <Modal open={open} onClose={onClose}>
