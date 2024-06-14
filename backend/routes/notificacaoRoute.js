@@ -32,6 +32,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/usuario/:userId', async (req, res) => {
+    try {
+        const notificacoes = await notificacaoController.getNotificacaoByUserId(req.params.userId);
+        res.json(notificacoes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         const updatedNotificacao = await notificacaoController.updateNotificacaoById(req.params.id, req.body);

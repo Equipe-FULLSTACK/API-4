@@ -6,6 +6,7 @@ const reuniaoController = require('../controller/reuniao1');
 router.post('/', async (req, res) => {
     try {
         const newReuniao = await reuniaoController.createReuniao(req.body);
+        
         res.status(201).json(newReuniao);
         console.log(req.body.json);
     } catch (error) {

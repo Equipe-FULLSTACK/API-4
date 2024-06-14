@@ -83,3 +83,19 @@ exports.deleteNotificacaoById = async (notificacaoId) => {
         throw new Error(error.message);
     }
 };
+
+exports.getNotificacaoByUserId = async (userId) => {
+    try {
+        const query = `
+            SELECT notificacao_reuniao.*
+            FROM notificacao_reuniao
+            JOIN reuniao ON notificacao_reuniao.reuniao_id = reuniao.id_reuniao
+            JOIN participante_reuniao ON reuniao.id_reuniao = participante_reuniao.reuniao_id
+            WHERE participante_reuniao.usuario_id = ?;
+        `;
+        const [rows] = await con.promise().query(query, [userId]);
+        return rows;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
