@@ -31,6 +31,17 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/reuniao/:meetingId', async (req, res) => {
+    try {
+        const participantes = await participanteController.getParticipantsByMeetingId(req.params.meetingId);
+        res.json(participantes);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+module.exports = router;
+
 router.put('/:id', async (req, res) => {
     try {
         const updatedParticipante = await participanteController.updateParticipanteById(req.params.id, req.body);

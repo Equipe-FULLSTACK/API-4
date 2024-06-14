@@ -9,18 +9,17 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
-  var [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const pages = ["/admin", "/admin/rooms", "/admin/user", "/settings", "/notifications", "/help"];
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
- 
+
   useEffect(() => {
     axios.get('http://localhost:3000/ck')
       .then(res => {
         if (res.data.valid && res.data.admin == '1') {
           setIsAdmin(true);
-          isAdmin = true;
-        } else if ( res.data.admin == '0') {
+        } else if (res.data.admin == '0') {
           setIsAdmin(false);
         }
       })
@@ -51,13 +50,15 @@ const NavBar: React.FC<NavBarProps> = ({ notificationCount = 5 }) => {
         </Tooltip>
       </ListItem>
 
-      <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(1)}>
-        <Tooltip title="Salas" placement="right">
-          <IconButton color="inherit" size="large">
-            <MeetingRoom />
-          </IconButton>
-        </Tooltip>
-      </ListItem>
+      {isAdmin && (
+        <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(1)}>
+          <Tooltip title="Salas" placement="right">
+            <IconButton color="inherit" size="large">
+              <MeetingRoom />
+            </IconButton>
+          </Tooltip>
+        </ListItem>
+      )}
 
       {isAdmin && (
         <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(2)}>

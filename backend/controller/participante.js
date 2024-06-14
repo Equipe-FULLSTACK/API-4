@@ -35,6 +35,21 @@ exports.getParticipanteById = async (participanteId) => {
     }
 };
 
+exports.getParticipantsByMeetingId = async (meetingId) => {
+    try {
+        const query = `
+            SELECT usuario.*
+            FROM usuario
+            JOIN participante_reuniao ON usuario.id_usuario = participante_reuniao.usuario_id
+            WHERE participante_reuniao.reuniao_id = ?;
+        `;
+        const [rows] = await con.promise().query(query, [meetingId]);
+        return rows;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 exports.updateParticipanteById = async (participanteId, participanteData) => {
     try {
         const query = 'UPDATE participante_reuniao SET ? WHERE id_participante = ?';

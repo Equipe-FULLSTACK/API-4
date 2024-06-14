@@ -50,6 +50,21 @@ exports.getReunioesByUserId = async (userId) => {
     }
 };
 
+exports.getParticipantsByMeetingId = async (meetingId) => {
+    try {
+        const query = `
+            SELECT usuario.*
+            FROM usuario
+            JOIN participante_reuniao ON usuario.id_usuario = participante_reuniao.usuario_id
+            WHERE participante_reuniao.reuniao_id = ?;
+        `;
+        const [rows] = await con.promise().query(query, [meetingId]);
+        return rows;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
+
 exports.updateReuniaoById = async (reuniaoId, reuniaoData) => {
     try {
         const query = 'UPDATE reuniao SET ? WHERE id_reuniao = ?';
