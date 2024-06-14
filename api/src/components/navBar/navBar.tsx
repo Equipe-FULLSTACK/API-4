@@ -121,7 +121,7 @@ const NavBar: React.FC = () => {
       <ListItem sx={{ padding: 0 }} onClick={() => handleNavigation(4)}>
         <Tooltip
           title={
-            <Box sx={{ maxWidth: 300 }}>
+            <Box sx={{ maxWidth: 500 }}>
               <Typography variant="h6" component="div">
                 Notificações
               </Typography>
@@ -138,7 +138,7 @@ const NavBar: React.FC = () => {
                         aria-label="confirm"
                         onClick={() => handleReadConfirmation(notification.id_notificacao)}
                       >
-                        <CheckCircle color="primary" />
+                        <CheckCircle color="info" />
                       </IconButton>
                     </ListItemSecondaryAction>
                   </ListItem>

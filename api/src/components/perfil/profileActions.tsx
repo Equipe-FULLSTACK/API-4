@@ -7,7 +7,6 @@ import {
   ListItemText,
   Tooltip,
   CircularProgress,
-  Badge,
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -40,7 +39,6 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<User | null>(null);
-  const [userNotificationCount, setUserNotificationCount] = useState<number>(0);
   const navigate = useNavigate();
   const { userStatus, setUserStatus } = useUser();
 
@@ -57,19 +55,6 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
     };
 
     fetchUserData();
-  }, [userStatus.id]);
-
-  useEffect(() => {
-    const fetchUserNotifications = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/notificacao/usuario/${userStatus.id}`);
-        setUserNotificationCount(response.data.length); // Assume-se que a resposta é uma lista de notificações
-      } catch (error) {
-        console.error('Erro ao buscar notificações do usuário:', error);
-      }
-    };
-
-    fetchUserNotifications();
   }, [userStatus.id]);
 
   const handleAvatarClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -107,14 +92,12 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({ onEditProfile, onSettin
   return (
     <div>
       <Tooltip title={userData?.nome_usuario} placement="bottom">
-        <Badge badgeContent={userNotificationCount} color="error">
-          <Avatar
-            alt={userData?.nome_usuario || "Foto de perfil"}
-            src={userData?.userPhoto}
-            onClick={handleAvatarClick}
-            sx={{ cursor: 'pointer', width: 56, height: 56 }}
-          />
-        </Badge>
+        <Avatar
+          alt={userData?.nome_usuario || "Foto de perfil"}
+          src={userData?.userPhoto}
+          onClick={handleAvatarClick}
+          sx={{ cursor: 'pointer', width: 56, height: 56 }}
+        />
       </Tooltip>
 
       <Menu
