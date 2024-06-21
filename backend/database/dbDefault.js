@@ -63,7 +63,7 @@ const createTableQueries = {
         CREATE TABLE participante_reuniao (
             usuario_id INT,
             reuniao_id INT,
-            PRIMARY KEY (usuario_id, reuniao_id),
+            id_participanteReuniao KEY (usuario_id, reuniao_id),
             FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
             FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
 );
