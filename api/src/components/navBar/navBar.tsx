@@ -32,6 +32,16 @@ const NavBar: React.FC = () => {
   }
 
   useEffect(() => {
+    if (userStatus?.admin !== null) {
+      if (userStatus?.admin) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    }
+  }, [userStatus]);
+
+  useEffect(() => {
     axios.get('http://localhost:3000/ck')
       .then(res => {
         if (res.data.valid && res.data.admin === '1') {
@@ -46,7 +56,7 @@ const NavBar: React.FC = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get<Notification[]>(`http://localhost:3000/notificacao/usuario/${userStatus.id}`);
+        const response = await axios.get<Notification[]>(`http://localhost:3000/notificacao/usuario/${userStatus?.id}`);
         setNotifications(response.data.filter(notification => notification.lida === 0));
       } catch (error) {
         console.error('Erro ao buscar notificações:', error);
@@ -54,7 +64,7 @@ const NavBar: React.FC = () => {
     };
 
     fetchNotifications();
-  }, [userStatus.id]);
+  }, [userStatus?.id]);
 
   const handleReadConfirmation = async (id: number) => {
     try {
