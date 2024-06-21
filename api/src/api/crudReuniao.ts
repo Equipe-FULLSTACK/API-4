@@ -170,15 +170,13 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
 export const deleteReuniao = async (id: number): Promise<void> => {
   try {
     console.log(`Chamando deleteReuniao com id: ${id}`);
-    // Primeiro, remove os participantes da reunião
+ /*    // Primeiro, remove os participantes da reunião
     const currentParticipants = await axios.get(`http://localhost:3000/participante?reuniao_id=${id}`);
     for (const participant of currentParticipants.data) {
       await axios.delete(`http://localhost:3000/participante/${participant.id_participante}`);
     }
+ */
 
-
-
-    
     // Depois, remove a reunião
     await axios.delete(`${BASE_URL}/${id}`);
     alert("Reunião Deletada com Sucesso!") 

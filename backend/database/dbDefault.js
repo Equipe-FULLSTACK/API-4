@@ -38,9 +38,9 @@ const createTableQueries = {
             sala_presencial_id INT,
             sala_online_id INT,
             organizador_id INT,
-            FOREIGN KEY (sala_presencial_id) REFERENCES salaPresencial(id_sala_presencial),
-            FOREIGN KEY (sala_online_id) REFERENCES salaOnline(id_sala_online),
-            FOREIGN KEY (organizador_id) REFERENCES usuario(id_usuario)
+            FOREIGN KEY (sala_presencial_id) REFERENCES salaPresencial(id_sala_presencial) ON DELETE CASCADE,
+            FOREIGN KEY (sala_online_id) REFERENCES salaOnline(id_sala_online) ON DELETE CASCADE,
+            FOREIGN KEY (organizador_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE
         );
     `,
     anexo: `
@@ -48,7 +48,7 @@ const createTableQueries = {
             id_anexo INT PRIMARY KEY AUTO_INCREMENT,
             reuniao_id INT,
             anexo VARCHAR(256),
-            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
+            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
         );
     `,
     observacao: `
@@ -56,17 +56,17 @@ const createTableQueries = {
             id_observacao INT PRIMARY KEY AUTO_INCREMENT,
             reuniao_id INT,
             observacao TEXT,
-            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
+            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
         );
     `,
     participante_reuniao: `
         CREATE TABLE participante_reuniao (
-            id_participante INT PRIMARY KEY AUTO_INCREMENT,
             usuario_id INT,
             reuniao_id INT,
-            FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario),
-            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
-        );
+            PRIMARY KEY (usuario_id, reuniao_id),
+            FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
+);
     `,
     notificacao_reuniao: `
         CREATE TABLE notificacao_reuniao (
@@ -75,7 +75,7 @@ const createTableQueries = {
             reuniao_id INT,
             lida BOOLEAN DEFAULT FALSE,
             data_notificacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao)
+            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
         );
     `,
     preferencias_usuario: `
@@ -88,7 +88,7 @@ const createTableQueries = {
             notificacoes_email BOOLEAN DEFAULT TRUE,
             notificacoes_sms BOOLEAN DEFAULT FALSE,
             notificacoes_whatsapp BOOLEAN DEFAULT FALSE,
-            FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario)
+            FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE
         );
     `,
     triggerAfterReuniaoInsert: `
