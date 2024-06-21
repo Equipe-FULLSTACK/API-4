@@ -175,6 +175,10 @@ export const deleteReuniao = async (id: number): Promise<void> => {
     for (const participant of currentParticipants.data) {
       await axios.delete(`http://localhost:3000/participante/${participant.id_participante}`);
     }
+
+
+
+    
     // Depois, remove a reunião
     await axios.delete(`${BASE_URL}/${id}`);
     alert("Reunião Deletada com Sucesso!") 
