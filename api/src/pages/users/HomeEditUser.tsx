@@ -13,7 +13,7 @@ import UserCRUD from "../../components/modal/UserCRUD";
 import BtnSIATT from "../../components/botoes/btnSIATTLogo";
 import CustomizedSnackbars from "../../components/snackbar/Snackbar";
 import DeleteFeedback from "../../components/snackbar/SnackbarDelete";
-import UserPage from "../../components/user/userPage";
+import UserPage from "../../components/user/UserPage";
 
 const darkTheme = createTheme({
   palette: {
