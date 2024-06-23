@@ -5,7 +5,7 @@ const initialInserts = require('./dbInsert');
 const con = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "fatec",
+    password: "password",
 });
 
 con.query("CREATE DATABASE IF NOT EXISTS api4", function (err, result) {

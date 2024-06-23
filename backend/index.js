@@ -14,7 +14,6 @@ var nodemailer = require('nodemailer');
 const userRoutes = require('./routes/userRoute');
 const salasPresencialRoutes = require('./routes/salaPresencialRoute');
 const salasOnlineRoutes = require('./routes/salaOnlineRoute');
-const reunioesRoutes = require('./routes/reuniaoRoute');
 const reunioesRoutes1 = require('./routes/reuniaoRoute1');
 const participanteRoutes = require('./routes/participanteRoute');
 const anexoRoutes = require('./routes/anexoRoute');
@@ -65,7 +64,6 @@ app.use(session({
 app.use('/us', userRoutes);
 app.use('/salapresencial', salasPresencialRoutes);
 app.use('/salaonline', salasOnlineRoutes);
-app.use('/reuniao', reunioesRoutes);
 app.use('/reuniao1', reunioesRoutes1);
 app.use('/participante', participanteRoutes);
 app.use('/anexo', anexoRoutes);

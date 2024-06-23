@@ -4,10 +4,26 @@ const con = require('../database/dbConnection');
 
 exports.createReuniao = async (reuniaoData) => {
     try {
+        // Remove o campo id_reuniao do objeto reuniaoData
+        const { id_reuniao, ...dataToInsert } = reuniaoData;
+
+        // Campos opcionais podem ser nulos ou não definidos
+        if (!dataToInsert.sala_presencial_id) {
+            dataToInsert.sala_presencial_id = null;
+        }
+        if (!dataToInsert.sala_online_id) {
+            dataToInsert.sala_online_id = null;
+        }
+        if (!dataToInsert.data_final) {
+            dataToInsert.data_final = null;
+        }
+
+        console.log(dataToInsert);
         const query = 'INSERT INTO reuniao SET ?';
-        const [result] = await con.promise().query(query, reuniaoData);
+        const [result] = await con.promise().query(query, dataToInsert);
         return result;
     } catch (error) {
+        console.log(error.message)
         throw new Error(error.message);
     }
 };

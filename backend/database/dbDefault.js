@@ -34,6 +34,7 @@ const createTableQueries = {
             descricao TEXT,
             data_inicio DATETIME NOT NULL,
             data_final DATETIME,
+            duracao INT,
             tipo ENUM('Presencial', 'Hibrido', 'Online') NOT NULL DEFAULT 'Presencial', 
             sala_presencial_id INT,
             sala_online_id INT,
@@ -61,12 +62,13 @@ const createTableQueries = {
     `,
     participante_reuniao: `
         CREATE TABLE participante_reuniao (
-            usuario_id INT,
-            reuniao_id INT,
-            id_participanteReuniao KEY (usuario_id, reuniao_id),
-            FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
-            FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
-);
+    usuario_id INT,
+    reuniao_id INT,
+    id_participanteReuniao INT,
+    PRIMARY KEY (usuario_id, reuniao_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (reuniao_id) REFERENCES reuniao(id_reuniao) ON DELETE CASCADE
+    );
     `,
     notificacao_reuniao: `
         CREATE TABLE notificacao_reuniao (
