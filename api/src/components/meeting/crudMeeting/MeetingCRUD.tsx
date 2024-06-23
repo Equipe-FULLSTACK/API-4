@@ -42,6 +42,7 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
   const initialFormData: Meeting = {
     id_reuniao: 0,
     meeting_id: '',
+    meeting_link: '', // Certifique-se de adicionar este campo
     titulo: '',
     descricao: '',
     data_inicio: new Date(),
@@ -81,14 +82,12 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
     }
   }, [open, reuniao, salasPresenciais]);
 
-
 //=================================== SALAS DISPONIVEIS ===============================//
   useEffect(() => {
     const availableSalas = generateSalaAvailable(salasPresenciais, reunioes, formData.data_inicio, formData.data_final);
     setSalaAvailable(availableSalas);
   }, [salasPresenciais, reunioes, formData.data_inicio, formData.data_final]);
 //--------------------------------------------------------------------------------------------//
-
 
 //=================================== BUSCA PARTICIPANTES ===============================//
   const fetchParticipantes = async (reuniaoId: number) => {
@@ -105,7 +104,6 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
     }
   };
 //--------------------------------------------------------------------------------------------//
-
 
 //=================================== SALVA REUNIAO ===============================//
   const handleSave = async () => {
@@ -126,7 +124,6 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
   };
 //--------------------------------------------------------------------------------------------//
 
-
 //=================================== REMOVE REUNIAO ===================================//
 const handleRemove = async () => {
   try {
@@ -140,9 +137,7 @@ const handleRemove = async () => {
     console.error('Erro ao remover reunião:', error);
   }
 };
-
 //--------------------------------------------------------------------------------------------//
-
 
 //=================================== MUDA O VALOR DAS DATAS ===================================//
   const handleDateChange = (dataInicio: Date, dataFinal: Date, duracao: number) => {
@@ -154,7 +149,6 @@ const handleRemove = async () => {
     }));
   };
 
-
 //=================================== SELECAO DE USUARIOS ===================================//
   const handleUserChange = (newSelectedUsers: User[]) => {
     setSelectedUsers(newSelectedUsers);
@@ -163,13 +157,11 @@ const handleRemove = async () => {
   };
 //--------------------------------------------------------------------------------------------//
 
-
 //=================================== FECHA MODAL ===================================//
   const handleModalClose = () => {
     setModalOpen(false);
   };
 //--------------------------------------------------------------------------------------------//
-
 
 //=================================== DESELECIONA SALA ===================================//
   const handleDeselectSala = () => {
@@ -180,7 +172,6 @@ const handleRemove = async () => {
     }));
   };
 //--------------------------------------------------------------------------------------------//
-
 
 //=================================== USUARIO QUE CRIOU A REUNIAO ===================================//
   const setUserOrganizador = () => {
@@ -198,7 +189,6 @@ const handleRemove = async () => {
   };
 //--------------------------------------------------------------------------------------------//
 
-
 // =================================== SELECAO DE SALA ===================================//
   const onSalaSelect = (idSala: number) => {
     const selectedSala = salaAvailable.find(sala => sala.id_sala_presencial === idSala);
@@ -213,7 +203,6 @@ const handleRemove = async () => {
   };
 //--------------------------------------------------------------------------------------------//
 
-
 //=================================== SELECAO TIPO DE SALA ===================================//
   const handleTipoChange = (novoTipo: string) => {
     if (['Presencial', 'Hibrido', 'Online'].includes(novoTipo)) {
@@ -226,6 +215,15 @@ const handleRemove = async () => {
   };
 //--------------------------------------------------------------------------------------------//
 
+//=================================== ACESSAR REUNIAO ===================================//
+const acessarReuniao = async () => {
+  try {
+    window.open(formData.meeting_link, '_blank');
+  } catch (error) {
+    console.log('Erro ao acessar a reunião');
+  }
+};
+//--------------------------------------------------------------------------------------------//
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -297,6 +295,13 @@ const handleRemove = async () => {
             Salvar
           </Button>
         </Box>
+        {formData.meeting_link && (
+          <Box mt={2} textAlign="center">
+            <Button variant="contained" color="primary" onClick={acessarReuniao}>
+              Acessar Reunião
+            </Button>
+          </Box>
+        )}
         <ModalPesquisaSalas
           open={modalOpen}
           onClose={handleModalClose}

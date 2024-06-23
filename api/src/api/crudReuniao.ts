@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:3000/reuniao1';
 
 export interface Meeting {
   id_reuniao: number;
-  meeting_id: number;
+  meeting_id: string;
   titulo: string;
   descricao: string; 
   data_inicio: Date;
@@ -14,6 +14,7 @@ export interface Meeting {
   sala_presencial_id: number;
   sala_online_id: number; 
   organizador_id: number;
+  link: string;
 }
 
 export interface User {

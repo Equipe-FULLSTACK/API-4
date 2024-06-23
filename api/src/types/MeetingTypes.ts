@@ -11,4 +11,5 @@ export interface Meeting {
   sala_presencial_id: number;
   sala_online_id: number; 
   organizador_id: number;
+  meeting_link: string;
 }
