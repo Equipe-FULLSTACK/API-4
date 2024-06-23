@@ -96,13 +96,20 @@ exports.updateReuniaoById = async (reuniaoId, reuniaoData) => {
 
 exports.deleteReuniaoById = async (reuniaoId) => {
     try {
-        const query = 'DELETE FROM reuniao WHERE id_reuniao = ?';
-        const [result] = await con.promise().query(query, [reuniaoId]);
-        if (result.affectedRows === 0) {
+        // Deletar primeiro da tabela participante_reuniao
+        const query1 = 'DELETE FROM participante_reuniao WHERE reuniao_id = ?';
+        const [result1] = await con.promise().query(query1, [reuniaoId]);
+
+        // Deletar depois da tabela reuniao
+        const query2 = 'DELETE FROM reuniao WHERE id_reuniao = ?';
+        const [result2] = await con.promise().query(query2, [reuniaoId]);
+
+        if (result2.affectedRows === 0) {
             throw new Error('Reunião não encontrada');
         }
         return { message: 'Reunião excluída com sucesso' };
     } catch (error) {
+        console.log(error.message);
         throw new Error(error.message);
     }
 };

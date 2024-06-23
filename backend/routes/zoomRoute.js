@@ -87,7 +87,7 @@ router.post('/meetings', async (req, res) => {
             }
         );
         console.log(`DADOS REQ ----------${topic}--${start_time}--${duration}--${agenda}----------`)
-        console.log(`${ response.data }`)
+        console.log(`${ (response.data.id) }`)
         res.status(201).json({ meeting: response.data });
     } catch (error) {
         console.error('Erro ao criar reunião:', error.response ? error.response.data : error.message);
@@ -131,6 +131,7 @@ router.put('/meetings/:id', async (req, res) => {
 
 router.delete('/meetings/:id', async (req, res) => {
     const meetingId = req.params.id;
+    console.log(`Excluindo reunião com ID: ${meetingId}`); // Adicionar log
 
     if (!globalToken) {
         return res.status(401).json({ message: 'Token de acesso não disponível' });
@@ -152,6 +153,7 @@ router.delete('/meetings/:id', async (req, res) => {
         res.status(500).json({ message: 'Erro ao excluir reunião' });
     }
 });
+
 
 module.exports = router;
 

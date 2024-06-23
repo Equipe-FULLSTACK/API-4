@@ -41,6 +41,7 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
 }) => {
   const initialFormData: Meeting = {
     id_reuniao: 0,
+    meeting_id: '',
     titulo: '',
     descricao: '',
     data_inicio: new Date(),
@@ -127,18 +128,19 @@ const MeetingCRUD: React.FC<MeetingCRUDProps> = ({
 
 
 //=================================== REMOVE REUNIAO ===================================//
-  const handleRemove = async () => {
-    try {
-      if (formData.id_reuniao) {
-        console.log(`Removing meeting with ID: ${formData.id_reuniao}`);
-        await deleteReuniao(formData.id_reuniao);
-        removerReuniao(formData.id_reuniao);
-        onClose();
-      }
-    } catch (error) {
-      console.error('Erro ao remover reunião:', error);
+const handleRemove = async () => {
+  try {
+    if (formData.id_reuniao) {
+      console.log(`Removing meeting with ID: ${formData.id_reuniao}`);
+      await deleteReuniao(formData.meeting_id, formData.id_reuniao);
+      removerReuniao(formData.id_reuniao);
+      onClose();
     }
-  };
+  } catch (error) {
+    console.error('Erro ao remover reunião:', error);
+  }
+};
+
 //--------------------------------------------------------------------------------------------//
 
 

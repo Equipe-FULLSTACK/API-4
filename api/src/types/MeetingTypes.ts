@@ -1,5 +1,6 @@
 export interface Meeting {
   id_reuniao: number;
+  meeting_id: string;
   titulo: string;
   descricao: string; 
   data_inicio: Date;

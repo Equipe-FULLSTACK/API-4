@@ -30,6 +30,8 @@ const createTableQueries = {
     reuniao: `
         CREATE TABLE reuniao (
             id_reuniao INT PRIMARY KEY AUTO_INCREMENT,
+            meeting_id VARCHAR(20),
+            meeting_link VARCHAR(150),
             titulo VARCHAR(100) NOT NULL,
             descricao TEXT,
             data_inicio DATETIME NOT NULL,

@@ -4,6 +4,7 @@ const BASE_URL = 'http://localhost:3000/reuniao1';
 
 export interface Meeting {
   id_reuniao: number;
+  meeting_id: number;
   titulo: string;
   descricao: string; 
   data_inicio: Date;
@@ -103,6 +104,8 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
       ...meeting,
       data_inicio: formatDateToSQL(meeting.data_inicio),
       data_final: formatDateToSQL(meeting.data_final),
+      meeting_id: meetingurl.id,
+      meeting_link: meetingurl.join_url
     };
 
     
@@ -170,21 +173,20 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
 //----------------------------------------------------------------------------//
 
 //========================== DELETE REUNIAO ==============================//
-export const deleteReuniao = async (id: number): Promise<void> => {
+export const deleteReuniao = async (meeting_id: string, id: number): Promise<void> => {
   try {
-    console.log(`Chamando deleteReuniao com id: ${id}`);
-    // Primeiro, remove os participantes da reunião
-    const currentParticipants = await axios.get(`http://localhost:3000/participante?reuniao_id=${id}`);
-    for (const participant of currentParticipants.data) {
-      await axios.delete(`http://localhost:3000/participante/${participant.id_participante}`);
-    }
+    console.log(`Chamando deleteReuniao com meeting_id: ${meeting_id} e id: ${id}`);
 
-    // Depois, remove a reunião
-    await axios.delete(`${BASE_URL}/${id}`);
+    await axios.delete(`http://localhost:3000/zoom/meetings/${meeting_id}`);
+    
     alert("Reunião Deletada com Sucesso!");
   } catch (error) {
-    console.error(`Erro ao deletar reunião com ID ${id}:`, error);
+    console.error(`Erro ao deletar reunião com Meeting_ID ${id}:`, error);
     throw error;
   }
+
+  
+  await axios.delete(`http://localhost:3000/reuniao1/${id}`);
 };
+
 //----------------------------------------------------------------------------//
