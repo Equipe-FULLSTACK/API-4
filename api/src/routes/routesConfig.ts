@@ -3,7 +3,7 @@ import HomePageAdmin from '../pages/home/HomePageAdmin';
 import BoolFilter from '../components/componentTest';
 import HomePageAdminUser from '../pages/users/HomeEditUser';
 import HomePageAdminRooms from '../pages/rooms/HomeEditRooms';
-import HomePageUser from '../pages/home/HomePageUser';
+import HomePageUser from '../pages/home/homePageUser';
 
 export interface AppRoute extends RouteProps {
   path: string;

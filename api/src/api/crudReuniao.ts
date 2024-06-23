@@ -54,59 +54,61 @@ export const getReuniaoById = async (id: number): Promise<Meeting> => {
 //----------------------------------------------------------------------------//
 
 // ==================================== CREATE REUNIAO ==================================== //
+const formatDateToZoomFormat = (date: Date): string => {
+  const year = date.getUTCFullYear();
+  const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
+  const day = ('0' + date.getUTCDate()).slice(-2);
+  const hours = ('0' + date.getUTCHours()).slice(-2);
+  const minutes = ('0' + date.getUTCMinutes()).slice(-2);
+  const seconds = ('0' + date.getUTCSeconds()).slice(-2);
+
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+};
+
 export const createReuniao = async (meeting: Meeting, participantes: User[]): Promise<number> => {
   try {
-    console.log('id_reuniao ', meeting.id_reuniao);
-    console.log('meeting.data_inicio :', meeting.data_inicio);
-    console.log('meeting.data_final', meeting.data_final);
-    console.log('meeting.duracao', meeting.duracao);
-    console.log('meeting.titulo', meeting.titulo);
-    console.log('meeting.tipo', meeting.tipo);
-    console.log('meeting.descricao', meeting.descricao);
-    console.log('meeting.organizador_id', meeting.organizador_id);
-    console.log('meeting.sala_presencial_id', meeting.sala_presencial_id);
-    console.log('meeting.sala_online_id', meeting.sala_online_id);
+    // Formata as datas para o formato necessário pelo Zoom
+    const formattedMeetingZoom = {
+      ...meeting,
+      data_inicio: formatDateToZoomFormat(meeting.data_inicio),
+      data_final: formatDateToZoomFormat(meeting.data_final),
+      id_reuniao: null,
+      sala_online_id: null,
+    };
+
+    // Cria a reunião no Zoom
+    const zoomResponse = await axios.post(
+      "http://localhost:3000/zoom/meetings",
+      {
+        topic: meeting.titulo,
+        start_time: formattedMeetingZoom.data_inicio,
+        duration: meeting.duracao,
+        agenda: meeting.descricao,
+      }
+    );
+
+    const meetingurl = zoomResponse.data.meeting;
+    if (meetingurl) {
+      const joinUrl = meetingurl.join_url;
+      console.log(`
+      =================================================
+      ${joinUrl}
+      =================================================
+      `);
+    } else {
+      throw new Error("Nenhuma reunião encontrada na resposta");
+    }
 
     const formattedMeeting = {
       ...meeting,
       data_inicio: formatDateToSQL(meeting.data_inicio),
       data_final: formatDateToSQL(meeting.data_final),
       id_reuniao: null,
-      sala_online_id: null
+      sala_online_id: null,
     };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/zoom/meetings",
-        {
-          topic: meeting.titulo,
-          start_time: formattedMeeting.data_inicio,
-          duration: meeting.duracao,
-          agenda: meeting.descricao, // Renomeado para corresponder ao backend
-        }
-      );
-
-      const meetingurl = response.data.meeting;
-      if (meetingurl) {
-        const joinUrl = meetingurl.join_url;
-        console.log(`
-        =================================================
-        ${joinUrl}
-        =================================================
-        `);
-        alert(`Reunião criada com sucesso! \n Link da reunião: ${joinUrl}`);
-        window.open(joinUrl);
-      } else {
-        throw new Error("Nenhuma reunião encontrada na resposta");
-      }
-    } catch (error) {
-      console.error("Erro ao criar reunião:", error);
-      alert(`Erro ao criar reunião: ${error}`);
-    }
 
     const response = await axios.post(BASE_URL, formattedMeeting);
     const insertId = response.data.insertId;
-
 
     // ADD PARTICIPANTES
     await Promise.all(participantes.map(async (usuario) => {
@@ -114,9 +116,9 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
         usuario_id: usuario.id_usuario,
         reuniao_id: insertId
       });
+    }));
     
-      }));
-    alert("Reunião Criada com Sucesso!")  
+    alert("Reunião Criada com Sucesso!");
 
     return insertId;
   } catch (error) {
@@ -157,7 +159,7 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
       });
     }
 
-    alert("Reunião Atualizada com Sucesso!") 
+    alert("Reunião Atualizada com Sucesso!");
     return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar reunião com ID ${id}:`, error);
@@ -170,16 +172,15 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
 export const deleteReuniao = async (id: number): Promise<void> => {
   try {
     console.log(`Chamando deleteReuniao com id: ${id}`);
- /*    // Primeiro, remove os participantes da reunião
+    // Primeiro, remove os participantes da reunião
     const currentParticipants = await axios.get(`http://localhost:3000/participante?reuniao_id=${id}`);
     for (const participant of currentParticipants.data) {
       await axios.delete(`http://localhost:3000/participante/${participant.id_participante}`);
     }
- */
 
     // Depois, remove a reunião
     await axios.delete(`${BASE_URL}/${id}`);
-    alert("Reunião Deletada com Sucesso!") 
+    alert("Reunião Deletada com Sucesso!");
   } catch (error) {
     console.error(`Erro ao deletar reunião com ID ${id}:`, error);
     throw error;
