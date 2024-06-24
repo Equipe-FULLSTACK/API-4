@@ -163,13 +163,6 @@ export const updateReuniao = async (id: number, meeting: Partial<Meeting>, parti
 
     const response = await axios.put(`${BASE_URL}/${id}`, formattedMeeting);
 
-    // Atualiza os participantes no banco de dados
-    await Promise.all(participantes.map(async (usuario) => {
-      await axios.post('http://localhost:3000/participante', {
-        usuario_id: usuario.id_usuario,
-        reuniao_id: id
-      });
-    }));
 
     alert("Reunião Atualizada com Sucesso!");
 
