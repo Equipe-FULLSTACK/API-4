@@ -1,29 +1,4 @@
 const con = require('../database/dbConnection');
-var nodemailer = require('nodemailer');
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'fatecfullstack@gmail.com',
-    pass: 'zvmy dvhc tful wzus'
-  }
-});
-function enviarEmail(email, titulo, texto) {
-	var mailOptions = {
-	  from: 'fatecfullstack@gmail.com',
-	  to: email,
-	  subject: titulo,
-	  text: texto
-	};
-
-	transporter.sendMail(mailOptions, function(error, info){
-	  if (error) {
-		console.log(error);
-	  } else {
-		console.log('Email enviado: ' + info.response);
-	  }
-	});
-}
 
 exports.createNotificacao = async (notificacaoData) => {
     try {
