@@ -17,7 +17,7 @@ Quarta Sprint 16/06/2024
  <br>
 
  
-A Sprint teve inicio na data de 27/04/2024. Foram criadas as integrações com o Zoom e E-mail. Além disso houve o polimento das demais telas e correção de bugs.
+A Sprint teve inicio na data de 27/05/2024. Foram criadas as integrações com o Zoom e E-mail. Além disso houve o polimento das demais telas e correção de bugs.
 
 
 
