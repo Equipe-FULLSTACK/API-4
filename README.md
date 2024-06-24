@@ -27,20 +27,9 @@ A Sprint teve inicio na data de 27/05/2024. Foram criadas as integrações com o
 Ao longo da Sprint, foi feito um levantamento de requisitos e implementadas novas funções para o projeto, como:
 
 
-- Página "home"
-- Página "cadastro salas"						
-- Página "cadastrousuario"
-- Página "Agendamento"
-- Design da interface "Agendamento" (complemento)						
-- Backend - Integração API com Backend - CRUD Usuários						
-- Integração API com Backend - CRUD Salas						
-- Integração API com Backend - CRUD Agendamentos 						
-- Integração API com Backend -  Select geral 						
-- integração Back com Banco de Dados (CRUD: Usuário, Salas, Agendamentos)						
-- CRUD Zoom 						
-- Atualização Banco de Dados						
-- Sessão de Login integrado com a interface ADM/Usuário						
-- Criar documentação técnica/Operacional								
+-Finalização de funcionalidades da API em geral.
+-Implementações de UX/UI
+-Ajustes de páginas 								
   
 
 ### <p align = "center">Gráfico de Burndown
