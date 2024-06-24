@@ -1,11 +1,11 @@
- Terceira Sprint - 26/05/2024
+Quarta Sprint 16/06/2024
   ============================
   ****************************
    <span id="topo">
 <h1><div align="center"> Equipe FULLSTACK - Projeto API 4º Semestre: </div> </h1>
 <h1><div align="center"> FATEC São José dos Campos - Prof. Jessen Vidal </div></h1>
 
-  #### <div align="center"> Estado do Projeto ao final da terceira Sprint: </div>
+  #### <div align="center"> Estado do Projeto ao final da Quarta Sprint: </div>
  
 ![login](https://github.com/Equipe-FULLSTACK/API-4/assets/112169854/46f04ee0-016f-4506-a19f-46cf2ee9afcf)
 <br>
@@ -17,7 +17,7 @@
  <br>
 
  
-A Sprint teve inicio na data de 15/04/2024. Foram criadas as telas home, cadastro de salas e usuarios  e tela de agendamento. assim como implementada a integração com o banco de dados entre o front-end e o back-end da aplicação.
+A Sprint teve inicio na data de 27/04/2024. Foram criadas as integrações com o Zoom e E-mail. Além disso houve o polimento das demais telas e correção de bugs.
 
 
 
