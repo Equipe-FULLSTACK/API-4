@@ -136,38 +136,46 @@ export const createReuniao = async (meeting: Meeting, participantes: User[]): Pr
 // ========================== UPDATE DA REUNIAO ============================ //
 export const updateReuniao = async (id: number, meeting: Partial<Meeting>, participantes: User[]): Promise<Meeting> => {
   try {
-    console.log(`Chamando updateReuniao com id: ${id} e meeting:`, meeting);
+    // Formata as datas para o formato necessário pelo Zoom
+    const formattedMeetingZoom = {
+      ...meeting,
+      data_inicio: formatDateToZoomFormat(meeting.data_inicio),
+      data_final: formatDateToZoomFormat(meeting.data_final),
+    };
 
+    // Atualiza a reunião no Zoom
+    const zoomResponse = await axios.put(
+      `http://localhost:3000/zoom/meetings/${meeting.meeting_id}`,
+      {
+        topic: meeting.titulo,
+        start_time: formattedMeetingZoom.data_inicio,
+        duration: meeting.duracao,
+        agenda: meeting.descricao,
+      }
+    );
+
+    // Atualiza a reunião no banco de dados local
     const formattedMeeting = {
       ...meeting,
-      data_inicio: meeting.data_inicio ? formatDateToSQL(new Date(meeting.data_inicio)) : undefined,
-      data_final: meeting.data_final ? formatDateToSQL(new Date(meeting.data_final)) : undefined,
+      data_inicio: formatDateToSQL(meeting.data_inicio),
+      data_final: formatDateToSQL(meeting.data_final),
     };
 
     const response = await axios.put(`${BASE_URL}/${id}`, formattedMeeting);
 
-    // Atualiza os participantes após a atualização da reunião
-    const currentParticipants = await axios.get(`http://localhost:3000/participante?reuniao_id=${id}`);
-    const currentParticipantIds = currentParticipants.data.map((p: any) => p.usuario_id);
-    const newParticipantIds = participantes.map(u => u.id_usuario);
-
-    const participantsToRemove = currentParticipants.data.filter((p: any) => !newParticipantIds.includes(p.usuario_id));
-    for (const participant of participantsToRemove) {
-      await axios.delete(`http://localhost:3000/participante/${participant.id_participante}`);
-    }
-
-    const participantsToAdd = newParticipantIds.filter(id => !currentParticipantIds.includes(id));
-    for (const usuario_id of participantsToAdd) {
+    // Atualiza os participantes no banco de dados
+    await Promise.all(participantes.map(async (usuario) => {
       await axios.post('http://localhost:3000/participante', {
-        usuario_id,
+        usuario_id: usuario.id_usuario,
         reuniao_id: id
       });
-    }
+    }));
 
     alert("Reunião Atualizada com Sucesso!");
+
     return response.data;
   } catch (error) {
-    console.error(`Erro ao atualizar reunião com ID ${id}:`, error);
+    console.error('Erro ao atualizar reunião:', error);
     throw error;
   }
 };

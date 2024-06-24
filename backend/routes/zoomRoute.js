@@ -97,7 +97,8 @@ router.post('/meetings', async (req, res) => {
 
 router.put('/meetings/:id', async (req, res) => {
     const meetingId = req.params.id;
-    const { topic, start_time, duration, timezone, agenda } = req.body;
+    const { topic, start_time, duration, agenda } = req.body;
+    const timezone = 'America/Sao_Paulo'; // Fuso horário do Brasil (GMT-3)
     
     if (!globalToken) {
         return res.status(401).json({ message: 'Token de acesso não disponível' });
