@@ -27,8 +27,8 @@ A Sprint teve inicio na data de 27/05/2024. Foram criadas as integrações com o
 Ao longo da Sprint, foi feito um levantamento de requisitos e implementadas novas funções para o projeto, como:
 
 
--Finalização de funcionalidades da API em geral.
--Implementações de UX/UI
+-Finalização de funcionalidades da API em geral<br>
+-Implementações de UX/UI<br>
 -Ajustes de páginas 								
   
 
